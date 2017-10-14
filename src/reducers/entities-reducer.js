@@ -1,23 +1,15 @@
 const GET_ENTITIES = "GetEntitiesFromFirebase"
 
-export const GetEntitiesFromFirebase = () => {
-	return (dispatch) => {
-    	setTimeout(() => {
-      	dispatch(() => {
-      		console.log("b")
-      		return {
-      			type: "GetEntitiesFromFirebase",
-      			payload: [1]
-      		}
-      	});
-    }, 1000);
-  }
+export const dispatchGetEntities = (snapshot) => {
+	return {
+		type: GET_ENTITIES,
+		payload: snapshot.val()
+	}
 }
 
 export default function(state = [], action) {
-	console.log("A")
 	switch(action.type) { 			
-		case "GetEntitiesFromFirebase":
+		case GET_ENTITIES:
 			return action.payload
 		default:
 			return state
