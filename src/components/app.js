@@ -4,15 +4,15 @@ import Navbar from './navbar'
 import { Switch, Route } from 'react-router-dom'
 import { connect } from 'react-redux'
 import Entities from '../containers/entities-container'
-import { firebaseInit, getEntities } from '../firebase'
+import { firebaseInit, getEntities, addEntity } from '../firebase'
 import { dispatchGetEntities } from '../reducers/entities-reducer'
 
 class App extends Component {
   constructor(props) {
     super(props)
     firebaseInit()
-    console.log(this.props.dispatchGetEntities)
     getEntities(this.props.dispatchGetEntities)
+    addEntity("POLL", ["Cote", "Schindler"], "Kevin & Rohan", "Best CS Teacher", 2, true)
   }
 
   render() {
