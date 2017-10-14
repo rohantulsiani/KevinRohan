@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Switch, Route, Link } from 'react-router-dom'
+import PollOptions from './modal-components/poll-options'
 
 export default class CreateEntityModal extends Component {
   constructor(props) {
@@ -45,12 +46,7 @@ export default class CreateEntityModal extends Component {
                           </div>
 
                           { (this.state.type == 'Poll') ? (
-                              <div className="form-group">
-                                <label className="col-sm-12 control-label" htmlFor="pollOptions">Poll Options</label>
-                                <div className="col-sm-12">
-                                  <input type="text" placeholder="City" className="form-control" />
-                                </div>
-                              </div>
+                              <PollOptions />
                             ) : <div></div>
                           }
 
