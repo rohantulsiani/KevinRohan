@@ -3,14 +3,14 @@ import React, {Component} from 'react'
 export default class PollOptions extends Component {
 	constructor(props) {
 		super(props)
-		this.state = {selectedOption: null, options: []};
+		this.state = {selectedOption: null, options: [], inputText: ""};
 	}
 
 	componentDidMount() {
 		var componentThis = this
 		$('#createModal').on('hidden.bs.modal', function () {
 			const modalSelect = $('#modalSelect')
-			componentThis.setState({selectedOption: null, options: []})
+			componentThis.setState({selectedOption: null, options: [], inputText: ""})
         	$(modalSelect).html('').end()
        	 })
 	}
@@ -29,6 +29,8 @@ export default class PollOptions extends Component {
 			else if(val !== "") {
 				this.setState({options: [...this.state.options, val]})
 			}
+
+			this.setState({inputText: ""})
   		}
 	}
 
@@ -43,12 +45,11 @@ export default class PollOptions extends Component {
 	}
 
 	render() {
-		console.log(this.state)
 		return (
 			<div className="form-group">
 	            <label className="col-sm-12 control-label" htmlFor="pollOptions">Poll Options</label>
 	            <div className="col-sm-12">
-	              	<input style={{paddingLeft: "8px"}} onKeyPress={this.onKeyPress.bind(this)}type="text" placeholder="Add Poll Option" className="form-control" />
+	              	<input onChange={(event)=>{this.setState({inputText: event.target.value})}} value={this.state.inputText} style={{paddingLeft: "8px"}} onKeyPress={this.onKeyPress.bind(this)}type="text" placeholder="Add Poll Option" className="form-control" />
 	              	<select id="modalSelect" style={{paddingLeft: "10px"}} onChange={(event)=>{this.setState({selectedOption: event.target.value})}} className="form-control">
               			{this.state.options.map((option)=>{
 							return (

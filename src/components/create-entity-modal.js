@@ -7,18 +7,37 @@ export default class CreateEntityModal extends Component {
       super(props)
 
       this.state = {
-        type: 'Poll'
+        type: 'Poll',
+        category: 'Sports',
+        anonymous: false
       }
   }
 
   componentDidMount() {
     var componentThis = this
     $('#createModal').on('hidden.bs.modal', function () {
-        componentThis.setState({type: 'Poll'})
+        componentThis.setState({category: 'Sports', type: 'Poll', anonymous: false})
         $(this).find("input,textarea").val('').end();
     });
+    
+    $('#datepicker').datepicker()
   }
   
+  onSelectChange(event) {
+     if(event.target.value == 'Review') {
+      $('#createModal').off('hidden.bs.modal')
+
+      var componentThis = this
+      
+      $('#createModal').on('hidden.bs.modal', function () {
+        componentThis.setState({category: 'Sports', type: 'Poll', anonymous: false})
+        $(this).find("input,textarea").val('').end();
+      });
+    }
+
+    this.setState({type: event.target.value})
+  }
+
   render() {
   	return (
       <div className="col-sm-4">
@@ -46,9 +65,19 @@ export default class CreateEntityModal extends Component {
                           <div className="form-group">
                             <label className="col-sm-12 control-label" htmlFor="entityTypeSelect">Post Type</label>
                             <div className="col-sm-12">
-                              <select onChange={ (event) => { this.setState({type: event.target.value}) } } name="entityTypeSelect" type="text" className="form-control">
+                              <select value={this.state.type} onChange={this.onSelectChange.bind(this)} name="entityTypeSelect" type="text" className="form-control">
                                   <option>Poll</option>
                                   <option>Review</option>
+                              </select>
+                            </div>
+                          </div>
+
+                          <div className="form-group">
+                            <label className="col-sm-12 control-label" htmlFor="categorySelect">Category</label>
+                            <div className="col-sm-12">
+                              <select onChange={ (event) => { this.setState({category: event.target.value}) } } name="categorySelect" type="text" className="form-control">
+                                  <option>Sports</option>
+                                  <option>Education</option>
                               </select>
                             </div>
                           </div>
@@ -59,28 +88,23 @@ export default class CreateEntityModal extends Component {
                           }
 
                            <div className="form-group">
-                                <label className="col-sm-2 control-label" htmlFor="textinput">State</label>
+                                <label className="col-sm-2 control-label" htmlFor="anon">Anonymous</label>
                                 <div className="col-sm-4">
-                                  <input type="text" placeholder="State" className="form-control" />
+                                  <input onChange={()=>{this.setState({anonymous: !this.state.anonymous})}}name="anon" type="checkbox" className="" />
                                 </div>
+                            </div>
 
-                                <label className="col-sm-2 control-label" htmlFor="textinput">Postcode</label>
-                                <div className="col-sm-4">
-                                  <input type="text" placeholder="Post Code" className="form-control" />
+                                 <div className="form-group">
+                                <label className="col-sm-12 control-label" htmlFor="datepicker">Expiration Date</label>
+                                <div className="col-sm-5">
+                                  <input name="datepicker" type="text" id="datepicker" className="form-control"></input>
                                 </div>
-                              </div>
-
-                                <div className="form-group">
-                                  <label className="col-sm-2 control-label" htmlFor="textinput">Country</label>
-                                  <div className="col-sm-10">
-                                    <input type="text" placeholder="Country" className="form-control" />
-                                  </div>
-                                </div>
+                            </div>
                         </fieldset>
                       </form>
                     </div>
-
                 </div>
+
               </div>
               <div className="modal-footer">
                 <button type="button" className="btn btn-secondary" data-dismiss="modal">Cancel</button>
