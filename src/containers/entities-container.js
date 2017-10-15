@@ -12,7 +12,7 @@ class Entities extends Component {
   constructor(props) {
     super(props);
     getEntities(this.props.dispatchGetEntities)
-    //addEntity("POLL", ["Cote", "Schindler"], "Kevin & Rohan", "Best CS Teacher", 2, true)
+    //addEntity("POLL", ["Cote", "Schindler"], "Kevin & Rohan", "Best CS Teacher", 2, true, 'School')
   }
   render() {
   	return (
@@ -30,7 +30,7 @@ class Entities extends Component {
               (this.props.entities) ? (
                 Object.keys(this.props.entities).map((key) => {
                   return (
-                    <EntityCard entity={this.props.entities[key]} />
+                    <EntityCard key={key} entity={this.props.entities[key]} />
                   )
                 })
               ) : (
