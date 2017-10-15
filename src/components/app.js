@@ -4,6 +4,8 @@ import { Switch, Route } from 'react-router-dom'
 import Entities from '../containers/entities-container'
 import { firebaseInit } from '../firebase'
 import Login from '../containers/login-container'
+import Entity from '../containers/entity-container'
+
 export default class App extends Component {
   constructor(props) {
     super(props)
@@ -23,6 +25,8 @@ export default class App extends Component {
     			<Route path='/login' render={()=>{return(
   				  <Login />
     			)}}/>	
+          <Route path='/entities/:id' component={Entity} />
+
         	</div>
         </div>
     );
