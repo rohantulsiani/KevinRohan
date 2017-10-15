@@ -3,7 +3,7 @@ import Navbar from './navbar'
 import { Switch, Route } from 'react-router-dom'
 import Entities from '../containers/entities-container'
 import { firebaseInit } from '../firebase'
-
+import Login from '../containers/login-container'
 export default class App extends Component {
   constructor(props) {
     super(props)
@@ -21,7 +21,7 @@ export default class App extends Component {
             </div>
           )}} />
     			<Route path='/login' render={()=>{return(
-  				  <h1>Login</h1>
+  				  <Login />
     			)}}/>	
         	</div>
         </div>
