@@ -56,7 +56,7 @@ export default class EntityCard extends Component {
 	                    </ul>
 	                </div>
 	                <div className="panel-heading">
-	                    <img className=" img-circle pull-left " src="https://lh3.googleusercontent.com/-CxXg7_7ylq4/AAAAAAAAAAI/AAAAAAAAAQ8/LhCIKQC5Aq4/s46-c-k-no/photo.jpg" alt="Mouse0270" />
+	                    <img className="img-circle pull-left" src="https://lh3.googleusercontent.com/-CxXg7_7ylq4/AAAAAAAAAAI/AAAAAAAAAQ8/LhCIKQC5Aq4/s46-c-k-no/photo.jpg" alt="Mouse0270" />
 	                    <h3>{nameOfEntity}</h3>
 	                    <h5><span>{typeOfEntity}</span> - <span>{anonymous}</span> </h5>
 	                </div>
