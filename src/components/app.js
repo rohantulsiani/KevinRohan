@@ -1,18 +1,13 @@
 import React, { Component } from 'react';
-import { bindActionCreators } from 'redux'
 import Navbar from './navbar'
 import { Switch, Route } from 'react-router-dom'
-import { connect } from 'react-redux'
 import Entities from '../containers/entities-container'
-import { firebaseInit, getEntities, addEntity } from '../firebase'
-import { dispatchGetEntities } from '../reducers/entities-reducer'
+import { firebaseInit } from '../firebase'
 
-class App extends Component {
+export default class App extends Component {
   constructor(props) {
     super(props)
     firebaseInit()
-    getEntities(this.props.dispatchGetEntities)
-    addEntity("POLL", ["Cote", "Schindler"], "Kevin & Rohan", "Best CS Teacher", 2, true)
   }
 
   render() {
@@ -34,8 +29,4 @@ class App extends Component {
   }
 }
 
-function mapDispatchToProps(dispatch) {
-	return bindActionCreators( { dispatchGetEntities }, dispatch);
-}
 
-export default connect(null, mapDispatchToProps)(App);

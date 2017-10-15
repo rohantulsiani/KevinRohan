@@ -4,8 +4,15 @@ import {GetEntitiesFromFirebase} from '../reducers/entities-reducer'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import CreateEntityModal from '../components/create-entity-modal'
+import { getEntities, addEntity } from '../firebase'
+import { dispatchGetEntities } from '../reducers/entities-reducer'
 
 class Entities extends Component {
+  constructor(props) {
+    super(props);
+    getEntities(this.props.dispatchGetEntities)
+    addEntity("POLL", ["Cote", "Schindler"], "Kevin & Rohan", "Best CS Teacher", 2, true)
+  }
   render() {
   	return (
 		<div className="row">
@@ -22,4 +29,8 @@ class Entities extends Component {
   }
 }
 
-export default connect()(Entities)
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators( { dispatchGetEntities }, dispatch);
+}
+
+export default connect(null, mapDispatchToProps)(Entities);
