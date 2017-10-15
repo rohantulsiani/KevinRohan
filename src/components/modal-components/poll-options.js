@@ -5,6 +5,15 @@ export default class PollOptions extends Component {
 		super(props)
 		this.state = {selectedOption: null, options: []};
 	}
+
+	componentDidMount() {
+		var componentThis = this
+		$('#createModal').on('hidden.bs.modal', function () {
+			const modalSelect = $('#modalSelect')
+			componentThis.setState({selectedOption: null, options: []})
+        	$(modalSelect).html('').end()
+       	 })
+	}
 	
 	onKeyPress(event) {
 		const val = event.target.value;
@@ -26,7 +35,10 @@ export default class PollOptions extends Component {
 	onRemoveClicked(event) {
 		event.preventDefault();
 		if(this.state.selectedOption) {
-			console.log("A")
+			const tempOptions = this.state.options.slice(0)
+			const removeIndex = tempOptions.indexOf(this.state.selectedOption)
+			tempOptions.splice(removeIndex, 1);
+			this.setState({selectedOption: tempOptions[0], options: tempOptions})
 		}
 	}
 
@@ -37,14 +49,14 @@ export default class PollOptions extends Component {
 	            <label className="col-sm-12 control-label" htmlFor="pollOptions">Poll Options</label>
 	            <div className="col-sm-12">
 	              	<input style={{paddingLeft: "8px"}} onKeyPress={this.onKeyPress.bind(this)}type="text" placeholder="Add Poll Option" className="form-control" />
-	              	<select style={{paddingLeft: "10px"}} onChange={(event)=>{this.setState({selectedOption: event.target.value})}} className="form-control">
+	              	<select id="modalSelect" style={{paddingLeft: "10px"}} onChange={(event)=>{this.setState({selectedOption: event.target.value})}} className="form-control">
               			{this.state.options.map((option)=>{
 							return (
 								<option key={option}>{option}</option>
 							)
               			})}
                     </select>
-                    <button onClick={this.onRemoveClicked.bind(this)} className="col-sm-12 btn btn-danger">Remove Selected Element</button>
+                    <div onClick={this.onRemoveClicked.bind(this)} className="col-sm-12 btn btn-danger">Remove Selected Element</div>
 	            </div>
         	</div>
         )
