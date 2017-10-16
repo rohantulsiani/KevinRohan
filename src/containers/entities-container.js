@@ -8,18 +8,10 @@ import CreateEntityModal from '../components/create-entity-modal'
 import { getEntities, addEntity, getUserData } from '../firebase'
 import { dispatchGetEntities } from '../reducers/entities-reducer'
 import { dispatchAttemptLogin } from '../reducers/login-reducer'
-import { dispatchAuthDone } from '../reducers/on-auth-reducer'
 
 class Entities extends Component {
   constructor(props) {
     super(props);
-    getEntities(this.props.dispatchGetEntities)
-
-    if(!this.props.authDone)
-    {
-      getUserData(this.props.dispatchAttemptLogin)
-      this.props.dispatchAuthDone()
-    }  
   }
   render() {
   	return (
@@ -53,12 +45,11 @@ class Entities extends Component {
 function mapStateToProps(state) {
   return {
     entities: state.entities,
-    authDone: state.authDone
   }
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators( { dispatchAuthDone, dispatchGetEntities, dispatchAttemptLogin }, dispatch);
+  return bindActionCreators( { dispatchGetEntities, dispatchAttemptLogin }, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Entities);

@@ -8,7 +8,7 @@ export const dispatchAttemptLogin = (user) => {
 	}
 }
 
-export default function(state = null, action) {
+export default function(state = "", action) {
 	switch(action.type) { 			
 		case ATTEMPT_LOGIN:
 			return action.payload

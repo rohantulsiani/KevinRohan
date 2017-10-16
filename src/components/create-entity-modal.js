@@ -107,7 +107,7 @@ export default class CreateEntityModal extends Component {
                           <div className="form-group">
                             <label className="col-sm-12 control-label" htmlFor="categorySelect">Category</label>
                             <div className="col-sm-12">
-                              <select id="category" onChange={ (event) => { this.setState({category: event.target.value}) } } name="categorySelect" type="text" className="form-control">
+                              <select value={this.state.category} id="category" onChange={ (event) => { this.setState({category: event.target.value}) } } name="categorySelect" className="form-control">
                                   <option>Sports</option>
                                   <option>Education</option>
                               </select>
@@ -122,7 +122,7 @@ export default class CreateEntityModal extends Component {
                            <div className="form-group">
                                 <label className="col-sm-2 control-label" htmlFor="anon">Anonymous</label>
                                 <div className="col-sm-4">
-                                  <input id="anon" onChange={()=>{this.setState({anonymous: !this.state.anonymous})}}name="anon" type="checkbox" className="" />
+                                  <input checked={this.state.anonymous} id="anon" onChange={()=>{this.setState({anonymous: !this.state.anonymous})}} name="anon" type="checkbox" />
                                 </div>
                             </div>
 
