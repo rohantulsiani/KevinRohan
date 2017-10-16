@@ -18,7 +18,7 @@ class Entities extends Component {
       		<h1 style={{marginTop:'15px', textAlign: "center"}} className="col-sm-12">Entities</h1>
       		<div className="row">
   	    		  <div className="col-sm-4"></div>
-  	    			<CreateEntityModal />
+  	    			<CreateEntityModal isLoggedIn={this.props.user !== null} />
   	    			<div className="col-sm-4"></div>
       		</div>
           <div style={{marginTop: '15px' }} className="row">
@@ -26,7 +26,7 @@ class Entities extends Component {
               (this.props.entities) ? (
                 Object.keys(this.props.entities).map((key) => {
                   return (
-                    <EntityCard key={key} entity={this.props.entities[key]} entityId={key} />
+                    <EntityCard isLoggedIn={this.props.user !== null} key={key} entity={this.props.entities[key]} entityId={key} />
                   )
                 })
               ) : (
@@ -41,7 +41,8 @@ class Entities extends Component {
 
 function mapStateToProps(state) {
   return {
-    entities: state.entities
+    entities: state.entities,
+    user: state.loginInfo
   }
 }
 

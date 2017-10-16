@@ -19,6 +19,10 @@ export const removeEntity = (entityID) => {
 	firebase.database().ref(`entities/${entityID}`).remove()
 }
 
+export const removeComment = (entityID, commentID) => {
+	firebase.database().ref(`entities/${entityID}/comments/${commentID}`).remove()
+}
+
 export const firebaseInit = () => {
     firebase.initializeApp(firebaseConfig);
 };

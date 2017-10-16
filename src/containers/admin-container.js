@@ -22,7 +22,7 @@ class Admin extends Component {
             (this.props.entities) ? (
               Object.keys(this.props.entities).map((key) => {
                 return (
-                    <AdminAccordion  key={key} entity={this.props.entities[key]} entityId={key} />
+                    <AdminAccordion key={key} entity={this.props.entities[key]} entityId={key} />
                     )
                   })
                 ) : (

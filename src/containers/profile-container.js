@@ -6,6 +6,7 @@ import {registerUser, getUserData, logout, login, getCurrentUser, getEntities} f
 import {dispatchAttemptLogin} from '../reducers/login-reducer'
 import { dispatchGetEntities } from '../reducers/entities-reducer'
 import EntityCard from '../components/entity-components/entity-card'
+import ProfileComment from '../components/profile-components/profile-comment'
 
 class Profile extends Component {
   constructor(props) {
@@ -30,6 +31,22 @@ class Profile extends Component {
   }
 
   render() {
+    var commentArray = []
+    var entities = this.props.entities
+    if(this.props.user && this.props.entities) {
+      var userID = this.props.user.uid
+      for(var key in this.props.entities) {
+        var entity = this.props.entities[key]
+        for(var key1 in entity.comments) {
+          var comment = entity.comments[key1]
+          comment.key = key1
+          var commentor = comment.commentor
+          if(commentor == userID) {
+            commentArray.push(comment)
+          }
+        }
+      }
+    }
   	return (
 		  <div className="container">
         <div className="row">
@@ -64,7 +81,17 @@ class Profile extends Component {
                 })
             }
           </div>
-        ): <div></div>}
+        ): (
+          <div>
+            {
+              commentArray.map(function(comment) {
+                return (
+                  <ProfileComment key={comment.key} comment={comment} subject={entities[comment.entityId].subject} />
+                )
+              })
+            }
+          </div>
+        )}
       </div>
     </div>
 
