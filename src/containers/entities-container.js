@@ -21,7 +21,7 @@ class Entities extends Component {
   	    			<CreateEntityModal />
   	    			<div className="col-sm-4"></div>
       		</div>
-          <div className="row">
+          <div style={{marginTop: '15px' }} className="row">
             {
               (this.props.entities) ? (
                 Object.keys(this.props.entities).map((key) => {
