@@ -21,17 +21,28 @@ import EntityComment from '../components/entity-components/entity-comment'
 import EntityReview from '../components/entity-components/entity-review'
 import EntityPoll from '../components/entity-components/entity-poll'
 
-const UpVote = (numUpVote, id, user, disable) => {
-	return (
-		<span className="badge badge-success badge-vote" onClick={() => { !disable ? () => upVote(id) : null }}> <span className="glyphicon glyphicon-chevron-up">^</span> {numUpVote}</span>
-	)
+const UpVote = (disabled, numUpVote, id) => {
+	if(!disabled)
+	{
+		return <span className="badge badge-success badge-vote" onClick={() => upVote(id)}> <span className="glyphicon glyphicon-chevron-up">^</span> {numUpVote}</span>
+	}
+	else
+	{
+		return <span className="badge badge-success badge-vote"> <span className="glyphicon glyphicon-chevron-up">^</span> {numUpVote}</span>
+	}
 }
 
-const DownVote = (numDownVote, id, user, disable) => {
-	return (
-		<span className="badge badge-danger badge-vote" onClick={() => {!disable ? () => downVote(id) : null }}> <span className="glyphicon glyphicon-chevron-down">v</span> {numDownVote}</span>
-	)
+const DownVote = (disabled, numDownVote, id) => {
+	if(!disabled)
+	{
+		return <span className="badge badge-danger badge-vote" onClick={() => downVote(id) }> <span className="glyphicon glyphicon-chevron-down">v</span> {numDownVote}</span>
+	}
+	else
+	{
+		return <span className="badge badge-danger badge-vote"> <span className="glyphicon glyphicon-chevron-down">v</span> {numDownVote}</span>
+	}
 }
+
 
 class Entity extends Component {
 	constructor(props) {
@@ -59,7 +70,7 @@ class Entity extends Component {
 			<div className="fluid-container">
 				<div className="card card-fill">
 					<div className="card-header">
-						<h4><span className="badge badge-warning">{this.props.entity.entityType}</span> by {user} {UpVote(numUpVote, entityId, disable)} {DownVote(numDownVote, entityId, disable)}</h4>
+						<h4><span className="badge badge-warning">{this.props.entity.entityType}</span> by {user} {UpVote(disable, numUpVote, entityId)} {DownVote(disable, numDownVote, entityId)}</h4>
 					</div>
 					<div className="card-text row">
 						<div className="col-sm-12 col-md-5">
