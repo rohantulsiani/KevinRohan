@@ -2,10 +2,22 @@ import React, { Component } from 'react';
 import { Switch, Route, Link } from 'react-router-dom'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { getEntity, upVote, downVote, entityResponse, createEntityReview, checkReviewExists, createPollResponse, checkPollResponseExists } from '../firebase'
+import { 
+	getEntity,
+	upVote,
+	downVote,
+	entityResponse,
+	createEntityReview, 
+	checkReviewExists,
+	createPollResponse,
+	checkPollResponseExists,
+	createEntityComment 
+} from '../firebase'
 import { dispatchGetEntity } from '../reducers/entity-reducer'
-import EntityPoll from '../components/entity-components/entity-poll'
-import EntityReview from '../components/entity-components/entity-review'
+import EntityPollForm from '../components/entity-components/entity-poll-form'
+import EntityReviewForm from '../components/entity-components/entity-review-form'
+import EntityCommentForm from '../components/entity-components/entity-comment-form'
+import EntityComment from '../components/entity-components/entity-comment'
 
 const UpVote = (numUpVote, id) => {
 	return (
@@ -25,23 +37,24 @@ class Entity extends Component {
 		getEntity(this.props.dispatchGetEntity, this.props.match.params.id)
 	}
 	render() {
+		var numUpVote = (this.props.entity.numUpVote) ? this.props.entity.numUpVote : 0;
+		var numDownVote = this.props.entity.numDownVote ? this.props.entity.numDownVote : 0;
+		var entityId = this.props.entityId;
 		var user = (this.props.entity.anonymous) ? 'Anonymous' : this.props.entity.owner;
+		var comments = (this.props.entity.comments) ? this.props.entity.comments : {}
+		var commentsKeys = (this.props.entity.comments) ? Object.keys(comments) : []
 		return (
 			<div className="fluid-container">
-				<div className="row">
-					<div className="col-sm-12 col-md-5">
-						<div className="card card-fill">
-							<div className="card-title">
-								<h4><span className="badge badge-warning">{this.props.entity.entityType}</span> by {user}</h4>
-							</div>
-							<div className="card-block">
-								<h1 className="card-text">{this.props.entity.subject}</h1>
-							</div>
-						</div>
+				<div className="card card-fill">
+					<div className="card-header">
+						<h4><span className="badge badge-warning">{this.props.entity.entityType}</span> by {user} {UpVote(numUpVote, entityId)} {DownVote(numDownVote, entityId)}</h4>
 					</div>
-					<div className="col-sm-12 col-md-7">
-						<div className="card card-fill">
-							<div className="card-header">Summary</div>
+					<div className="card-text row">
+						<div className="col-sm-12 col-md-5">
+							<h1>{this.props.entity.subject}</h1>
+						</div>
+						<div className="col-sm-12 col-md-7">
+							<div className="card-title"><h3>This is Entity #{this.props.match.params.id}</h3></div>
 						</div>
 					</div>
 				</div>
@@ -56,19 +69,55 @@ class Entity extends Component {
 								<div className="card-text">
 									{
 										(this.props.entity.entityType === 'Review') ? 
-										<EntityReview entity={this.props.entity} createEntityReview={createEntityReview} checkReviewExists={checkReviewExists} entityId={this.props.match.params.id} /> 
-										: <EntityPoll entity={this.props.entity} createPollResponse={createPollResponse} checkPollResponseExists={checkPollResponseExists} entityId={this.props.match.params.id} /> 
+										<EntityReviewForm user={this.props.user} entity={this.props.entity} createEntityReview={createEntityReview} checkReviewExists={checkReviewExists} entityId={this.props.match.params.id} /> 
+										: <EntityPollForm user={this.props.user} entity={this.props.entity} createPollResponse={createPollResponse} checkPollResponseExists={checkPollResponseExists} entityId={this.props.match.params.id} /> 
 									}
+								</div>
+							</div>
+						</div>
+
+						<div className="card card-fill">
+							<div className="card-header">
+								<h4> Leave a Comment</h4>
+							</div>
+							<div className="card-block">
+								<div className="card-text">
+									<EntityCommentForm user={this.props.user} entity={this.props.entity} entityId={this.props.match.params.id} createEntityComment={createEntityComment}/>
 								</div>
 							</div>
 						</div>
 					</div>
 					<div className="col-sm-12 col-md-7">
 						<div className="card card-fill">
-							<div className="card-header">Summary</div>
+							
+							<ul className="nav nav-tabs" role="tablist">
+								<li className="nav-item">
+									<a className="nav-link active" href="#responses" role="tab" data-toggle="tab" >{ (this.props.entity.entityType === 'Poll') ? 'Poll Responses' : 'Reviews' }</a>
+								</li>
+								<li className="nav-item">
+									<a className="nav-link" href="#comments" role="tab" data-toggle="tab">Comments</a>
+								</li>
+							</ul>
+
+							<div style={{padding: "5px 15px 5px 15px"}} className="tab-content">
+								<div role="tabpanel" className="tab-pane fade in active" id="responses">
+									responses
+								</div>
+								<div role="tabpanel" className="tab-pane fade" id="comments">
+									{
+										commentsKeys.map((commentKey, key) => {
+											return (
+												<EntityComment comment={comments[commentKey]} key={key} />
+											)
+										})
+									}
+								</div>
+							</div>
+
+
+
 						</div>
 					</div>
-					<h1>This is Entity #{this.props.match.params.id}</h1>
 				</div>
 
 			</div>
@@ -78,7 +127,8 @@ class Entity extends Component {
 
 function mapStateToProps(state) {
 	return {
-		entity: state.entity
+		entity: state.entity,
+		user: state.loginInfo
 	}
 }
 

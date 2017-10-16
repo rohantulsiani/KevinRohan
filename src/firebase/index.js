@@ -31,9 +31,9 @@ export const checkPollResponseExists = (entityId, poster) => {
 	return firebase.database().ref(`entities/${entityId}/pollResponses`).child(poster).once('value'); 
 }
 
-export const createPollResponse = (entityId, option, poster, anonymous) => {
+export const createPollResponse = (entityId, option, poster, posterEmail, anonymous) => {
 	const postObj = {
-		poster, option, anonymous, entityId
+		poster, posterEmail, option, anonymous, entityId
 	}
 	console.log(postObj)
 	firebase.database().ref(`entities/${entityId}/pollResponses`).child(poster).set(postObj)
@@ -43,11 +43,18 @@ export const checkReviewExists = (entityId, reviewer) => {
 	return firebase.database().ref(`entities/${entityId}/reviews`).child(reviewer).once('value'); 
 }
 
-export const createEntityReview = (entityType, entityId, stars, reviewer, review, anonymous) => {
+export const createEntityReview = (entityType, entityId, stars, reviewer, reviewerEmail, review, anonymous) => {
 	const reviewObj = {
-		stars, reviewer, review, anonymous, entityId
+		stars, reviewer, review, anonymous, entityId, reviewerEmail
 	}
 	firebase.database().ref(`entities/${entityId}/reviews`).child(reviewer).set(reviewObj)
+}
+
+export const createEntityComment = (entityType, entityId, comment, commentor, commentorEmail, anonymous) => {
+	const commentObj = {
+		entityId, comment, commentor, anonymous, commentorEmail
+	}
+	firebase.database().ref(`entities/${entityId}/comments`).push(commentObj)
 }
 
 export const getEntity = (dispatchGetEntity, entityId) => {

@@ -3,7 +3,7 @@ import { Switch, Route, Link } from 'react-router-dom'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
-export default class EntityPoll extends Component {
+export default class EntityPollForm extends Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -19,7 +19,7 @@ export default class EntityPoll extends Component {
     }
 
     submitPoll(e) {
-        const userId = this.props.entity.owner.substring(0, this.props.entity.owner.lastIndexOf("@"))
+        const userId = this.props.user.uid
         e.preventDefault();
         this.props.checkPollResponseExists(this.props.entityId, userId)
             .then( (snapshot) => {
@@ -28,6 +28,7 @@ export default class EntityPoll extends Component {
                         this.props.entityId,
                         this.state.option,
                         userId,
+                        this.props.user.email,
                         this.state.anon
                     )
                 ]
@@ -41,7 +42,6 @@ export default class EntityPoll extends Component {
     }
 
     render() {
-        console.log(this.state)
         const options = this.props.entity.options ? this.props.entity.options : []
         return (
             <div className="container-fluid">
@@ -49,7 +49,7 @@ export default class EntityPoll extends Component {
                     {
                         options.map((option, key) => {
                             return (
-                                <li key={key} className="list-group-item" style={{backgroundColor: this.state.option === option ? '#ffb2b2' : 'white' }} onClick={this.optionClick.bind(this)} data-option={option}>
+                                <li key={key} className="list-group-item" style={{backgroundColor: this.state.option === option ? '#ffb2b2' : 'white' }} onClick={ (e) => {this.optionClick(e)}} data-option={option}>
                                     <div className="radio" data-option={option}>
                                         <label data-option={option}>
                                             <input data-option={option} type="radio" name="optionsRadios" checked={ this.state.option === option ? true : false }/>
@@ -61,9 +61,9 @@ export default class EntityPoll extends Component {
                         })
                     }
                 </ul>
-                <label><input onClick={this.anonSwitch.bind(this)} type="checkbox" value={this.state.anon} /> Anonymous</label>
+                <label><input onClick={(e) => {this.anonSwitch(e)}} type="checkbox" value={this.state.anon} /> Anonymous</label>
                 <br/>
-                <button style={{marginTop:"10px"}} onClick={this.submitPoll.bind(this)} type="button" className="btn btn-primary">Submit Poll Response</button>  
+                <button style={{marginTop:"10px"}} onClick={(e) => {this.submitPoll(e)}} type="button" className="btn btn-primary">Submit Poll Response</button>  
             </div>
         )
     }
