@@ -23,6 +23,29 @@ export const getEntities = (dispatchGetEntities, entityId) => {
     firebase.database().ref('entities/').on('value', dispatchGetEntities);
 };
 
+export const checkPollResponseExists = (entityId, poster) => {
+	return firebase.database().ref(`entities/${entityId}/pollResponses`).child(poster).once('value'); 
+}
+
+export const createPollResponse = (entityId, option, poster, anonymous) => {
+	const postObj = {
+		poster, option, anonymous, entityId
+	}
+	console.log(postObj)
+	firebase.database().ref(`entities/${entityId}/pollResponses`).child(poster).set(postObj)
+}
+
+export const checkReviewExists = (entityId, reviewer) => {
+	return firebase.database().ref(`entities/${entityId}/reviews`).child(reviewer).once('value'); 
+}
+
+export const createEntityReview = (entityType, entityId, stars, reviewer, review, anonymous) => {
+	const reviewObj = {
+		stars, reviewer, review, anonymous, entityId
+	}
+	firebase.database().ref(`entities/${entityId}/reviews`).child(reviewer).set(reviewObj)
+}
+
 export const getEntity = (dispatchGetEntity, entityId) => {
 	firebase.database().ref(`entities/${entityId}`).on('value', dispatchGetEntity);
 }
