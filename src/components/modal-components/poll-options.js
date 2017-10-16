@@ -24,9 +24,11 @@ export default class PollOptions extends Component {
 			}
 			
 			if(this.state.options.length == 0 && val !== "") {
+				this.props.getOptions([...this.state.options, val])
 				this.setState({selectedOption: val, options: [...this.state.options, val]})
 			}
 			else if(val !== "") {
+				this.props.getOptions([...this.state.options, val])
 				this.setState({options: [...this.state.options, val]})
 			}
 

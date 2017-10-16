@@ -5,14 +5,21 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import EntityCard from '../components/entity-components/entity-card'
 import CreateEntityModal from '../components/create-entity-modal'
-import { getEntities, addEntity } from '../firebase'
+import { getEntities, addEntity, getUserData } from '../firebase'
 import { dispatchGetEntities } from '../reducers/entities-reducer'
+import { dispatchAttemptLogin } from '../reducers/login-reducer'
+import { dispatchAuthDone } from '../reducers/on-auth-reducer'
 
 class Entities extends Component {
   constructor(props) {
     super(props);
     getEntities(this.props.dispatchGetEntities)
-    //addEntity("POLL", ["Cote", "Schindler"], "Kevin & Rohan", "Best CS Teacher", 2, true, 'School')
+
+    if(!this.props.authDone)
+    {
+      getUserData(this.props.dispatchAttemptLogin)
+      this.props.dispatchAuthDone()
+    }  
   }
   render() {
   	return (
@@ -25,7 +32,7 @@ class Entities extends Component {
   	    			<div className="col-sm-4"></div>
       			</div>
       		</div>
-          <div className="row">
+          <div style={{marginTop:"20px"}}className="row">
             {
               (this.props.entities) ? (
                 Object.keys(this.props.entities).map((key) => {
@@ -45,12 +52,13 @@ class Entities extends Component {
 
 function mapStateToProps(state) {
   return {
-    entities: state.entities
+    entities: state.entities,
+    authDone: state.authDone
   }
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators( { dispatchGetEntities }, dispatch);
+  return bindActionCreators( { dispatchAuthDone, dispatchGetEntities, dispatchAttemptLogin }, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Entities);
