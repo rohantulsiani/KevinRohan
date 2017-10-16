@@ -35,24 +35,27 @@ export default class EntityPollForm extends Component {
             })
     }
 
-    optionClick(e) {
-        this.setState({
-            option: e.target.getAttribute("data-option")
-        })
+    optionClick(e, disable) {
+        if(disable !== null) {
+            this.setState({
+                option: e.target.getAttribute("data-option")
+            })
+        }
     }
 
     render() {
         const options = this.props.entity.options ? this.props.entity.options : []
+        const disable = (this.props.user !== null) ? false : true
         return (
             <div className="container-fluid">
                 <ul className="list-group" style={{padding: "10px 5px 10px 5px"}}>
                     {
                         options.map((option, key) => {
                             return (
-                                <li key={key} className="list-group-item" style={{backgroundColor: this.state.option === option ? '#ffb2b2' : 'white' }} onClick={ (e) => {this.optionClick(e)}} data-option={option}>
-                                    <div className="radio" data-option={option}>
+                                <li key={key} className="list-group-item" style={{backgroundColor: this.state.option === option ? '#ffb2b2' : 'white' }} onClick={ (e) => {this.optionClick(e, disable)}} data-option={option}>
+                                    <div disabled={disable} className="radio" data-option={option}>
                                         <label data-option={option}>
-                                            <input data-option={option} type="radio" name="optionsRadios" checked={ this.state.option === option ? true : false }/>
+                                            <input disabled={disable} data-option={option} type="radio" name="optionsRadios" checked={ this.state.option === option ? true : false }/>
                                             <span data-option={option} style={{display:"inline-block", marginLeft: "5px"}}> {option}</span>
                                         </label>
                                     </div>
@@ -61,9 +64,9 @@ export default class EntityPollForm extends Component {
                         })
                     }
                 </ul>
-                <label><input onClick={(e) => {this.anonSwitch(e)}} type="checkbox" value={this.state.anon} /> Anonymous</label>
+                <label><input disabled={disable} onClick={(e) => {this.anonSwitch(e)}} type="checkbox" value={this.state.anon} /> Anonymous</label>
                 <br/>
-                <button style={{marginTop:"10px"}} onClick={(e) => {this.submitPoll(e)}} type="button" className="btn btn-primary">Submit Poll Response</button>  
+                <button disabled={disable} style={{marginTop:"10px"}} onClick={(e) => {this.submitPoll(e)}} type="button" className="btn btn-primary">Submit Poll Response</button>  
             </div>
         )
     }

@@ -112,8 +112,13 @@ export default class CreateEntityModal extends Component {
                             <label className="col-sm-12 control-label" htmlFor="categorySelect">Category</label>
                             <div className="col-sm-12">
                               <select value={this.state.category} id="category" onChange={ (event) => { this.setState({category: event.target.value}) } } name="categorySelect" className="form-control">
-                                  <option>Sports</option>
-                                  <option>Education</option>
+                                  <option>Classes</option>
+                                  <option>Professors</option>
+                                  <option>Events</option>
+                                  <option>Food</option>
+                                  <option>Concerts</option>
+                                  <option>Amusement</option>
+                                  <option>Random</option>
                               </select>
                             </div>
                           </div>

@@ -51,6 +51,7 @@ export const createEntityReview = (entityType, entityId, stars, reviewer, review
 	const reviewObj = {
 		stars, reviewer, review, anonymous, entityId, reviewerEmail
 	}
+	console.log(reviewObj, entityId, reviewer)
 	firebase.database().ref(`entities/${entityId}/reviews`).child(reviewer).set(reviewObj)
 }
 
