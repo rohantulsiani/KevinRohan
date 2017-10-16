@@ -19,9 +19,13 @@ export const firebaseInit = () => {
     firebase.initializeApp(firebaseConfig);
 };
 
-export const getEntities = dispatchGetEntities => {
+export const getEntities = (dispatchGetEntities, entityId) => {
     firebase.database().ref('entities/').on('value', dispatchGetEntities);
 };
+
+export const getEntity = (dispatchGetEntity, entityId) => {
+	firebase.database().ref(`entities/${entityId}`).on('value', dispatchGetEntity);
+}
 
 export const registerUser = (email, password, otherThis) => {
 	if(firebase.auth().currentUser) {
@@ -108,4 +112,18 @@ export const addEntity = (entityType, options, owner, subject, timeLimit, anonym
 	}
 
 	firebase.database().ref('entities/').push(toPush);
+}
+
+export const upVote = (entityId) => {
+	var databaseRef = firebase.database().ref('entities/').child(entityId).child('numUpVote');
+	databaseRef.transaction((numUpVote) => {
+		return (numUpVote || 0) + 1;
+	})
+}
+
+export const downVote = (entityId) => {
+	var databaseRef = firebase.database().ref('entities/').child(entityId).child('numDownVote');
+	databaseRef.transaction((numDownVote) => {
+		return (numDownVote || 0) + 1;
+	})
 }

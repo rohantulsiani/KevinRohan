@@ -1,5 +1,18 @@
 import React, { Component } from 'react';
 import { Switch, Route, Link } from 'react-router-dom'
+import { upVote, downVote } from '../../firebase'
+
+const UpVote = (numUpVote, id) => {
+	return (
+		<span className="badge badge-success badge-vote" onClick={() => upVote(id)}> <span className="glyphicon glyphicon-chevron-up">^</span> {numUpVote}</span>
+	)
+}
+
+const DownVote = (numDownVote, id) => {
+	return (
+		<span className="badge badge-danger badge-vote" onClick={() => downVote(id) }> <span className="glyphicon glyphicon-chevron-down">v</span> {numDownVote}</span>
+	)
+}
 
 export default class EntityCard extends Component {
 	constructor(props) {
@@ -10,42 +23,14 @@ export default class EntityCard extends Component {
 		}
 	}
 
-	componentDidMount() {
-		// $(function () {
-		//    $('.panel-google-plus > .panel-footer > .input-placeholder, .panel-google-plus > .panel-google-plus-comment > .panel-google-plus-textarea > buttontype="reset"').on('click', function(event) {
-		//         var $panel = $(this).closest('.panel-google-plus');
-		//             $comment = $panel.find('.panel-google-plus-comment');
-		            
-		//         $comment.find('.btn:first-child').addClass('disabled');
-		//         $comment.find('textarea').val('');
-		        
-		//         $panel.toggleClass('panel-google-plus-show-comment');
-		        
-		//         if ($panel.hasClass('panel-google-plus-show-comment')) {
-		//             $comment.find('textarea').focus();
-		//         }
-		//    });
-		//    $('.panel-google-plus-comment > .panel-google-plus-textarea > textarea').on('keyup', function(event) {
-		//         var $comment = $(this).closest('.panel-google-plus-comment');
-		        
-		//         $comment.find('buttontype="submit"').addClass('disabled');
-		//         if ($(this).val().length >= 1) {
-		//             $comment.find('buttontype="submit"').removeClass('disabled');
-		//         }
-		//    });
-		// });
-	}
-
 	render() {
-		 var nameOfEntity = this.props.entity.subject;
-		 var typeOfEntity = this.props.entity.entityType;
-		 var anonymous = '';
-		 if(this.props.entity.anonymous){
-		 	anonymous = 'Anonymous';
-		 }
-		 else{
-		 	anonymous = this.props.entity.owner;
-		 }
+		var subject = this.props.entity.subject;
+		var type = this.props.entity.entityType;
+		var numUpVote = (this.props.entity.numUpVote) ? this.props.entity.numUpVote : 0;
+		var numDownVote = this.props.entity.numDownVote ? this.props.entity.numDownVote : 0;
+		var user = (this.props.entity.anonymous) ? 'Anonymous' : this.props.entity.owner;
+		var numComments = (this.props.entity.comments) ? Object.keys(this.props.entity.comments).length : 0;
+		var entityId = this.props.entityId;
 
 		return (
 			<div className="col-sm-12 col-md-4">
@@ -56,38 +41,16 @@ export default class EntityCard extends Component {
 	                    </ul>
 	                </div>
 	                <div className="panel-heading">
-	                    <img className=" img-circle pull-left " src="https://lh3.googleusercontent.com/-CxXg7_7ylq4/AAAAAAAAAAI/AAAAAAAAAQ8/LhCIKQC5Aq4/s46-c-k-no/photo.jpg" alt="Mouse0270" />
-	                    <h3>{nameOfEntity}</h3>
-	                    <h5><span>{typeOfEntity}</span> - <span>{anonymous}</span> </h5>
+						<h3><span className="badge badge-warning">{type}</span> by {user} {UpVote(numUpVote, entityId)} {DownVote(numDownVote, entityId)}</h3>
 	                </div>
-	                <div className="panel-body">
-	                    <p>Team Galactic #1</p>
+	                <div className="panel-body" style={{wordWrap:"break-all", overflow: "hidden", textOverflow: "ellipsis"}}>
+	                    <h2>{subject}</h2>
 	                </div>
 	                <div className="panel-footer">
-	                    <button type="button" className=" btn btn-default ">+1</button>
-	                    <button type="button" className=" btn btn-default ">
-	                        <span className=" glyphicon glyphicon-share-alt "></span>
-	                    </button>
-	                    <div className="input-placeholder">Add a comment...</div>
-	                </div>
-	                <div className="panel-google-plus-comment">
-	                    <img className="img-circle" src="https://lh3.googleusercontent.com/uFp_tsTJboUY7kue5XAsGA=s46" alt="User Image" />
-	                    <div className="panel-google-plus-textarea">
-	                        <textarea rows="4"></textarea>
-	                        <button type="submit" className=" btn btn-success disabled ">Post comment</button>
-	                        <button type="reset" className=" btn btn-default ">Cancel</button>
-	                    </div>
-	                    <div className="clearfix"></div>
+	                    <span style={{color: 'darkGrey'}}>{numComments} Comments</span>
+						<Link to={`entities/${entityId}`} className="btn btn-outline-info btn-sm">View Post</Link>
 	                </div>
 	            </div>
-
-
-
-
-
-
-
-
 			</div>
 		)
 	}
