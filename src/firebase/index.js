@@ -15,6 +15,10 @@ export const getCurrentUser = () => {
 	return firebase.auth().currentUser
 }
 
+export const removeEntity = (entityID) => {
+	firebase.database().ref(`entities/${entityID}`).remove()
+}
+
 export const firebaseInit = () => {
     firebase.initializeApp(firebaseConfig);
 };
