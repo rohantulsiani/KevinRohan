@@ -5,6 +5,8 @@ import Entities from '../containers/entities-container'
 import { firebaseInit } from '../firebase'
 import Login from '../containers/login-container'
 import Entity from '../containers/entity-container'
+import Profile from '../containers/profile-container'
+import Search from '../containers/search-container'
 
 export default class App extends Component {
   constructor(props) {
@@ -15,7 +17,7 @@ export default class App extends Component {
   render() {
     return (
     	<div>
-        <Navbar />
+        <Route path="/" component={Navbar} />
         <div className="container">
       		<Route exact path='/' render={()=>{return (
             <div>
@@ -26,7 +28,10 @@ export default class App extends Component {
   				  <Login />
     			)}}/>	
           <Route path='/entities/:id' component={Entity} />
-
+          <Route path='/profile' render={()=>{return(
+            <Profile />
+          )}}/> 
+          <Route path='/search/:query' component={Search} /> 
         	</div>
         </div>
     );

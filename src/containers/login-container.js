@@ -4,18 +4,11 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import {registerUser, getUserData, logout, login} from '../firebase'
 import {dispatchAttemptLogin} from '../reducers/login-reducer'
-import { dispatchAuthDone } from '../reducers/on-auth-reducer'
 
 class Login extends Component {
   constructor(props) {
     super(props);  
     this.state = {error: false, email:"", password:""}
-    
-    if(!this.props.authDone)
-    {
-    	getUserData(this.props.dispatchAttemptLogin)
-    	this.props.dispatchAuthDone()
-    }
   }
 
 toggleError() {
@@ -37,7 +30,6 @@ toggleError() {
 					<div className="col-sm-12">
 						<button onClick={()=>{registerUser(this.state.email.trim(), this.state.password.trim(), this)}}style={{display:"block", margin:"auto", marginTop: "15px"}} className="col-sm-2 btn btn-success">Register</button>
 						<button onClick={()=>{login(this.state.email.trim(), this.state.password.trim())}} style={{display:"block", margin:"auto", marginTop: "15px"}} className="col-sm-2 btn btn-danger">Login</button>
-						<button onClick={logout}>Logout</button>
 					</div>
 					{this.state.error ? (<div style={{marginTop: "15px", textAlign:"center"}}className="col-sm-12">
 						<span style={{color:"red"}}>Please Use A Valid USC Email</span>
@@ -50,13 +42,7 @@ toggleError() {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators( { dispatchAttemptLogin, dispatchAuthDone }, dispatch);
+  return bindActionCreators( { dispatchAttemptLogin }, dispatch);
 }
 
-function mapStateToProps(state) {
-  return {
-    authDone: state.authDone
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export default connect(null, mapDispatchToProps)(Login);
