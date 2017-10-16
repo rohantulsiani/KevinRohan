@@ -37,7 +37,7 @@ class Entities extends Component {
               (this.props.entities) ? (
                 Object.keys(this.props.entities).map((key) => {
                   return (
-                    <EntityCard key={key} entity={this.props.entities[key]} />
+                    <EntityCard key={key} entity={this.props.entities[key]} entityId={key} />
                   )
                 })
               ) : (

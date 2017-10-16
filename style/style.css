@@ -2,14 +2,21 @@
 	background-color:"#db3236"
 }
 
+/*Entity Container*/
+.card {
+    padding: 10px 10px 10px 10px
+}
 
 /* Entity Card Styling */
+.badge-vote:hover {
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
 .panel-google-plus {
     position: relative;
     border-radius: 0px;
     border: 1px solid rgb(216, 216, 216);
     font-family: 'Roboto', sans-serif;
-    padding: 10px 15px 10px 15px;
+    padding: 10px 10px 10px 10px;
 	margin-bottom: 20px	;
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
     transition: 0.3s;
