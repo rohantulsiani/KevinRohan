@@ -2,16 +2,26 @@ import React, { Component } from 'react';
 import { Switch, Route, Link } from 'react-router-dom'
 import { upVote, downVote } from '../../firebase'
 
-const UpVote = (numUpVote, id) => {
-	return (
-		<span className="badge badge-success badge-vote" onClick={() => upVote(id)}> <span className="glyphicon glyphicon-chevron-up">^</span> {numUpVote}</span>
-	)
+const UpVote = (isLoggedIn, numUpVote, id) => {
+	if(isLoggedIn)
+	{
+		return <span className="badge badge-success badge-vote" onClick={() => upVote(id)}> <span className="glyphicon glyphicon-chevron-up">^</span> {numUpVote}</span>
+	}
+	else
+	{
+		return <span className="badge badge-success badge-vote"> <span className="glyphicon glyphicon-chevron-up">^</span> {numUpVote}</span>
+	}
 }
 
-const DownVote = (numDownVote, id) => {
-	return (
-		<span className="badge badge-danger badge-vote" onClick={() => downVote(id) }> <span className="glyphicon glyphicon-chevron-down">v</span> {numDownVote}</span>
-	)
+const DownVote = (isLoggedIn, numDownVote, id) => {
+	if(isLoggedIn)
+	{
+		return <span className="badge badge-danger badge-vote" onClick={() => downVote(id) }> <span className="glyphicon glyphicon-chevron-down">v</span> {numDownVote}</span>
+	}
+	else
+	{
+		return <span className="badge badge-danger badge-vote"> <span className="glyphicon glyphicon-chevron-down">v</span> {numDownVote}</span>
+	}
 }
 
 export default class EntityCard extends Component {
@@ -41,14 +51,14 @@ export default class EntityCard extends Component {
 	                    </ul>
 	                </div>
 	                <div className="panel-heading">
-						<h3><span className="badge badge-warning">{type}</span> by {user} {UpVote(numUpVote, entityId)} {DownVote(numDownVote, entityId)}</h3>
+						<h3><span className="badge badge-warning">{type}</span> by {user} {UpVote(this.props.isLoggedIn, numUpVote, entityId)} {DownVote(this.props.isLoggedIn, numDownVote, entityId)}</h3>
 	                </div>
 	                <div className="panel-body" style={{wordWrap:"break-all", overflow: "hidden", textOverflow: "ellipsis"}}>
 	                    <h2>{subject}</h2>
 	                </div>
 	                <div className="panel-footer">
 	                    <span style={{color: 'darkGrey'}}>{numComments} Comments</span>
-						<Link to={`entities/${entityId}`} className="btn btn-outline-info btn-sm">View Post</Link>
+						<Link to={`/entities/${entityId}`} className="btn btn-outline-info btn-sm">View Post</Link>
 	                </div>
 	            </div>
 			</div>

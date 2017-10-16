@@ -34,8 +34,11 @@ const DownVote = (numDownVote, id) => {
 class Entity extends Component {
 	constructor(props) {
 		super(props)
-		getEntity(this.props.dispatchGetEntity, this.props.match.params.id)
 	}
+
+	componentDidMount() {
+		getEntity(this.props.dispatchGetEntity, this.props.match.params.id)
+	} 
 	render() {
 		var numUpVote = (this.props.entity.numUpVote) ? this.props.entity.numUpVote : 0;
 		var numDownVote = this.props.entity.numDownVote ? this.props.entity.numDownVote : 0;

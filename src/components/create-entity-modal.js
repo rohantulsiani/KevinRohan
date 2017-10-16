@@ -71,6 +71,10 @@ export default class CreateEntityModal extends Component {
   }
 
   render() {
+    if(!this.props.isLoggedIn) {
+      return <div></div>
+    }
+    
   	return (
       <div className="col-sm-4">
         <button data-toggle="modal" data-target="#createModal" style={{backgroundColor: "#db3236"}} className="col-sm-12 btn btn-success">Add Entity</button>
