@@ -33,7 +33,7 @@ export default class EntityCard extends Component {
 		var entityId = this.props.entityId;
 
 		return (
-			<div className="col-sm-12 col-md-4">
+			<div className="col-sm-12 col-md-6 col-lg-4">
 	            <div className="panel panel-default panel-google-plus">
 	                <div className="panel-google-plus-tags">
 	                    <ul>
