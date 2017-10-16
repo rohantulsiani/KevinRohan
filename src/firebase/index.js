@@ -57,7 +57,7 @@ export const registerUser = (email, password, otherThis) => {
 	var uscEmail = email.substr(email.length - 7)
 	
 	if(uscEmail != 'usc.edu') {
-		otherThis.toggleError();
+		otherThis.toggleError("Please enter an USC email");
 		return
 	}
 
@@ -68,8 +68,8 @@ export const registerUser = (email, password, otherThis) => {
     	}
 		firebase.database().ref(`users/${user.uid}`).set(newUser)
 	}).catch((error)=>{
-		otherThis.toggleError();
-		console.log(error);
+		otherThis.toggleError(error.message);
+		console.log(error.message);
 	})
 }
 
@@ -103,11 +103,13 @@ export const getUserData = dispatchAttemptLogin => {
 	});
 };
 
-export const login = (email, password) => {
+export const login = (email, password, otherThis) => {
 	if(firebase.auth().currentUser) {
 		return
 	}
-	firebase.auth().signInWithEmailAndPassword(email, password)
+	firebase.auth().signInWithEmailAndPassword(email, password).catch(error =>{
+		otherThis.toggleError(error.message)
+	})
 }
 
 export const logout = () => {
