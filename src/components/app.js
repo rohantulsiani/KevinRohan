@@ -7,6 +7,7 @@ import Login from '../containers/login-container'
 import Entity from '../containers/entity-container'
 import Profile from '../containers/profile-container'
 import Search from '../containers/search-container'
+import Admin from '../containers/admin-container'
 
 export default class App extends Component {
   constructor(props) {
@@ -24,14 +25,13 @@ export default class App extends Component {
               <Entities />
             </div>
           )}} />
-    			<Route path='/login' render={()=>{return(
-  				  <Login />
-    			)}}/>	
+    			<Route path='/login' component={Login} />	
           <Route path='/entities/:id' component={Entity} />
           <Route path='/profile' render={()=>{return(
             <Profile />
           )}}/> 
           <Route path='/search/:query' component={Search} /> 
+          <Route path='/admin' component={Admin} /> 
         	</div>
         </div>
     );

@@ -60,9 +60,9 @@ export default class CreateEntityModal extends Component {
     let anonymous = $("#anon").val()
 
     if(anonymous == "on") {
-      anonymous = true
-    } else {
       anonymous = false
+    } else {
+      anonymous = true
     }
     const category = $("#category").val()
     const details = $("#details").val()
@@ -145,11 +145,10 @@ export default class CreateEntityModal extends Component {
                       </form>
                     </div>
                 </div>
-
               </div>
               <div className="modal-footer">
                 <button type="button" className="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                <button onClick={this.submitToFirebase.bind(this)} type="button" className="btn btn-primary">Post</button>
+                <button data-dismiss="modal" onClick={this.submitToFirebase.bind(this)} type="button" className="btn btn-primary">Post</button>
               </div>
             </div>
           </div>

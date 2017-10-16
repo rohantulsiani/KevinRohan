@@ -50,13 +50,18 @@ class Navbar extends Component {
                         )):<div></div>
                     }
       					</li>
-                {
-                  this.props.user != null && this.props.user != "" ? (
+                { this.props.user != null && this.props.user != "" ? (
                     <li className="nav-item active">
                       <Link className="nav-link" to="/profile">Profile</Link>
                     </li>
                   ):(<div></div>)
-            }
+                }
+                { this.props.user != null && this.props.user != "" && this.props.user.isAdmin ? (
+                    <li className="nav-item active">
+                      <Link className="nav-link" to="/admin">Admin</Link>
+                    </li>
+                  ):(<div></div>)
+                }
     				</ul>
            
     				<div className="form-inline my-2 my-lg-0">
