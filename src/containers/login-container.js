@@ -4,12 +4,18 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import {registerUser, getUserData, logout, login} from '../firebase'
 import {dispatchAttemptLogin} from '../reducers/login-reducer'
+import { dispatchAuthDone } from '../reducers/on-auth-reducer'
 
 class Login extends Component {
   constructor(props) {
     super(props);  
     this.state = {error: false, email:"", password:""}
-    getUserData(this.props.dispatchAttemptLogin)
+    
+    if(!this.props.authDone)
+    {
+    	getUserData(this.props.dispatchAttemptLogin)
+    	this.props.dispatchAuthDone()
+    }
   }
 
 toggleError() {
@@ -44,7 +50,13 @@ toggleError() {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators( { dispatchAttemptLogin }, dispatch);
+  return bindActionCreators( { dispatchAttemptLogin, dispatchAuthDone }, dispatch);
 }
 
-export default connect(null, mapDispatchToProps)(Login);
+function mapStateToProps(state) {
+  return {
+    authDone: state.authDone
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

@@ -1,5 +1,7 @@
 import * as firebase from "firebase";
 
+var closure = null
+
 const firebaseConfig = {
     apiKey: "AIzaSyDQrg_QY98OalGl7P-Kjw0jf5bslfpxVrQ",
     authDomain: "knowitall-893d7.firebaseapp.com",
@@ -8,6 +10,10 @@ const firebaseConfig = {
     storageBucket: "knowitall-893d7.appspot.com",
     messagingSenderId: "904997770636"
 };
+
+export const getCurrentUser = () => {
+	return firebase.auth().currentUser
+}
 
 export const firebaseInit = () => {
     firebase.initializeApp(firebaseConfig);
@@ -18,6 +24,9 @@ export const getEntities = dispatchGetEntities => {
 };
 
 export const registerUser = (email, password, otherThis) => {
+	if(firebase.auth().currentUser) {
+		return
+	}
 	var uscEmail = email.substr(email.length - 7)
 	
 	if(uscEmail != 'usc.edu') {
@@ -25,8 +34,12 @@ export const registerUser = (email, password, otherThis) => {
 		return
 	}
 
-	firebase.auth().createUserWithEmailAndPassword(email, password).then(() => {
+	firebase.auth().createUserWithEmailAndPassword(email, password).then((user) => {
 		sendEmailVerification()
+		let newUser = {
+        	"isAdmin": false,
+    	}
+		firebase.database().ref(`users/${user.uid}`).set(newUser)
 	}).catch((error)=>{
 		otherThis.toggleError();
 		console.log(error);
@@ -35,26 +48,51 @@ export const registerUser = (email, password, otherThis) => {
 
 export const getUserData = dispatchAttemptLogin => {
     firebase.auth().onAuthStateChanged(function(user) {
-		dispatchAttemptLogin(user)
+    	if(user != null) {
+    		var path = firebase.database().ref(`users/${user.uid}`)    		
+	    	
+	    	 closure = path.on('value', function(snapshot) {
+	    	 	if(user != firebase.auth().currentUser){
+					path.off('value', closure)
+					closure = null
+					return
+	    	 	}
+
+	    		const isAdmin = snapshot.val().isAdmin
+	    		const newUser = {
+					uid: user.uid,
+					displayName: user.displayName,
+					photoURL: user.photoURL,
+					email: user.email,
+					emailVerified: user.emailVerified,
+					isAdmin: isAdmin
+	    		}
+
+	    		dispatchAttemptLogin(newUser)
+	    	}) 
+    	} else {
+    		dispatchAttemptLogin(user)
+    	}
 	});
 };
 
 export const login = (email, password) => {
+	if(firebase.auth().currentUser) {
+		return
+	}
 	firebase.auth().signInWithEmailAndPassword(email, password)
 }
 
 export const logout = () => {
- 	firebase.auth().signOut();   
+	let currUser = firebase.auth().currentUser.uid
+ 	firebase.auth().signOut()
 }
 
 export const sendEmailVerification = () => {
-	firebase.auth().onAuthStateChanged(function(user) {
-		user.sendEmailVerification().then(function() {
-			console.log(user)
-		}).catch(function(error) {
-			console.log(error)
-		})
-	});
+	const user = firebase.auth().currentUser
+	user.sendEmailVerification().catch(function(error) {
+		console.log(error)
+	})
 }
 /*
 	entityType: String --> can be a Poll, Rating, or Question
@@ -64,9 +102,9 @@ export const sendEmailVerification = () => {
 	subject: String
 	timeLimit:Int -> Days to Expire
 */
-export const addEntity = (entityType, options, owner, subject, timeLimit, anonymous=false, category) => {
+export const addEntity = (entityType, options, owner, subject, timeLimit, anonymous=false, category, details) => {
 	const toPush = {
-		entityType, options, owner, subject, timeLimit, anonymous, category
+		entityType, options, owner, subject, timeLimit, anonymous, category, details
 	}
 
 	firebase.database().ref('entities/').push(toPush);

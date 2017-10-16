@@ -37,7 +37,6 @@ export default class EntityCard extends Component {
 	}
 
 	render() {
-		 console.log(this.props.entity.owner)
 		 var nameOfEntity = this.props.entity.subject;
 		 var typeOfEntity = this.props.entity.entityType;
 		 var anonymous = '';
