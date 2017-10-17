@@ -71,13 +71,13 @@ export default class CreateEntityModal extends Component {
   }
 
   render() {
-    if(!this.props.isLoggedIn) {
-      return <div></div>
-    }
+    // if(!this.props.isLoggedIn) {
+    //   return <div></div>
+    // }
     
   	return (
       <div className="col-sm-4">
-        <button data-toggle="modal" data-target="#createModal" style={{backgroundColor: "#db3236"}} className="col-sm-12 btn btn-success">Add Entity</button>
+        <button disabled={!this.props.isLoggedIn} data-toggle="modal" data-target="#createModal" style={{backgroundColor: "#db3236"}} className="col-sm-12 btn btn-success">Add Entity</button>
         <div className="modal fade" id="createModal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
           <div className="modal-dialog" role="document">
             <div className="modal-content">
@@ -112,8 +112,13 @@ export default class CreateEntityModal extends Component {
                             <label className="col-sm-12 control-label" htmlFor="categorySelect">Category</label>
                             <div className="col-sm-12">
                               <select value={this.state.category} id="category" onChange={ (event) => { this.setState({category: event.target.value}) } } name="categorySelect" className="form-control">
-                                  <option>Sports</option>
-                                  <option>Education</option>
+                                  <option>Classes</option>
+                                  <option>Professors</option>
+                                  <option>Events</option>
+                                  <option>Food</option>
+                                  <option>Concerts</option>
+                                  <option>Amusement</option>
+                                  <option>Random</option>
                               </select>
                             </div>
                           </div>

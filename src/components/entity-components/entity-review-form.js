@@ -60,7 +60,7 @@ export default class EntityReviewForm extends Component {
     }
 
     render() {
-        console.log(this.props.user)
+        const disable = (this.props.user !== null) ? false : true
         return (
             <form id="reviewForm" className="container-fluid">
               <div style={{margin: "0 auto"}}>
@@ -73,14 +73,14 @@ export default class EntityReviewForm extends Component {
                   <label className="star star-3" htmlFor="star-3"></label>
                   <input onClick={(e) => {this.changeStars(e)}} className="star star-2" id="star-2" type="radio" name="star" data-star="2"/>
                   <label className="star star-2" htmlFor="star-2"></label>
-                  <input onClick={(e) => {this.changeStars(e)}} className="star star-1" id="star-1" type="radio" name="star" />
+                  <input onClick={(e) => {this.changeStars(e)}} className="star star-1" id="star-1" type="radio" name="star" data-star="1"/>
                   <label className="star star-1" htmlFor="star-1"></label>
               </div>
               </div>
-              <textarea onChange={(e) => {this.reviewChange(e)}} name="review" className="form-control col-sm-12" rows="5" id="reviews" name="review"></textarea>
-              <label><input onClick={(e) => {this.anonSwitch(e)}} type="checkbox" value={this.state.anon} /> Anonymous</label>
+              <textarea disabled={disable} onChange={(e) => {this.reviewChange(e)}} name="review" className="form-control col-sm-12" rows="5" id="reviews" name="review"></textarea>
+              <label><input disabled={disable} onClick={(e) => {this.anonSwitch(e)}} type="checkbox" value={this.state.anon} /> Anonymous</label>
               <br/>
-              <button style={{marginTop:"10px"}} onClick={(e) => {this.submitReview(e)}} type="button" className="btn btn-primary">Submit Review</button>  
+              <button disabled={disable} style={{marginTop:"10px"}} onClick={(e) => {this.submitReview(e)}} type="button" className="btn btn-primary">Submit Review</button>  
             </form>
         )
     }

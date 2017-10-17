@@ -9,7 +9,6 @@ export default class EntityComment extends Component {
     }
 
     render() {
-        console.log(this.props.comment)
         var user = (this.props.comment.anonymous) ? 'Anonymous' : this.props.comment.commentorEmail;
         var commentText = (this.props.comment.comment) ? this.props.comment.comment : ""
         return (

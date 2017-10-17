@@ -37,14 +37,15 @@ export default class EntityCommentForm extends Component {
     }
 
     render() {
+        const disable = (this.props.user !== null) ? false : true
         return (
             <div className="container-fluid">
               <div style={{margin: "0 auto"}}>
               </div>
-              <textarea onChange={ (e)=> {this.commentChange(e)}} name="review" className="form-control col-sm-12" rows="3" id="reviews" name="review"></textarea>
-              <label><input onClick={(e)=>{this.anonSwitch(e)}} type="checkbox" value={this.state.anon} /> Anonymous</label>
+              <textarea disabled={disable} onChange={ (e)=> {this.commentChange(e)}} name="review" className="form-control col-sm-12" rows="3" id="reviews" name="review"></textarea>
+              <label><input disabled={disable} onClick={(e)=>{this.anonSwitch(e)}} type="checkbox" value={this.state.anon} /> Anonymous</label>
               <br/>
-              <button style={{marginTop:"10px"}} onClick={ (e) => {this.submitComment(e)}} type="button" className="btn btn-primary">Comment</button>  
+              <button disabled={disable} style={{marginTop:"10px"}} onClick={ (e) => {this.submitComment(e)}} type="button" className="btn btn-primary">Comment</button>  
             </div>
         )
     }
