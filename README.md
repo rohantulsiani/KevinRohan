@@ -26,41 +26,41 @@
 ```
 
 ###For PC Users without Chocolatey:
-#####Download the Installer: https://yarnpkg.com/lang/en/docs/install/#windows-tab
+#####1. Download the Installer: https://yarnpkg.com/lang/en/docs/install/#windows-tab
 #####Or run the following command in cmd.exe:
 ```
 	@"%SystemRoot%\System32\WindowsPowerShell\v1.0\powershell.exe" -NoProfile -InputFormat None -ExecutionPolicy Bypass -Command "iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))" && SET "PATH=%PATH%;%ALLUSERSPROFILE%\chocolatey\bin"
 ```
 
-###For PC Users with Chocolatey, run:
+###For PC Users with Chocolatey, 1. run:
 ```
 	choco install yarn
 ```
 
 #Part 2: Git Clone & Deployment
-#####Open Terminal and Git Clone
+#####1. Open Terminal and Git Clone
 ```
 	git clone https://github.com/rohantulsiani/KnowItAll.git
 ```
 
-#####Change Directory into KnowItAll Directory then run:
+#####2. Change Directory into KnowItAll Directory then run:
 ```
 	yarn install
 ```
 
 
-#####After all the packages are built, run:
+#####3. After all the packages are built, run:
 ```
 	yarn start
 ```
 
 
-#####Alternative to yarn, run: 
+#####Alternative to yarn,1.  run: 
 ```
 	npm install
 ```
 
-#####After all packages are built, run:
+#####2. After all packages are built, run:
 ```
 	npm start
 ```
