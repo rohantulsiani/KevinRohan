@@ -15,6 +15,27 @@ export const getCurrentUser = () => {
 	return firebase.auth().currentUser
 }
 
+export const addWhoVoted = (id, entity, userID) => {
+	var whoVoted = entity.whoVoted
+	
+	if(whoVoted == undefined)
+	{
+		firebase.database().ref(`entities/${id}/whoVoted`).push(userID)
+		return true
+	}
+
+	for(var key in whoVoted)
+	{
+		if(whoVoted[key] == userID)
+		{
+			return false
+		}
+	}
+
+	firebase.database().ref(`entities/${id}/whoVoted`).push(userID)
+	return true
+}
+
 export const removeEntity = (entityID) => {
 	firebase.database().ref(`entities/${entityID}`).remove()
 }
@@ -83,9 +104,9 @@ export const registerUser = (email, password, otherThis) => {
         	"isAdmin": false,
     	}
 		firebase.database().ref(`users/${user.uid}`).set(newUser)
+		otherThis.goBackToHome()
 	}).catch((error)=>{
 		otherThis.toggleError();
-		console.log(error);
 	})
 }
 
@@ -119,11 +140,13 @@ export const getUserData = dispatchAttemptLogin => {
 	});
 };
 
-export const login = (email, password) => {
+export const login = (email, password, goBackToHome) => {
 	if(firebase.auth().currentUser) {
 		return
 	}
-	firebase.auth().signInWithEmailAndPassword(email, password)
+	firebase.auth().signInWithEmailAndPassword(email, password).then(function() {
+		goBackToHome()
+	})
 }
 
 export const logout = () => {

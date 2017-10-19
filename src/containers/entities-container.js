@@ -44,7 +44,7 @@ class Entities extends Component {
                 Object.keys(this.props.entities).map((key) => {
                   if(this.state.category == 'All'){
                     return (
-                      <EntityCard isLoggedIn={this.props.user !== null} key={key} entity={this.props.entities[key]} entityId={key} />
+                      <EntityCard user={this.props.user} isLoggedIn={this.props.user !== null} key={key} entity={this.props.entities[key]} entityId={key} />
                     )
                   } else {
                     const entity = this.props.entities[key]

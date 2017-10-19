@@ -15,6 +15,10 @@ toggleError() {
   	this.setState({error:!this.state.error})
  }
 
+ goBackToHome() {
+ 	this.props.history.push('/')
+ }
+
   render() {
   	return (
 		<div className="col-sm-12 container">
@@ -29,7 +33,7 @@ toggleError() {
 					
 					<div className="col-sm-12">
 						<button onClick={()=>{registerUser(this.state.email.trim(), this.state.password.trim(), this)}}style={{display:"block", margin:"auto", marginTop: "15px"}} className="col-sm-2 btn btn-success">Register</button>
-						<button onClick={()=>{login(this.state.email.trim(), this.state.password.trim()); this.props.history.push('/')}} style={{display:"block", margin:"auto", marginTop: "15px"}} className="col-sm-2 btn btn-danger">Login</button>
+						<button onClick={()=>{login(this.state.email.trim(), this.state.password.trim(), this.goBackToHome.bind(this));}} style={{display:"block", margin:"auto", marginTop: "15px"}} className="col-sm-2 btn btn-danger">Login</button>
 					</div>
 					{this.state.error ? (<div style={{marginTop: "15px", textAlign:"center"}}className="col-sm-12">
 						<span style={{color:"red"}}>Please Use A Valid USC Email</span>

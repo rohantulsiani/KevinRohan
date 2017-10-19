@@ -11,7 +11,8 @@ import {
 	checkReviewExists,
 	createPollResponse,
 	checkPollResponseExists,
-	createEntityComment 
+	createEntityComment, 
+	addWhoVoted
 } from '../firebase'
 import { dispatchGetEntity } from '../reducers/entity-reducer'
 import EntityPollForm from '../components/entity-components/entity-poll-form'
@@ -21,10 +22,10 @@ import EntityComment from '../components/entity-components/entity-comment'
 import EntityReview from '../components/entity-components/entity-review'
 import EntityPoll from '../components/entity-components/entity-poll'
 
-const UpVote = (disabled, numUpVote, id) => {
+const UpVote = (disabled, numUpVote, id, user, entity) => {
 	if(!disabled)
 	{
-		return <span className="badge badge-success badge-vote" onClick={() => upVote(id)}> <span className="glyphicon glyphicon-chevron-up">^</span> {numUpVote}</span>
+		return <span className="badge badge-success badge-vote" onClick={() => { if(addWhoVoted(id, entity, user.uid)){upVote(id)} }}> <span className="glyphicon glyphicon-chevron-up">^</span> {numUpVote}</span>
 	}
 	else
 	{
@@ -32,10 +33,10 @@ const UpVote = (disabled, numUpVote, id) => {
 	}
 }
 
-const DownVote = (disabled, numDownVote, id) => {
+const DownVote = (disabled, numDownVote, id, user, entity) => {
 	if(!disabled)
 	{
-		return <span className="badge badge-danger badge-vote" onClick={() => downVote(id) }> <span className="glyphicon glyphicon-chevron-down">v</span> {numDownVote}</span>
+		return <span className="badge badge-danger badge-vote" onClick={() => { if(addWhoVoted(id, entity, user.uid)){downVote(id)} }}> <span className="glyphicon glyphicon-chevron-down">v</span> {numDownVote}</span>
 	}
 	else
 	{
@@ -70,7 +71,7 @@ class Entity extends Component {
 			<div className="fluid-container">
 				<div className="card card-fill">
 					<div className="card-header">
-						<h4><span className="badge badge-warning">{this.props.entity.entityType}</span> by {user} {UpVote(disable, numUpVote, entityId)} {DownVote(disable, numDownVote, entityId)}</h4>
+						<h4><span className="badge badge-warning">{this.props.entity.entityType}</span> by {user} {UpVote(disable, numUpVote, entityId, this.props.user, this.props.entity)} {DownVote(disable, numDownVote, entityId, this.props.user, this.props.entity)}</h4>
 					</div>
 					<div className="card-text row">
 						<div className="col-sm-12 col-md-5">
