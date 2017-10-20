@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { Switch, Route, Link } from 'react-router-dom'
-import { upVote, downVote } from '../../firebase'
+import { upVote, downVote, addWhoVoted } from '../../firebase'
 
-const UpVote = (isLoggedIn, numUpVote, id) => {
+const UpVote = (isLoggedIn, numUpVote, id, user, entity) => {
 	if(isLoggedIn)
 	{
-		return <span className="badge badge-success badge-vote" onClick={() => upVote(id)}> <span className="glyphicon glyphicon-chevron-up">^</span> {numUpVote}</span>
+		return <span className="badge badge-success badge-vote" onClick={() => { if(addWhoVoted(id, entity, user.uid)){upVote(id)} }}> <span className="glyphicon glyphicon-chevron-up">^</span> {numUpVote}</span>
 	}
 	else
 	{
@@ -13,10 +13,10 @@ const UpVote = (isLoggedIn, numUpVote, id) => {
 	}
 }
 
-const DownVote = (isLoggedIn, numDownVote, id) => {
+const DownVote = (isLoggedIn, numDownVote, id, user, entity) => {
 	if(isLoggedIn)
 	{
-		return <span className="badge badge-danger badge-vote" onClick={() => downVote(id) }> <span className="glyphicon glyphicon-chevron-down">v</span> {numDownVote}</span>
+		return <span className="badge badge-danger badge-vote" onClick={() => { if(addWhoVoted(id, entity, user.uid)){downVote(id)} } }> <span className="glyphicon glyphicon-chevron-down">v</span> {numDownVote}</span>
 	}
 	else
 	{
@@ -51,7 +51,7 @@ export default class EntityCard extends Component {
 	                    </ul>
 	                </div>
 	                <div className="panel-heading">
-						<h3><span className="badge badge-warning">{type}</span> by {user} {UpVote(this.props.isLoggedIn, numUpVote, entityId)} {DownVote(this.props.isLoggedIn, numDownVote, entityId)}</h3>
+						<h3><span className="badge badge-warning">{type}</span> by {user} {UpVote(this.props.isLoggedIn, numUpVote, entityId, this.props.user, this.props.entity)} {DownVote(this.props.isLoggedIn, numDownVote, entityId, this.props.user, this.props.entity)}</h3>
 	                </div>
 	                <div className="panel-body" style={{wordWrap:"break-all", overflow: "hidden", textOverflow: "ellipsis"}}>
 	                    <h2>{subject}</h2>
