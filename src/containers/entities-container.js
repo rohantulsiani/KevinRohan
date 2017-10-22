@@ -27,6 +27,7 @@ class Entities extends Component {
               <div className="col-sm-4">
                 <select value={this.state.category} id="category" onChange={ (event) => { this.setState({category: event.target.value}) } } className="form-control">
                       <option>All</option>
+                      <option>Trending</option>
                       <option>Classes</option>
                       <option>Professors</option>
                       <option>Events</option>
@@ -42,7 +43,7 @@ class Entities extends Component {
             {
               (this.props.entities) ? (
                 Object.keys(this.props.entities).map((key) => {
-                  if(this.state.category == 'All'){
+                  if(this.state.category == 'All' || this.state.category == 'Trending'){
                     return (
                       <EntityCard user={this.props.user} isLoggedIn={this.props.user !== null} key={key} entity={this.props.entities[key]} entityId={key} />
                     )
@@ -53,6 +54,16 @@ class Entities extends Component {
                         <EntityCard isLoggedIn={this.props.user !== null} key={key} entity={this.props.entities[key]} entityId={key} />
                       )
                     }
+                  }
+                }).sort((a, b) => {
+                  if(this.state.category == 'Trending') {
+                    if (a.props.entity.numUpVote < b.props.entity.numUpVote) {
+                      return 1
+                    }
+                    if (a.props.entity.numUpVote > b.props.entity.numUpVote) {
+                      return -1
+                    }
+                    return 0
                   }
                 })
               ) : (
