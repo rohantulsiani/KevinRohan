@@ -11,23 +11,60 @@ import { dispatchGetEntities } from '../reducers/entities-reducer'
 class Entities extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      category: 'All'
+    }
   }
   render() {
   	return (
   		<div className="container-fluid">
-      		<h1 style={{marginTop:'15px', textAlign: "center"}} className="col-sm-12">Entities</h1>
+      		<h1 style={{marginTop:'15px', textAlign: "center"}} className="col-sm-12">Posts</h1>
       		<div className="row">
   	    		  <div className="col-sm-4"></div>
-  	    			<CreateEntityModal />
+  	    			<CreateEntityModal isLoggedIn={this.props.user !== null} />
   	    			<div className="col-sm-4"></div>
+              <div className="col-sm-4"></div>
+              <div className="col-sm-4">
+                <select value={this.state.category} id="category" onChange={ (event) => { this.setState({category: event.target.value}) } } className="form-control">
+                      <option>All</option>
+                      <option>Trending</option>
+                      <option>Classes</option>
+                      <option>Professors</option>
+                      <option>Events</option>
+                      <option>Food</option>
+                      <option>Concerts</option>
+                      <option>Amusement</option>
+                      <option>Random</option>
+                  </select>
+              </div>
+              <div className="col-sm-4"></div>
       		</div>
           <div style={{marginTop: '15px' }} className="row">
             {
               (this.props.entities) ? (
                 Object.keys(this.props.entities).map((key) => {
-                  return (
-                    <EntityCard key={key} entity={this.props.entities[key]} entityId={key} />
-                  )
+                  if(this.state.category == 'All' || this.state.category == 'Trending'){
+                    return (
+                      <EntityCard user={this.props.user} isLoggedIn={this.props.user !== null} key={key} entity={this.props.entities[key]} entityId={key} />
+                    )
+                  } else {
+                    const entity = this.props.entities[key]
+                    if(entity.category === this.state.category) {
+                      return (
+                        <EntityCard isLoggedIn={this.props.user !== null} key={key} entity={this.props.entities[key]} entityId={key} />
+                      )
+                    }
+                  }
+                }).sort((a, b) => {
+                  if(this.state.category == 'Trending') {
+                    if (a.props.entity.numUpVote < b.props.entity.numUpVote) {
+                      return 1
+                    }
+                    if (a.props.entity.numUpVote > b.props.entity.numUpVote) {
+                      return -1
+                    }
+                    return 0
+                  }
                 })
               ) : (
                 <div></div>
@@ -41,7 +78,8 @@ class Entities extends Component {
 
 function mapStateToProps(state) {
   return {
-    entities: state.entities
+    entities: state.entities,
+    user: state.loginInfo
   }
 }
 

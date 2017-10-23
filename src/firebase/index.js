@@ -15,6 +15,35 @@ export const getCurrentUser = () => {
 	return firebase.auth().currentUser
 }
 
+export const addWhoVoted = (id, entity, userID) => {
+	var whoVoted = entity.whoVoted
+	
+	if(whoVoted == undefined)
+	{
+		firebase.database().ref(`entities/${id}/whoVoted`).push(userID)
+		return true
+	}
+
+	for(var key in whoVoted)
+	{
+		if(whoVoted[key] == userID)
+		{
+			return false
+		}
+	}
+
+	firebase.database().ref(`entities/${id}/whoVoted`).push(userID)
+	return true
+}
+
+export const removeEntity = (entityID) => {
+	firebase.database().ref(`entities/${entityID}`).remove()
+}
+
+export const removeComment = (entityID, commentID) => {
+	firebase.database().ref(`entities/${entityID}/comments/${commentID}`).remove()
+}
+
 export const firebaseInit = () => {
     firebase.initializeApp(firebaseConfig);
 };
@@ -27,9 +56,9 @@ export const checkPollResponseExists = (entityId, poster) => {
 	return firebase.database().ref(`entities/${entityId}/pollResponses`).child(poster).once('value'); 
 }
 
-export const createPollResponse = (entityId, option, poster, anonymous) => {
+export const createPollResponse = (entityId, option, poster, posterEmail, anonymous) => {
 	const postObj = {
-		poster, option, anonymous, entityId
+		poster, posterEmail, option, anonymous, entityId
 	}
 	console.log(postObj)
 	firebase.database().ref(`entities/${entityId}/pollResponses`).child(poster).set(postObj)
@@ -39,11 +68,19 @@ export const checkReviewExists = (entityId, reviewer) => {
 	return firebase.database().ref(`entities/${entityId}/reviews`).child(reviewer).once('value'); 
 }
 
-export const createEntityReview = (entityType, entityId, stars, reviewer, review, anonymous) => {
+export const createEntityReview = (entityType, entityId, stars, reviewer, reviewerEmail, review, anonymous) => {
 	const reviewObj = {
-		stars, reviewer, review, anonymous, entityId
+		stars, reviewer, review, anonymous, entityId, reviewerEmail
 	}
+	console.log(reviewObj, entityId, reviewer)
 	firebase.database().ref(`entities/${entityId}/reviews`).child(reviewer).set(reviewObj)
+}
+
+export const createEntityComment = (entityType, entityId, comment, commentor, commentorEmail, anonymous) => {
+	const commentObj = {
+		entityId, comment, commentor, anonymous, commentorEmail
+	}
+	firebase.database().ref(`entities/${entityId}/comments`).push(commentObj)
 }
 
 export const getEntity = (dispatchGetEntity, entityId) => {
@@ -67,9 +104,10 @@ export const registerUser = (email, password, otherThis) => {
         	"isAdmin": false,
     	}
 		firebase.database().ref(`users/${user.uid}`).set(newUser)
+		otherThis.goBackToHome()
 	}).catch((error)=>{
-		otherThis.toggleError(error.message);
-		console.log(error.message);
+
+		otherThis.toggleError();
 	})
 }
 
@@ -103,12 +141,13 @@ export const getUserData = dispatchAttemptLogin => {
 	});
 };
 
-export const login = (email, password, otherThis) => {
+
+export const login = (email, password, goBackToHome) => {
 	if(firebase.auth().currentUser) {
 		return
 	}
-	firebase.auth().signInWithEmailAndPassword(email, password).catch(error =>{
-		otherThis.toggleError(error.message)
+	firebase.auth().signInWithEmailAndPassword(email, password).then(function() {
+		goBackToHome()
 	})
 }
 
