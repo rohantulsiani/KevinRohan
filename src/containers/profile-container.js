@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Switch, Route, Link } from 'react-router-dom'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import {registerUser, getUserData, logout, login, getCurrentUser, getEntities} from '../firebase'
+import {registerUser, getUserData, logout, login, getCurrentUser, getEntities, updateProfilePic} from '../firebase'
 import {dispatchAttemptLogin} from '../reducers/login-reducer'
 import { dispatchGetEntities } from '../reducers/entities-reducer'
 import EntityCard from '../components/entity-components/entity-card'
@@ -30,6 +30,12 @@ class Profile extends Component {
     $('#post').css('font-weight', 'bold');
   }
 
+  changeProfilePic(e){
+    var file = e.target.files[0];
+    updateProfilePic(file)
+  }
+
+
   render() {
     var commentArray = []
     var entities = this.props.entities
@@ -47,10 +53,26 @@ class Profile extends Component {
         }
       }
     }
+  
   	return (
 		  <div className="container">
+
+        <div className="image-upload col-sm-12" style={{textAlign: "center"}}>
+          <label htmlFor="file-input">
+            {this.props.user != "" ? (this.props.user.photoURL == undefined ?
+              ( <i className=" fa fa-user fa-5x" ariaHidden="true" 
+              style={{marginTop: "20px",cursor:"pointer"}}></i>):<img className="col-sm-12" style={{display: "block", margin:"auto", marginTop: "20px", height:"8em", width:"11em"}} 
+              src={this.props.user.photoURL} />):<div></div>
+            }
+           </label>
+            <input id="file-input" type="file" accept="image/*" style={{display:"none"}} onChange={(e)=> this.changeProfilePic(e)}/>
+
+        </div>
+        
+
+
         <div className="row">
-          {this.props.user ? <h1 className="col-sm-12" style={{marginTop:"1em", marginBottom:"0", textAlign:"center"}}>{this.props.user.email}</h1> : <div></div>}
+          {this.props.user ? <h1 className="col-sm-12" style={{marginBottom:"0", textAlign:"center"}}>{this.props.user.email}</h1> : <div></div>}
         </div>
       
       <div className="container"></div>

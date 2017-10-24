@@ -89,24 +89,26 @@ export const getEntity = (dispatchGetEntity, entityId) => {
 
 export const registerUser = (email, password, otherThis) => {
 	if(firebase.auth().currentUser) {
-		return
+		return false
 	}
 	var uscEmail = email.substr(email.length - 7)
 	
 	if(uscEmail != 'usc.edu') {
-		otherThis.toggleError();
-		return
+		otherThis.toggleError("Please enter an USC email");
+		return false
 	}
 
 	firebase.auth().createUserWithEmailAndPassword(email, password).then((user) => {
 		sendEmailVerification()
 		let newUser = {
         	"isAdmin": false,
+        	"email" : user.email
     	}
 		firebase.database().ref(`users/${user.uid}`).set(newUser)
 		otherThis.goBackToHome()
 	}).catch((error)=>{
-		otherThis.toggleError();
+		otherThis.toggleError(error.message);
+		return false
 	})
 }
 
@@ -126,7 +128,7 @@ export const getUserData = dispatchAttemptLogin => {
 	    		const newUser = {
 					uid: user.uid,
 					displayName: user.displayName,
-					photoURL: user.photoURL,
+					photoURL: snapshot.val().photoURL,
 					email: user.email,
 					emailVerified: user.emailVerified,
 					isAdmin: isAdmin
@@ -140,12 +142,15 @@ export const getUserData = dispatchAttemptLogin => {
 	});
 };
 
-export const login = (email, password, goBackToHome) => {
+
+export const login = (email, password, goBackToHome, otherThis) => {
 	if(firebase.auth().currentUser) {
 		return
 	}
 	firebase.auth().signInWithEmailAndPassword(email, password).then(function() {
 		goBackToHome()
+	}).catch((error)=>{
+		otherThis.toggleError(error.message)
 	})
 }
 
@@ -188,4 +193,32 @@ export const downVote = (entityId) => {
 	databaseRef.transaction((numDownVote) => {
 		return (numDownVote || 0) + 1;
 	})
+}
+
+export const updateProfilePic = (file) =>{
+	const user = firebase.auth().currentUser
+
+	var storageRef = firebase.storage().ref('profile_pics/').child(user.email).child(file.name);
+	var task = storageRef.put(file);
+
+	task.on('state_changed', 
+		function progress(snapshot){},
+
+		function error(err){
+			console.log(err)
+		},
+
+		function complete(){
+			var path = '/users/' + user.uid + '/photoURL';
+			storageRef.getDownloadURL().then(function(url){
+				var update = {}
+				update[path] = url
+				firebase.database().ref().update(update)
+				
+			}).catch((error) =>{
+				console.log(error)
+			})
+
+			
+		})
 }

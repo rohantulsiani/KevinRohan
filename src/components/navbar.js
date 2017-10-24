@@ -33,7 +33,8 @@ class Navbar extends Component {
 	render() {
 		return (
 			<nav style={{backgroundColor:"#db3236"}} className="navbar navbar-expand-lg navbar-dark">
-  				<Link to="/" className="navbar-brand">KnowItAll</Link>
+  				<Link to="/" className="navbar-brand"><img src="https://firebasestorage.googleapis.com/v0/b/knowitall-893d7.appspot.com/o/Logos%2Flogo.png?alt=media&token=44bfb8d4-9813-43b8-802c-3068c9356687"
+          style = {{width : "7em", height: "2em"}}/></Link>
   				<button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     				<span className="navbar-toggler-icon"></span>
   				</button>
