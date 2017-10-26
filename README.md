@@ -10,16 +10,16 @@ Prior to Cloning the Git Repository and Deploying, make sure that your machine h
 #### For Mac Users:
 ##### 1. Install Homebrew by Opening a Terminal and Running:
 ```
-	/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)
+/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)
 ```
 
 ##### 2. Install Yarn or NPM by Running:
 ```
-	brew install yarn
+brew install yarn
 ```
 
 ```
-	brew install npm
+brew install npm
 ```
 
 #### For PC Users Without Chocolatey:
@@ -28,40 +28,40 @@ Prior to Cloning the Git Repository and Deploying, make sure that your machine h
 
 ##### Alternatively Run the Following in the Windows Command Prompt:
 ```
-	@"%SystemRoot%\System32\WindowsPowerShell\v1.0\powershell.exe" -NoProfile -InputFormat None -ExecutionPolicy Bypass -Command "iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))" && SET "PATH=%PATH%;%ALLUSERSPROFILE%\chocolatey\bin"
+@"%SystemRoot%\System32\WindowsPowerShell\v1.0\powershell.exe" -NoProfile -InputFormat None -ExecutionPolicy Bypass -Command "iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))" && SET "PATH=%PATH%;%ALLUSERSPROFILE%\chocolatey\bin"
 ```
 
 #### For PC Users with Chocolatey: 
 ##### 1. Run:
 ```
-	choco install yarn
+choco install yarn
 ```
 
 ### Part 2: Git Clone & Deployment
 ##### 1. Open Terminal and Git Clone
 ```
-	git clone https://github.com/rohantulsiani/KnowItAll.git
+git clone https://github.com/rohantulsiani/KnowItAll.git
 ```
 
 ##### 2. Change Directory into the KnowItAll Directory then Run:
 ```
-	yarn install
+yarn install
 ```
 
 
 ##### 3. After all the Packages are Built, Run:
 ```
-	yarn start
+yarn start
 ```
 
 
 #### Alternatively Instead of Yarn Use NPM
 ```
-	npm install
+npm install
 ```
 
 ```
-	npm start
+npm start
 ```
 
 ##### View the App at Localhost on Port 8080:
