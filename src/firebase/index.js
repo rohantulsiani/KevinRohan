@@ -144,6 +144,7 @@ export const getUserData = dispatchAttemptLogin => {
 
 
 export const login = (email, password, goBackToHome, otherThis) => {
+
 	if(firebase.auth().currentUser) {
 		return
 	}

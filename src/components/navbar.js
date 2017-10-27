@@ -1,32 +1,32 @@
-import React, {Component} from 'react'
-import { Redirect } from 'react-router'
-import { Switch, Route, Link } from 'react-router-dom'
-import { connect } from 'react-redux'
-import {registerUser, getUserData, logout, login, getCurrentUser, getEntities} from '../firebase'
-import {dispatchAttemptLogin} from '../reducers/login-reducer'
-import { dispatchGetEntities } from '../reducers/entities-reducer'
-import { bindActionCreators } from 'redux'
+import React, {Component} from 'react';
+import { Redirect } from 'react-router';
+import { Switch, Route, Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import {registerUser, getUserData, logout, login, getCurrentUser, getEntities} from '../firebase';
+import {dispatchAttemptLogin} from '../reducers/login-reducer';
+import { dispatchGetEntities } from '../reducers/entities-reducer';
+import { bindActionCreators } from 'redux';
 
 class Navbar extends Component {
   constructor(props) {
-    super(props)
+    super(props);
     
-    getEntities(this.props.dispatchGetEntities)
+    getEntities(this.props.dispatchGetEntities);
 
     if(!this.props.authDone)
     {
-      getUserData(this.props.dispatchAttemptLogin)
+      getUserData(this.props.dispatchAttemptLogin);
     }
 
-    this.state = {searchInput:""}
+    this.state = {searchInput:""};
   }
   onKeyPress(event) {
     const val = event.target.value;
 
     if(event.key == 'Enter') {
       this.props.history.push(`/search/${this.state.searchInput}`);
-      this.setState({searchInput:""})
-      return
+      this.setState({searchInput:""});
+      return;
     }
   }
 
@@ -38,14 +38,13 @@ class Navbar extends Component {
   				<button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     				<span className="navbar-toggler-icon"></span>
   				</button>
-
   				<div className="collapse navbar-collapse" id="navbarSupportedContent">
     				<ul className="navbar-nav mr-auto">
-      					<li className="nav-item active">
+      					<li  className="nav-item active">
                     {
                       this.props.user != "" ? (
                         this.props.user == null ? (
-                            <Link className="nav-link" to="/login">Login</Link>
+                            <Link  id = "login" className="nav-link login" to="/login">Login</Link>
                         ):(
                           <div onClick={logout} style={{cursor:"pointer"}} className="nav-link">Logout</div>
                         )):<div></div>
@@ -53,7 +52,7 @@ class Navbar extends Component {
       					</li>
                 { this.props.user != null && this.props.user != "" ? (
                     <li className="nav-item active">
-                      <Link className="nav-link" to="/profile">Profile</Link>
+                      <Link id = "profile" className="nav-link" to="/profile">Profile</Link>
                     </li>
                   ):(<div></div>)
                 }
@@ -71,7 +70,7 @@ class Navbar extends Component {
     				</div>
   				</div>
 			</nav>
-		)
+		);
 	}
 }
 
@@ -82,7 +81,7 @@ function mapDispatchToProps(dispatch) {
 function mapStateToProps(state) {
   return {
     user: state.loginInfo
-  }
+  };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Navbar);

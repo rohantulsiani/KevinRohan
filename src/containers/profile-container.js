@@ -55,13 +55,13 @@ class Profile extends Component {
     }
   
   	return (
-		  <div className="container">
 
+		  <div className="container">
         <div className="image-upload col-sm-12" style={{textAlign: "center"}}>
           <label htmlFor="file-input">
             {this.props.user != "" ? (this.props.user.photoURL == undefined ?
               ( <i className=" fa fa-user fa-5x" ariaHidden="true" 
-              style={{marginTop: "20px",cursor:"pointer"}}></i>):<img className="col-sm-12" style={{display: "block", margin:"auto", marginTop: "20px", height:"8em", width:"11em"}} 
+              style={{marginTop: "20px",cursor:"pointer"}}></i>):<img className="col-sm-12" style={{cursor:'pointer', display: "block", margin:"auto", marginTop: "20px", height:"8em", width:"11em"}} 
               src={this.props.user.photoURL} />):<div></div>
             }
            </label>
@@ -116,8 +116,6 @@ class Profile extends Component {
         )}
       </div>
     </div>
-
-
   	)
   }
 }
