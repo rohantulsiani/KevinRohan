@@ -173,9 +173,10 @@ export const sendEmailVerification = () => {
 	subject: String
 	timeLimit:Int -> Days to Expire
 */
-export const addEntity = (entityType, options, owner, subject, timeLimit, anonymous=false, category, details) => {
+export const addEntity = (entityType, options, owner, subject, timeLimit, anonymous=false, category, details, tags) => {
+	console.log("add entity", tags)
 	const toPush = {
-		entityType, options, owner, subject, timeLimit, anonymous, category, details
+		entityType, options, owner, subject, timeLimit, anonymous, category, details, tags
 	}
 
 	firebase.database().ref('entities/').push(toPush);
