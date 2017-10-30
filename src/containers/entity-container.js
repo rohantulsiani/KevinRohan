@@ -75,7 +75,7 @@ class Entity extends Component {
 					<div className="card-header">
 						<h4>
 							<span className="badge badge-warning">{this.props.entity.entityType}</span> by {user} {UpVote(disable, numUpVote, entityId, this.props.user, this.props.entity)} {DownVote(disable, numDownVote, entityId, this.props.user, this.props.entity)}
-							<span className="pull-right">{ this.props.entity.owner === this.props.user.email ? <EditEntityModal /> : <div></div> }</span>
+							<span className="pull-right">{ this.props.entity.owner === this.props.user.email ? <EditEntityModal entityId={entityId} entity={this.props.entity} /> : <div></div> }</span>
 						</h4>
 					</div>
 					<div className="card-text row">
