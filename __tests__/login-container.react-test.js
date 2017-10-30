@@ -18,9 +18,8 @@ describe('Login Page', ()=>{
         wrapper = mount( <Provider store={store}><Login /></Provider> );
     });
 
-	//black box test
+	//white box test
 	it('Login Container View is rendered properly before logging in', ()=>{
-
 		const passwordProps = wrapper.find('#password').props();
 		const title = wrapper.find('h2').text();
 
@@ -30,7 +29,7 @@ describe('Login Page', ()=>{
 		expect(store.getState().loginInfo).toEqual('');
 	});
 
-	//black box test
+	//white box test
 	it('User logging in - dispatch action and to firebase', async ()=>{
 		/* making sure firebase work as expected by putting in
 		  email and password and click the button */
@@ -53,7 +52,7 @@ describe('Login Page', ()=>{
 		expect(store.getActions()).toEqual([expectedAction]);
 	});
 
-	//black box test
+	//white box test
 	it('User entering the wrong passwordd - error message should be renedered', async ()=>{
 		/* making sure firebase work as expected by putting in
 		  email and password and click the button */

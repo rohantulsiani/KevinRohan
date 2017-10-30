@@ -12,7 +12,18 @@ class Login extends Component {
   }
 
 toggleError(message) {
-  	this.setState({error:!this.state.error, errorMessage: message})
+  	this.setState({error:true, errorMessage: message})
+ }
+
+createUser(email, password){
+    registerUser(email, password).then(()=>{
+
+      this.goBackToHome();
+    }
+    ).catch((error)=>{
+      this.toggleError(error);
+    });
+
  }
 
  goBackToHome() {
@@ -35,7 +46,7 @@ toggleError(message) {
 					<input id = "password" onChange={(event)=>{this.setState({password: event.target.value})}} style={{display:"block", margin: "auto", color: "black"}} type="password" className="col-sm-5 form-control" placeholder="Password" />
 					
 					<div className="col-sm-12">
-						<button onClick={()=>{registerUser(this.state.email.trim(), this.state.password.trim(), this)}} style={{display:"block", margin:"auto", marginTop: "15px"}} className="col-sm-2 btn btn-success">Register</button>
+						<button onClick={()=>{this.createUser(this.state.email.trim(), this.state.password.trim())}} style={{display:"block", margin:"auto", marginTop: "15px"}} className="col-sm-2 btn btn-success">Register</button>
 						<button id = 'loginBtn' onClick={()=>{login(this.state.email.trim(), this.state.password.trim(), this.goBackToHome.bind(this), this);}} style={{display:"block", margin:"auto", marginTop: "15px"}} className="col-sm-2 btn btn-danger">Login</button>
 					</div>
 					{this.state.error ? (<div style={{marginTop: "15px", textAlign:"center"}}className="col-sm-12">
