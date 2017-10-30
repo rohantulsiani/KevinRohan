@@ -20,7 +20,7 @@ export const addWhoVoted = (id, entity, userID) => {
 	
 	if(whoVoted == undefined)
 	{
-		firebase.database().ref(`entities/${id}/whoVoted`).push(userID)
+		firebase.database().ref(`entities/${id}/whoVoted`).push(userID);
 		return true
 	}
 
@@ -32,25 +32,35 @@ export const addWhoVoted = (id, entity, userID) => {
 		}
 	}
 
-	firebase.database().ref(`entities/${id}/whoVoted`).push(userID)
+	firebase.database().ref(`entities/${id}/whoVoted`).push(userID);
 	return true
 }
 
 export const removeEntity = (entityID) => {
-	firebase.database().ref(`entities/${entityID}`).remove()
-}
+	return firebase.database().ref(`entities/${entityID}`).remove();
+};
 
 export const removeComment = (entityID, commentID) => {
-	firebase.database().ref(`entities/${entityID}/comments/${commentID}`).remove()
-}
+	firebase.database().ref(`entities/${entityID}/comments/${commentID}`).remove();
+};
 
 export const firebaseInit = () => {
     firebase.initializeApp(firebaseConfig);
 };
 
 export const getEntities = (dispatchGetEntities, entityId) => {
-    firebase.database().ref('entities/').on('value', dispatchGetEntities);
+    firebase.database().ref('entities/').on('value', (snapshot)=>{
+    	dispatchGetEntities(snapshot.val());
+    });
 };
+
+export const getEntity = (dispatchGetEntity, entityId) => {
+	firebase.database().ref(`entities/${entityId}`).on('value', 
+		(snapshot)=>{
+		dispatchGetEntity(snapshot.val());
+	});
+};
+
 
 export const checkPollResponseExists = (entityId, poster) => {
 	return firebase.database().ref(`entities/${entityId}/pollResponses`).child(poster).once('value'); 
@@ -83,33 +93,34 @@ export const createEntityComment = (entityType, entityId, comment, commentor, co
 	firebase.database().ref(`entities/${entityId}/comments`).push(commentObj)
 }
 
-export const getEntity = (dispatchGetEntity, entityId) => {
-	firebase.database().ref(`entities/${entityId}`).on('value', dispatchGetEntity);
-}
 
-export const registerUser = (email, password, otherThis) => {
-	if(firebase.auth().currentUser) {
-		return false
-	}
-	var uscEmail = email.substr(email.length - 7)
+export const registerUser = (email, password) => {
+	let promise = new Promise((resolve, reject) =>{
+		if(firebase.auth().currentUser) {
+			 reject('You are already logged in');
+		}
+		var uscEmail = email.substr(email.length - 7);
+		
+		if(uscEmail != 'usc.edu') {
+			reject('Please enter an USC email');
+		}
+
+		firebase.auth().createUserWithEmailAndPassword(email, password).then((user) => {
+			sendEmailVerification();
+			let newUser = {
+	        	"isAdmin": false,
+	        	"email" : user.email
+	    	};
+	    	resolve('success');
+			firebase.database().ref(`users/${user.uid}`).set(newUser).then(()=>{
+				
+			});
+		}).catch((error)=>{
+			reject(error.message);
+		})
+	});
+	return promise;
 	
-	if(uscEmail != 'usc.edu') {
-		otherThis.toggleError("Please enter an USC email");
-		return false
-	}
-
-	firebase.auth().createUserWithEmailAndPassword(email, password).then((user) => {
-		sendEmailVerification()
-		let newUser = {
-        	"isAdmin": false,
-        	"email" : user.email
-    	}
-		firebase.database().ref(`users/${user.uid}`).set(newUser)
-		otherThis.goBackToHome()
-	}).catch((error)=>{
-		otherThis.toggleError(error.message);
-		return false
-	})
 }
 
 export const getUserData = dispatchAttemptLogin => {
@@ -144,6 +155,7 @@ export const getUserData = dispatchAttemptLogin => {
 
 
 export const login = (email, password, goBackToHome, otherThis) => {
+
 	if(firebase.auth().currentUser) {
 		return
 	}
@@ -178,14 +190,14 @@ export const addEntity = (entityType, options, owner, subject, timeLimit, anonym
 		entityType, options, owner, subject, timeLimit, anonymous, category, details, tags
 	}
 
-	firebase.database().ref('entities/').push(toPush);
+	return firebase.database().ref('entities/').push(toPush)
+
 }
 
 export const updateEntity = (entityType, options, owner, subject, timeLimit, anonymous=false, category, details, tags, entityId) => {
 	const toUpdate = {
 		entityType, options, owner, subject, timeLimit, anonymous, category, details, tags
 	}
-	console.log(toUpdate)
 	firebase.database().ref('entities/').child(entityId).update(toUpdate);
 }
 

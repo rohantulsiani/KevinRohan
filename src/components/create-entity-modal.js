@@ -144,7 +144,7 @@ export default class CreateEntityModal extends Component {
                             </div>
 
                             <div className="form-group">
-                                <label className="col-sm-12 control-label" htmlFor="datepicker">Expiration Date</label>
+                                <label id = 'datepicker' className="col-sm-12 control-label datepicker" htmlFor="datepicker">Expiration Date</label>
                                 <div className="col-sm-5">
                                   <input name="datepicker" type="text" id="datepicker" className="form-control"></input>
                                 </div>
@@ -165,7 +165,7 @@ export default class CreateEntityModal extends Component {
               </div>
               <div className="modal-footer">
                 <button type="button" className="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                <button data-dismiss="modal" onClick={this.submitToFirebase.bind(this)} type="button" className="btn btn-primary">Post</button>
+                <button id = 'submitBtn' data-dismiss="modal" onClick={this.submitToFirebase.bind(this)} type="button" className="btn btn-primary">Post</button>
               </div>
             </div>
           </div>

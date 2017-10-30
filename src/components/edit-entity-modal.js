@@ -36,7 +36,8 @@ export default class EditEntityModal extends Component {
           $('#optionsEdit').tagsinput('add', option);
         })
       }
-      componentThis.setState({options: entity.options, type: entity.entityType})
+      const options = (entity.options) ? entity.options : []
+      componentThis.setState({options: options, type: entity.entityType})
     });
 
     $('#editModal').on('hidden.bs.modal', function () {
@@ -78,9 +79,10 @@ export default class EditEntityModal extends Component {
     const details = $("#detailsEdit").val()
     const tags = $('#tagsEdit').tagsinput('items');
     const options = $('#optionsEdit').tagsinput('items');
+    const optionsToSend = (options) ? options : []
     const entityId = this.props.entityId;
 
-    updateEntity(entityType, options, owner, subject, timeLimit, anonymous, category, details, tags, entityId)
+    updateEntity(entityType, optionsToSend, owner, subject, timeLimit, anonymous, category, details, tags, entityId)
   }
 
   render() {
