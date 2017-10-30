@@ -173,12 +173,20 @@ export const sendEmailVerification = () => {
 	subject: String
 	timeLimit:Int -> Days to Expire
 */
-export const addEntity = (entityType, options, owner, subject, timeLimit, anonymous=false, category, details) => {
+export const addEntity = (entityType, options, owner, subject, timeLimit, anonymous=false, category, details, tags) => {
 	const toPush = {
-		entityType, options, owner, subject, timeLimit, anonymous, category, details
+		entityType, options, owner, subject, timeLimit, anonymous, category, details, tags
 	}
 
 	firebase.database().ref('entities/').push(toPush);
+}
+
+export const updateEntity = (entityType, options, owner, subject, timeLimit, anonymous=false, category, details, tags, entityId) => {
+	const toUpdate = {
+		entityType, options, owner, subject, timeLimit, anonymous, category, details, tags
+	}
+	console.log(toUpdate)
+	firebase.database().ref('entities/').child(entityId).update(toUpdate);
 }
 
 export const upVote = (entityId) => {
