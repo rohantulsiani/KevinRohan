@@ -41,6 +41,7 @@ export default class EntityCard extends Component {
 		var user = (this.props.entity.anonymous) ? 'Anonymous' : this.props.entity.owner;
 		var numComments = (this.props.entity.comments) ? Object.keys(this.props.entity.comments).length : 0;
 		var entityId = this.props.entityId;
+		var tags = this.props.entity.tags ? this.props.entity.tags : []
 
 		return (
 			<div className="col-sm-12 col-md-6 col-lg-4">
@@ -48,6 +49,11 @@ export default class EntityCard extends Component {
 	                <div className="panel-google-plus-tags">
 	                    <ul>
 	                        <li>{this.props.entity.category}</li>
+							{
+								tags.map((tag, i) => {
+									return <li>{tag}</li>
+								})
+							}
 	                    </ul>
 	                </div>
 	                <div className="panel-heading">

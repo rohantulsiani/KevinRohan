@@ -1,70 +1,69 @@
-#KnowItAll
+# KnowItAll
 
-#####KnowItAll provides users with a platform to share opinions, ratings, and reviews on just about anything and any subject for USC students. Essentially, it is a public forum for all students to share any knowledge with other USC students and eliminating the need to look on other resources. Resources such as Yelp for restaurants, RottenTomatoe for movies, RateMyProfessor for professor ratings, and TripAdvisor for travelling will all be handled by KnowItAll.
+KnowItAll provides users with a platform to share opinions, ratings, and reviews on just about any subject. Currently, the app is only open to USC students. Essentially, it is a public forum for all students to ask any questions, eliminating the need to browse a large quantity of disparate resources. 
 
+## KnowItAll Deployment
 
+### Part 1: Set Up
+Prior to Cloning the Git Repository and Deploying, make sure that your machine has YARN or NPM installed.
 
-#KnowItAll Deployment
-
-#Part 1: Set Up
-##Prior to Cloning the Git Repository and Deploying,
-##make sure that your machine has YARN or NPM installed.
-
-###For Mac Users:
-#####1. Install Homebrew by opening up terminal and running:
+#### For Mac Users:
+##### 1. Install Homebrew by Opening a Terminal and Running:
 ```
-	/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)
+```
 
+##### 2. Install Yarn or NPM by Running:
 ```
-#####2. Install Yarn or NPM by running:
-```
-	brew install yarn
+brew install yarn
 ```
 
 ```
-	brew install npm
+brew install npm
 ```
 
-###For PC Users without Chocolatey:
-#####1. Download the Installer: https://yarnpkg.com/lang/en/docs/install/#windows-tab
-#####Or run the following command in cmd.exe:
+#### For PC Users Without Chocolatey:
+##### 1. Download the Installer: 
+> https://yarnpkg.com/lang/en/docs/install/#windows-tab
+
+##### Alternatively Run the Following in the Windows Command Prompt:
 ```
-	@"%SystemRoot%\System32\WindowsPowerShell\v1.0\powershell.exe" -NoProfile -InputFormat None -ExecutionPolicy Bypass -Command "iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))" && SET "PATH=%PATH%;%ALLUSERSPROFILE%\chocolatey\bin"
+@"%SystemRoot%\System32\WindowsPowerShell\v1.0\powershell.exe" -NoProfile -InputFormat None -ExecutionPolicy Bypass -Command "iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))" && SET "PATH=%PATH%;%ALLUSERSPROFILE%\chocolatey\bin"
 ```
 
-###For PC Users with Chocolatey, 1. run:
+#### For PC Users with Chocolatey: 
+##### 1. Run:
 ```
-	choco install yarn
-```
-
-#Part 2: Git Clone & Deployment
-#####1. Open Terminal and Git Clone
-```
-	git clone https://github.com/rohantulsiani/KnowItAll.git
+choco install yarn
 ```
 
-#####2. Change Directory into KnowItAll Directory then run:
+### Part 2: Git Clone & Deployment
+##### 1. Open Terminal and Git Clone
 ```
-	yarn install
+git clone https://github.com/rohantulsiani/KnowItAll.git
 ```
 
-
-#####3. After all the packages are built, run:
+##### 2. Change Directory into the KnowItAll Directory then Run:
 ```
-	yarn start
+yarn install
 ```
 
 
-#####Alternative to yarn,1.  run: 
+##### 3. After all the Packages are Built, Run:
 ```
-	npm install
-```
-
-#####2. After all packages are built, run:
-```
-	npm start
+yarn start
 ```
 
-#####You should now be able to navigate the page:
-** http://localhost:8080/webpack-dev-server/ **
+
+#### Alternatively Instead of Yarn Use NPM
+```
+npm install
+```
+
+```
+npm start
+```
+
+##### View the App at Localhost on Port 8080:
+> http://localhost:8080/ 
 

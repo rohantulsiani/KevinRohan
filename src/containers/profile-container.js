@@ -38,11 +38,24 @@ class Profile extends Component {
 
   render() {
     var commentArray = []
+    var reviewsArray = []
+    var pollResponsesArray = []
     var entities = this.props.entities
+    var numReviews = 0
+    var numPolls = 0
     if(this.props.user && this.props.entities) {
       var userID = this.props.user.uid
       for(var key in this.props.entities) {
         var entity = this.props.entities[key]
+        numReviews = (entity.owner === this.props.user.email && entity.entityType === "Review") ? numReviews + 1 : numReviews
+        numPolls = (entity.owner === this.props.user.email && entity.entityType === "Poll") ? numPolls + 1 : numPolls
+        if(entity.entityType === "Poll" && entity.pollResponses){
+          if(entity.pollResponses.hasOwnProperty(userID))
+            pollResponsesArray.push(entity.pollResponses[userID])
+        } else if(entity.entityType === "Review" && entity.reviews) {
+          if(entity.reviews.hasOwnProperty(userID))
+            reviewsArray.push(entity.reviews[userID])
+        }
         for(var key1 in entity.comments) {
           var comment = entity.comments[key1]
           comment.key = key1
@@ -53,28 +66,52 @@ class Profile extends Component {
         }
       }
     }
-  
+    
   	return (
-
 		  <div className="container">
-        <div className="image-upload col-sm-12" style={{textAlign: "center"}}>
-          <label htmlFor="file-input">
-            {this.props.user != "" ? (this.props.user.photoURL == undefined ?
-              ( <i className=" fa fa-user fa-5x" ariaHidden="true" 
-              style={{marginTop: "20px",cursor:"pointer"}}></i>):<img className="col-sm-12" style={{cursor:'pointer', display: "block", margin:"auto", marginTop: "20px", height:"8em", width:"11em"}} 
-              src={this.props.user.photoURL} />):<div></div>
-            }
-           </label>
+        <div className="row" style={{marginTop: "20px"}}>
+          <div className="image-upload col-sm-12 col-md-3" style={{textAlign: "center"}}>
+            <label htmlFor="file-input">
+              {
+                this.props.user != "" ? (this.props.user.photoURL == undefined ?
+                (
+                  <i className="fa fa-user fa-4x" ariaHidden="true" 
+                    style={{paddingTop: "15px",cursor:"pointer", backgroundColor:"lightGray", borderRadius:"100px", height: "1.5em", width: "1.5em"}}
+                  ></i>
+                ):
+                  <img className="img-fluid rounded-circle"
+                  src={this.props.user.photoURL} />):<div></div>
+              }
+            </label>
             <input id="file-input" type="file" accept="image/*" style={{display:"none"}} onChange={(e)=> this.changeProfilePic(e)}/>
+          </div>
 
+          <div className="col-sm-12 col-md-9">
+            <ul className="list-group">
+              <li className="list-group-item d-flex justify-content-between align-items-center">
+                <h4>{this.props.user ? this.props.user.email: ""}</h4>
+              </li>
+              <li className="list-group-item d-flex justify-content-betwee  n align-items-center">
+                <h5>Display Name:</h5>
+                <span className="">{this.props.user.displayName}</span>
+              </li>
+              <li className="list-group-item d-flex justify-content-between align-items-center">
+                <h7># of Reviews Created:</h7>
+                <span className="badge badge-primary badge-pill">{numReviews}</span>
+              </li>
+              <li className="list-group-item d-flex justify-content-between align-items-center">
+                <h7># of Polls Created:</h7>
+                <span className="badge badge-primary badge-pill">{numPolls}</span>
+              </li>
+              <li className="list-group-item d-flex justify-content-between align-items-center">
+                <h7>Responses:</h7>
+                <span className="badge badge-primary badge-pill">{commentArray.length} comments</span>
+                <span className="badge badge-primary badge-pill">{reviewsArray.length} reviews</span>
+                <span className="badge badge-primary badge-pill">{pollResponsesArray.length} polls</span>
+              </li>
+            </ul>
+          </div>
         </div>
-        
-
-
-        <div className="row">
-          {this.props.user ? <h1 className="col-sm-12" style={{marginBottom:"0", textAlign:"center"}}>{this.props.user.email}</h1> : <div></div>}
-        </div>
-      
       <div className="container"></div>
             <div className="col-sm-12">
               <ul ref="option" className="col-sm-12" style={{textAlign:"center", display:"inline-block", margin:"auto", marginTop:"15px"}}>
