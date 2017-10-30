@@ -17,7 +17,8 @@ describe('Firebase Backend', ()=>{
 			'test', 
 			false, 
 			'test', 
-			'nothing'
+			'nothing',
+			['tag1','tag2']
 		];
 
 		try{

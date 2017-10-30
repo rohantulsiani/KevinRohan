@@ -198,7 +198,6 @@ export const updateEntity = (entityType, options, owner, subject, timeLimit, ano
 	const toUpdate = {
 		entityType, options, owner, subject, timeLimit, anonymous, category, details, tags
 	}
-	console.log(toUpdate)
 	firebase.database().ref('entities/').child(entityId).update(toUpdate);
 }
 
