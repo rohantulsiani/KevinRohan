@@ -26,7 +26,7 @@ describe('Login Page', ()=>{
 		.toEqual(true);
 
 		expect(wrapper.contains(
-			<Link id = "profile" className="nav-link" to="/profile">Profile</Link>))
+			<Link id = "profile" className="nav-link" to="/profile" name="profileButtonInNavbar">Profile</Link>))
 		.toEqual(false);
 
 		expect(wrapper.contains(
@@ -57,7 +57,7 @@ describe('Login Page', ()=>{
 		.toEqual(false);
 
 		expect(wrapper.contains(
-			<Link id = "profile" className="nav-link" to="/profile">Profile</Link>))
+			<Link id = "profile" className="nav-link" to="/profile" name="profileButtonInNavbar">Profile</Link>))
 		.toEqual(true);
 
 		expect(wrapper.contains(
@@ -87,7 +87,7 @@ describe('Login Page', ()=>{
 		.toEqual(false);
 
 		expect(wrapper.contains(
-			<Link id = "profile" className="nav-link" to="/profile">Profile</Link>))
+			<Link id = "profile" className="nav-link" to="/profile" name="profileButtonInNavbar">Profile</Link>))
 		.toEqual(true);
 
 		expect(wrapper.contains(
