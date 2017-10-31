@@ -13,13 +13,21 @@ class Search extends Component {
 
 		for(var key in this.props.entities) {
 			var entity = this.props.entities[key]
-			var subject = entity.subject
+			var subject = entity.subject ? entity.subject : ""
+			var details = entity.details ? entity.details : ""
+			var tags = entity.tags ? entity.tags : []
+			var owner = entity.owner
 			var query = this.props.match.params.query
 
 			if(entity != null)
 			{
-				if(subject.toLowerCase().includes(query.toLowerCase()))
-				{
+				if(tags.length > 0 && tags.findIndex(tag => query.toLowerCase() === tag.toLowerCase()) ) {
+					matchedEntities[key] = entity
+				}
+				else if(subject.toLowerCase().includes(query.toLowerCase())) {
+					matchedEntities[key] = entity
+				}
+				else if(details.toLowerCase().includes(query.toLowerCase())) {
 					matchedEntities[key] = entity
 				}
 			}

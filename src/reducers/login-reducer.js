@@ -1,18 +1,19 @@
-const ATTEMPT_LOGIN = "AttemptLogin"
-const ATTEMPT_REGISTER = "AttemptRegister"
+const ATTEMPT_LOGIN = 'AttemptLogin';
+const ATTEMPT_REGISTER = 'AttemptRegister';
 
 export const dispatchAttemptLogin = (user) => {
 	return {
 		type: ATTEMPT_LOGIN,
 		payload: user
-	}
-}
+	};
+};
 
-export default function(state = "", action) {
-	switch(action.type) { 			
+export default function(state = '', action) {
+	switch(action.type) { 
 		case ATTEMPT_LOGIN:
-			return action.payload
+//			console.log(action.payload);			
+			return action.payload;
 		default:
-			return state
+			return state;
 	}	
 }

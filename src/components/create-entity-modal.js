@@ -19,9 +19,9 @@ export default class CreateEntityModal extends Component {
     var componentThis = this
     $('#createModal').on('hidden.bs.modal', function () {
         componentThis.setState({options:[], category: 'Sports', type: 'Poll', anonymous: false})
+        $('#tags').tagsinput('removeAll');
         $(this).find("input,textarea").val('').end();
     });
-    
     $('#datepicker').datepicker()
   }
   
@@ -66,8 +66,9 @@ export default class CreateEntityModal extends Component {
     }
     const category = $("#category").val()
     const details = $("#details").val()
+    const tags = $('#tags').tagsinput('items');
 
-    addEntity(entityType, options, owner, subject, timeLimit, anonymous, category, details)
+    addEntity(entityType, options, owner, subject, timeLimit, anonymous, category, details, tags)
   }
 
   render() {
@@ -82,7 +83,7 @@ export default class CreateEntityModal extends Component {
           <div className="modal-dialog" role="document">
             <div className="modal-content">
               <div className="modal-header">
-                <h5 className="modal-title" id="exampleModalLongTitle">Create Entity</h5>
+                <h5 className="modal-title" id="exampleModalLongTitle">Create Post</h5>
                 <button type="button" className="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
                 </button>
@@ -123,6 +124,13 @@ export default class CreateEntityModal extends Component {
                             </div>
                           </div>
 
+                          <div className="form-group">
+                            <label className="col-sm-12 control-label" htmlFor="categorySelect">Tags</label>
+                            <div className="col-sm-12">
+                              <input id="tags" name="tags" placeholder="Insert Tags" className="form-control" data-role="tagsinput"/>
+                            </div>
+                          </div>
+
                           { (this.state.type == 'Poll') ? (
                               <PollOptions getOptions={(array)=>{this.getOptions(array)}} />
                             ) : <div></div>
@@ -136,7 +144,7 @@ export default class CreateEntityModal extends Component {
                             </div>
 
                             <div className="form-group">
-                                <label className="col-sm-12 control-label" htmlFor="datepicker">Expiration Date</label>
+                                <label id = 'datepicker' className="col-sm-12 control-label datepicker" htmlFor="datepicker">Expiration Date</label>
                                 <div className="col-sm-5">
                                   <input name="datepicker" type="text" id="datepicker" className="form-control"></input>
                                 </div>
@@ -157,7 +165,7 @@ export default class CreateEntityModal extends Component {
               </div>
               <div className="modal-footer">
                 <button type="button" className="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                <button data-dismiss="modal" onClick={this.submitToFirebase.bind(this)} type="button" className="btn btn-primary" id="postToCreateEntityButton">Post</button>
+                <button id = 'submitBtn' data-dismiss="modal" onClick={this.submitToFirebase.bind(this)} type="button" className="btn btn-primary">Post</button>
               </div>
             </div>
           </div>

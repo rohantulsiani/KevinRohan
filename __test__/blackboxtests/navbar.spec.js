@@ -12,7 +12,7 @@ const navbarTest = () => {
 	browser.get('localhost:8080').then(() => {
 		browser.sleep(3000);
 		
-		var element = browser.findElement(By.id("loginButton"));
+		var element = browser.findElement(By.id("login"));
 		element.click();
 		console.log('Login page rendered');
 		browser.sleep(3000);

@@ -1,5 +1,13 @@
-import {configure} from 'enzyme';
-import Adaptor from 'enzyme-adapter-react-14';
+//enzyme set-up
+import {firebaseInit} from './src/firebase';
+
+import { configure } from 'enzyme';
+import Adapter from 'enzyme-adapter-react-14';
+import $ from 'jquery';
+
+global.$ = global.jQuery = $;
 
 
-configure({adapter: new Adaptor()});
+firebaseInit();
+
+configure({ adapter: new Adapter() });

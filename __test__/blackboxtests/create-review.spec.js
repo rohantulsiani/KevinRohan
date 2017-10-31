@@ -43,7 +43,7 @@ const createReview = () => {
 		browser.sleep(1500);
 
 
-		var postButton = browser.findElement(By.id("postToCreateEntityButton"));
+		var postButton = browser.findElement(By.id("submitBtn"));
 		postButton.click();
 		console.log('Should be redirected to the main page (localhost:8080)');
 		browser.sleep(1500);

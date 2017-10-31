@@ -21,6 +21,7 @@ import EntityCommentForm from '../components/entity-components/entity-comment-fo
 import EntityComment from '../components/entity-components/entity-comment'
 import EntityReview from '../components/entity-components/entity-review'
 import EntityPoll from '../components/entity-components/entity-poll'
+import EditEntityModal from '../components/edit-entity-modal'
 
 const UpVote = (disabled, numUpVote, id, user, entity) => {
 	if(!disabled)
@@ -66,19 +67,32 @@ class Entity extends Component {
 		var pollsKeys = (this.props.entity.pollResponses) ? Object.keys(polls) : []
 		var details = (this.props.entity.details) ? this.props.entity.details : ""
 		const disable = (this.props.user !== null) ? false : true
+		var tags = this.props.entity.tags ? this.props.entity.tags : []
 
 		return (
 			<div className="fluid-container">
 				<div className="card card-fill">
 					<div className="card-header">
-						<h4><span className="badge badge-warning">{this.props.entity.entityType}</span> by {user} {UpVote(disable, numUpVote, entityId, this.props.user, this.props.entity)} {DownVote(disable, numDownVote, entityId, this.props.user, this.props.entity)}</h4>
+						<h4>
+							<span className="badge badge-warning">{this.props.entity.entityType}</span> by {user} {UpVote(disable, numUpVote, entityId, this.props.user, this.props.entity)} {DownVote(disable, numDownVote, entityId, this.props.user, this.props.entity)}
+							<span className="pull-right">{ this.props.entity.owner === this.props.user.email ? <EditEntityModal entityId={entityId} entity={this.props.entity} /> : <div></div> }</span>
+						</h4>
 					</div>
 					<div className="card-text row">
 						<div className="col-sm-12 col-md-5">
 							<h1>{this.props.entity.subject}</h1>
 						</div>
 						<div className="col-sm-12 col-md-7">
-							<div className="card-title"><strong>Details: </strong> <span>{details}</span></div>
+							<div className="card-title">
+								<h5>Details:</h5>
+								<span style={{marginLeft: "5px"}}>{details}</span>
+								<h5>Tags:</h5>
+								{
+									tags.map((tag, i) => {
+										return <span className="badge badge-info" style={{marginLeft: "5px"}} key={i}>{tag}</span>
+									})
+								}
+							</div>
 						</div>
 					</div>
 				</div>

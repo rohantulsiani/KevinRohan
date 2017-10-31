@@ -67,7 +67,7 @@ const createPoll = () => {
 		browser.sleep(1500);
 
 
-		var postButton = browser.findElement(By.id("postToCreateEntityButton"));
+		var postButton = browser.findElement(By.id("submitBtn"));
 		postButton.click();
 		browser.sleep(1500);
 

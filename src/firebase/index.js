@@ -20,7 +20,7 @@ export const addWhoVoted = (id, entity, userID) => {
 	
 	if(whoVoted == undefined)
 	{
-		firebase.database().ref(`entities/${id}/whoVoted`).push(userID)
+		firebase.database().ref(`entities/${id}/whoVoted`).push(userID);
 		return true
 	}
 
@@ -32,25 +32,35 @@ export const addWhoVoted = (id, entity, userID) => {
 		}
 	}
 
-	firebase.database().ref(`entities/${id}/whoVoted`).push(userID)
+	firebase.database().ref(`entities/${id}/whoVoted`).push(userID);
 	return true
 }
 
 export const removeEntity = (entityID) => {
-	firebase.database().ref(`entities/${entityID}`).remove()
-}
+	return firebase.database().ref(`entities/${entityID}`).remove();
+};
 
 export const removeComment = (entityID, commentID) => {
-	firebase.database().ref(`entities/${entityID}/comments/${commentID}`).remove()
-}
+	firebase.database().ref(`entities/${entityID}/comments/${commentID}`).remove();
+};
 
 export const firebaseInit = () => {
     firebase.initializeApp(firebaseConfig);
 };
 
 export const getEntities = (dispatchGetEntities, entityId) => {
-    firebase.database().ref('entities/').on('value', dispatchGetEntities);
+    firebase.database().ref('entities/').on('value', (snapshot)=>{
+    	dispatchGetEntities(snapshot.val());
+    });
 };
+
+export const getEntity = (dispatchGetEntity, entityId) => {
+	firebase.database().ref(`entities/${entityId}`).on('value', 
+		(snapshot)=>{
+		dispatchGetEntity(snapshot.val());
+	});
+};
+
 
 export const checkPollResponseExists = (entityId, poster) => {
 	return firebase.database().ref(`entities/${entityId}/pollResponses`).child(poster).once('value'); 
@@ -83,31 +93,34 @@ export const createEntityComment = (entityType, entityId, comment, commentor, co
 	firebase.database().ref(`entities/${entityId}/comments`).push(commentObj)
 }
 
-export const getEntity = (dispatchGetEntity, entityId) => {
-	firebase.database().ref(`entities/${entityId}`).on('value', dispatchGetEntity);
-}
 
-export const registerUser = (email, password, otherThis) => {
-	if(firebase.auth().currentUser) {
-		return
-	}
-	var uscEmail = email.substr(email.length - 7)
+export const registerUser = (email, password) => {
+	let promise = new Promise((resolve, reject) =>{
+		if(firebase.auth().currentUser) {
+			 reject('You are already logged in');
+		}
+		var uscEmail = email.substr(email.length - 7);
+		
+		if(uscEmail != 'usc.edu') {
+			reject('Please enter an USC email');
+		}
+
+		firebase.auth().createUserWithEmailAndPassword(email, password).then((user) => {
+			sendEmailVerification();
+			let newUser = {
+	        	"isAdmin": false,
+	        	"email" : user.email
+	    	};
+	    	resolve('success');
+			firebase.database().ref(`users/${user.uid}`).set(newUser).then(()=>{
+				
+			});
+		}).catch((error)=>{
+			reject(error.message);
+		})
+	});
+	return promise;
 	
-	if(uscEmail != 'usc.edu') {
-		otherThis.toggleError();
-		return
-	}
-
-	firebase.auth().createUserWithEmailAndPassword(email, password).then((user) => {
-		sendEmailVerification()
-		let newUser = {
-        	"isAdmin": false,
-    	}
-		firebase.database().ref(`users/${user.uid}`).set(newUser)
-		otherThis.goBackToHome()
-	}).catch((error)=>{
-		otherThis.toggleError();
-	})
 }
 
 export const getUserData = dispatchAttemptLogin => {
@@ -126,7 +139,7 @@ export const getUserData = dispatchAttemptLogin => {
 	    		const newUser = {
 					uid: user.uid,
 					displayName: user.displayName,
-					photoURL: user.photoURL,
+					photoURL: snapshot.val().photoURL,
 					email: user.email,
 					emailVerified: user.emailVerified,
 					isAdmin: isAdmin
@@ -140,12 +153,16 @@ export const getUserData = dispatchAttemptLogin => {
 	});
 };
 
-export const login = (email, password, goBackToHome) => {
+
+export const login = (email, password, goBackToHome, otherThis) => {
+
 	if(firebase.auth().currentUser) {
 		return
 	}
 	firebase.auth().signInWithEmailAndPassword(email, password).then(function() {
 		goBackToHome()
+	}).catch((error)=>{
+		otherThis.toggleError(error.message)
 	})
 }
 
@@ -168,12 +185,20 @@ export const sendEmailVerification = () => {
 	subject: String
 	timeLimit:Int -> Days to Expire
 */
-export const addEntity = (entityType, options, owner, subject, timeLimit, anonymous=false, category, details) => {
+export const addEntity = (entityType, options, owner, subject, timeLimit, anonymous=false, category, details, tags) => {
 	const toPush = {
-		entityType, options, owner, subject, timeLimit, anonymous, category, details
+		entityType, options, owner, subject, timeLimit, anonymous, category, details, tags
 	}
 
-	firebase.database().ref('entities/').push(toPush);
+	return firebase.database().ref('entities/').push(toPush)
+
+}
+
+export const updateEntity = (entityType, options, owner, subject, timeLimit, anonymous=false, category, details, tags, entityId) => {
+	const toUpdate = {
+		entityType, options, owner, subject, timeLimit, anonymous, category, details, tags
+	}
+	firebase.database().ref('entities/').child(entityId).update(toUpdate);
 }
 
 export const upVote = (entityId) => {
@@ -188,4 +213,32 @@ export const downVote = (entityId) => {
 	databaseRef.transaction((numDownVote) => {
 		return (numDownVote || 0) + 1;
 	})
+}
+
+export const updateProfilePic = (file) =>{
+	const user = firebase.auth().currentUser
+
+	var storageRef = firebase.storage().ref('profile_pics/').child(user.email).child(file.name);
+	var task = storageRef.put(file);
+
+	task.on('state_changed', 
+		function progress(snapshot){},
+
+		function error(err){
+			console.log(err)
+		},
+
+		function complete(){
+			var path = '/users/' + user.uid + '/photoURL';
+			storageRef.getDownloadURL().then(function(url){
+				var update = {}
+				update[path] = url
+				firebase.database().ref().update(update)
+				
+			}).catch((error) =>{
+				console.log(error)
+			})
+
+			
+		})
 }

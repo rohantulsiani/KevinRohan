@@ -6,7 +6,7 @@ const clickLoginButton = () => {
 	const {By, Key, until} = require('selenium-webdriver');
 
 	browser.get('localhost:8080/login').then(() => {
-		var element = browser.findElement(By.id("loginButton"));
+		var element = browser.findElement(By.id("loginBtn"));
 		element.click();
 		console.log('Invalid message should display');
 		browser.sleep(3000);

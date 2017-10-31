@@ -1,9 +1,9 @@
 const GET_ENTITIES = "GetEntitiesFromFirebase"
 
-export const dispatchGetEntities = (snapshot) => {
+export const dispatchGetEntities = (snapshotVal) => {
 	return {
 		type: GET_ENTITIES,
-		payload: snapshot.val()
+		payload: snapshotVal
 	}
 }
 

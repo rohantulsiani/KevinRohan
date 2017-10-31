@@ -29,6 +29,7 @@ export default class EntityReviewForm extends Component {
     }
 
     changeStars(e) {
+      console.log(e.target);
         this.setState({
             stars: parseInt(e.target.getAttribute("data-star"))
         });
