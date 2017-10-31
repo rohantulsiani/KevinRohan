@@ -77,7 +77,7 @@ export default class CreateEntityModal extends Component {
     
   	return (
       <div className="col-sm-4">
-        <button disabled={!this.props.isLoggedIn} data-toggle="modal" data-target="#createModal" style={{backgroundColor: "#db3236"}} className="col-sm-12 btn btn-success">Add Entity</button>
+        <button disabled={!this.props.isLoggedIn} data-toggle="modal" data-target="#createModal" style={{backgroundColor: "#db3236"}} className="col-sm-12 btn btn-success" id="addEntityButton">Add Entity</button>
         <div className="modal fade" id="createModal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
           <div className="modal-dialog" role="document">
             <div className="modal-content">
@@ -157,7 +157,7 @@ export default class CreateEntityModal extends Component {
               </div>
               <div className="modal-footer">
                 <button type="button" className="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                <button data-dismiss="modal" onClick={this.submitToFirebase.bind(this)} type="button" className="btn btn-primary">Post</button>
+                <button data-dismiss="modal" onClick={this.submitToFirebase.bind(this)} type="button" className="btn btn-primary" id="postToCreateEntityButton">Post</button>
               </div>
             </div>
           </div>

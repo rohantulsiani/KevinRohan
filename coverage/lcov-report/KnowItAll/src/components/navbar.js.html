@@ -1,0 +1,323 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for KnowItAll/src/components/navbar.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../../prettify.css" />
+    <link rel="stylesheet" href="../../../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../../../index.html">All files</a> / <a href="index.html">KnowItAll/src/components</a> navbar.js
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>0/15</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>0/17</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>0/7</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>0/15</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line low'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import React, {Component} from 'react'
+import { Redirect } from 'react-router'
+import { Switch, Route, Link } from 'react-router-dom'
+import { connect } from 'react-redux'
+import {registerUser, getUserData, logout, login, getCurrentUser, getEntities} from '../firebase'
+import {dispatchAttemptLogin} from '../reducers/login-reducer'
+import { dispatchGetEntities } from '../reducers/entities-reducer'
+import { bindActionCreators } from 'redux'
+&nbsp;
+class Navbar extends Component {
+<span class="fstat-no" title="function not covered" >  co</span>nstructor(props) {
+<span class="cstat-no" title="statement not covered" >    super(props)</span>
+    
+<span class="cstat-no" title="statement not covered" >    getEntities(this.props.dispatchGetEntities)</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    if(!this.props.authDone)</span>
+    {
+<span class="cstat-no" title="statement not covered" >      getUserData(this.props.dispatchAttemptLogin)</span>
+    }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    this.state = {searchInput:""}</span>
+  }
+<span class="fstat-no" title="function not covered" >  on</span>KeyPress(event) {
+    const val = <span class="cstat-no" title="statement not covered" >event.target.value;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    if(event.key == 'Enter') {</span>
+<span class="cstat-no" title="statement not covered" >      this.props.history.push(`/search/${this.state.searchInput}`);</span>
+<span class="cstat-no" title="statement not covered" >      this.setState({searchInput:""})</span>
+<span class="cstat-no" title="statement not covered" >      return</span>
+    }
+  }
+&nbsp;
+<span class="fstat-no" title="function not covered" >	re</span>nder() {
+<span class="cstat-no" title="statement not covered" >		return (</span>
+			&lt;nav style={{backgroundColor:"#db3236"}} className="navbar navbar-expand-lg navbar-dark"&gt;
+  				&lt;Link to="/" className="navbar-brand"&gt;KnowItAll&lt;/Link&gt;
+  				&lt;button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"&gt;
+    				&lt;span className="navbar-toggler-icon"&gt;&lt;/span&gt;
+  				&lt;/button&gt;
+&nbsp;
+  				&lt;div className="collapse navbar-collapse" id="navbarSupportedContent"&gt;
+    				&lt;ul className="navbar-nav mr-auto"&gt;
+      					&lt;li className="nav-item active"&gt;
+                    {
+                      this.props.user != "" ? (
+                        this.props.user == null ? (
+                            &lt;Link className="nav-link" to="/login"&gt;Login&lt;/Link&gt;
+                        ):(
+                          &lt;div onClick={logout} style={{cursor:"pointer"}} className="nav-link"&gt;Logout&lt;/div&gt;
+                        )):&lt;div&gt;&lt;/div&gt;
+                    }
+      					&lt;/li&gt;
+                { this.props.user != null &amp;&amp; this.props.user != "" ? (
+                    &lt;li className="nav-item active"&gt;
+                      &lt;Link className="nav-link" to="/profile"&gt;Profile&lt;/Link&gt;
+                    &lt;/li&gt;
+                  ):(&lt;div&gt;&lt;/div&gt;)
+                }
+                { this.props.user != null &amp;&amp; this.props.user != "" &amp;&amp; this.props.user.isAdmin ? (
+                    &lt;li className="nav-item active"&gt;
+                      &lt;Link className="nav-link" to="/admin"&gt;Admin&lt;/Link&gt;
+                    &lt;/li&gt;
+                  ):(&lt;div&gt;&lt;/div&gt;)
+                }
+    				&lt;/ul&gt;
+           
+    				&lt;div className="form-inline my-2 my-lg-0"&gt;
+      					&lt;input value={this.state.searchInput} onKeyPress={this.onKeyPress.bind(this)} onChange={<span class="fstat-no" title="function not covered" >(e</span>vent)=&gt;{<span class="cstat-no" title="statement not covered" >this.setState({searchInput:event.target.value})}</span>} className="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search" /&gt;
+      					&lt;Link onClick={<span class="fstat-no" title="function not covered" >()</span>=&gt;{<span class="cstat-no" title="statement not covered" >this.setState({searchInput:""})}</span>} to={`/search/${this.state.searchInput}`} style={{display:"block", color: "white", borderColor: "white"}} className="btn"&gt;Search&lt;/Link&gt;
+    				&lt;/div&gt;
+  				&lt;/div&gt;
+			&lt;/nav&gt;
+		)
+	}
+}
+&nbsp;
+function <span class="fstat-no" title="function not covered" >mapDispatchToProps(</span>dispatch) {
+<span class="cstat-no" title="statement not covered" >  return bindActionCreators( { dispatchAttemptLogin, dispatchGetEntities }, dispatch);</span>
+}
+&nbsp;
+function <span class="fstat-no" title="function not covered" >mapStateToProps(</span>state) {
+<span class="cstat-no" title="statement not covered" >  return {</span>
+    user: state.loginInfo
+  }
+}
+&nbsp;
+export default connect(mapStateToProps, mapDispatchToProps)(Navbar);</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Fri Oct 27 2017 15:23:19 GMT-0700 (PDT)
+</div>
+</div>
+<script src="../../../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../../../sorter.js"></script>
+</body>
+</html>

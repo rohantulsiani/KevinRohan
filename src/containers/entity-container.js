@@ -25,7 +25,7 @@ import EntityPoll from '../components/entity-components/entity-poll'
 const UpVote = (disabled, numUpVote, id, user, entity) => {
 	if(!disabled)
 	{
-		return <span className="badge badge-success badge-vote" onClick={() => { if(addWhoVoted(id, entity, user.uid)){upVote(id)} }}> <span className="glyphicon glyphicon-chevron-up">^</span> {numUpVote}</span>
+		return <span id="upVoteButton" className="badge badge-success badge-vote" onClick={() => { if(addWhoVoted(id, entity, user.uid)){upVote(id)} }}> <span className="glyphicon glyphicon-chevron-up">^</span> {numUpVote}</span>
 	}
 	else
 	{
@@ -36,7 +36,7 @@ const UpVote = (disabled, numUpVote, id, user, entity) => {
 const DownVote = (disabled, numDownVote, id, user, entity) => {
 	if(!disabled)
 	{
-		return <span className="badge badge-danger badge-vote" onClick={() => { if(addWhoVoted(id, entity, user.uid)){downVote(id)} }}> <span className="glyphicon glyphicon-chevron-down">v</span> {numDownVote}</span>
+		return <span id="downVoteButton" className="badge badge-danger badge-vote" onClick={() => { if(addWhoVoted(id, entity, user.uid)){downVote(id)} }}> <span className="glyphicon glyphicon-chevron-down">v</span> {numDownVote}</span>
 	}
 	else
 	{

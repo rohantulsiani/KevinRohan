@@ -29,7 +29,7 @@ class Search extends Component {
 			<div>
 				<div className="container">
 					<div className="row">
-						<h1 style={{textAlign:"center", marginTop:"15px"}} className="col-sm-12">Search Query: {this.props.match.params.query.toUpperCase()}</h1>
+						<h1 style={{textAlign:"center", marginTop:"15px"}} className="col-sm-12" name="searchQuery">Search Query: {this.props.match.params.query.toUpperCase()}</h1>
 					</div>
 				</div>
 				
