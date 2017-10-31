@@ -14,7 +14,7 @@ export default class EntityCard extends Component {
  UpVote(isLoggedIn, numUpVote, id, user, entity){
 	if(isLoggedIn)
 	{
-		return <span className="badge badge-success badge-vote" onClick={() => { if(addWhoVoted(id, entity, user.uid)){upVote(id)} }}> <span className="glyphicon glyphicon-chevron-up">^</span> {numUpVote}</span>
+		return <span className="badge badge-success badge-vote" onClick={() => { if(addWhoVoted(id, entity, user.uid)){upVote(id)} }}> <span className="glyphicon glyphicon-chevron-up" >^</span> {numUpVote}</span>
 	}
 	else
 	{
@@ -25,7 +25,7 @@ export default class EntityCard extends Component {
    DownVote(isLoggedIn, numDownVote, id, user, entity){
 	if(isLoggedIn)
 	{
-		return <span className="badge badge-danger badge-vote" onClick={() => { if(addWhoVoted(id, entity, user.uid)){downVote(id)} } }> <span className="glyphicon glyphicon-chevron-down">v</span> {numDownVote}</span>
+		return <span className="badge badge-danger badge-vote" onClick={() => { if(addWhoVoted(id, entity, user.uid)){downVote(id)} } }> <span className="glyphicon glyphicon-chevron-down" >v</span> {numDownVote}</span>
 	}
 	else
 	{
@@ -64,7 +64,7 @@ export default class EntityCard extends Component {
 	                </div>
 	                <div className="panel-footer">
 	                    <span style={{color: 'darkGrey'}}>{numComments} Comments</span>
-						<Link to={`/entities/${entityId}`} className="btn btn-outline-info btn-sm">View Post</Link>
+						<Link to={`/entities/${entityId}`} className="btn btn-outline-info btn-sm" id="viewPostButton">View Post</Link>
 	                </div>
 	            </div>
 			</div>

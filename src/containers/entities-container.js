@@ -18,7 +18,7 @@ class Entities extends Component {
   render() {
   	return (
   		<div className="container-fluid">
-      		<h1 style={{marginTop:'15px', textAlign: "center"}} className="col-sm-12">Posts</h1>
+      		<h1 style={{marginTop:'15px', textAlign: "center"}} className="col-sm-12" id="mainPage">Posts</h1>
       		<div className="row">
   	    		  <div className="col-sm-4"></div>
   	    			<CreateEntityModal isLoggedIn={this.props.user !== null} />

@@ -51,7 +51,7 @@ export default class PollOptions extends Component {
 			<div className="form-group">
 	            <label className="col-sm-12 control-label" htmlFor="pollOptions">Poll Options</label>
 	            <div className="col-sm-12">
-	              	<input onChange={(event)=>{this.setState({inputText: event.target.value})}} value={this.state.inputText} style={{paddingLeft: "8px"}} onKeyPress={this.onKeyPress.bind(this)}type="text" placeholder="Add Poll Option" className="form-control" />
+	              	<input id="addPollOption" onChange={(event)=>{this.setState({inputText: event.target.value})}} value={this.state.inputText} style={{paddingLeft: "8px"}} onKeyPress={this.onKeyPress.bind(this)}type="text" placeholder="Add Poll Option" className="form-control" />
 	              	<select id="modalSelect" style={{paddingLeft: "10px"}} onChange={(event)=>{this.setState({selectedOption: event.target.value})}} className="form-control">
               			{this.state.options.map((option)=>{
 							return (

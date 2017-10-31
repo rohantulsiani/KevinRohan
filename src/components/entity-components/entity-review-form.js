@@ -81,7 +81,7 @@ export default class EntityReviewForm extends Component {
               <textarea disabled={disable} onChange={(e) => {this.reviewChange(e)}} name="review" className="form-control col-sm-12" rows="5" id="reviews" name="review"></textarea>
               <label><input disabled={disable} onClick={(e) => {this.anonSwitch(e)}} type="checkbox" value={this.state.anon} /> Anonymous</label>
               <br/>
-              <button disabled={disable} style={{marginTop:"10px"}} onClick={(e) => {this.submitReview(e)}} type="button" className="btn btn-primary">Submit Review</button>  
+              <button disabled={disable} style={{marginTop:"10px"}} onClick={(e) => {this.submitReview(e)}} type="button" className="btn btn-primary" id="submitReviewButton">Submit Review</button>  
             </form>
         )
     }
