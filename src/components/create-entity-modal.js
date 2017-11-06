@@ -22,7 +22,10 @@ export default class CreateEntityModal extends Component {
         $('#tags').tagsinput('removeAll');
         $(this).find("input,textarea").val('').end();
     });
-    $('#datepicker').datepicker()
+    $('#datepicker').datetimepicker({
+      minDate: 0,
+      format: 'MM/DD/YYYY hh:mm A'
+    })
   }
   
   getOptions(array) {
@@ -144,7 +147,7 @@ export default class CreateEntityModal extends Component {
                             </div>
 
                             <div className="form-group">
-                                <label id = 'datepicker' className="col-sm-12 control-label datepicker" htmlFor="datepicker">Expiration Date</label>
+                                <label className="col-sm-12 control-label datepicker" htmlFor="datepicker">Expiration Date</label>
                                 <div className="col-sm-5">
                                   <input name="datepicker" type="text" id="datepicker" className="form-control"></input>
                                 </div>
