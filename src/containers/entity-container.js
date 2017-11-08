@@ -54,8 +54,14 @@ class Entity extends Component {
 
 	componentWillMount() {
 		getEntity(this.props.dispatchGetEntity, this.props.match.params.id)
-	} 
+	}
+	
 	render() {
+		if(this.props.entity instanceof Array) {
+			if(this.props.entity.length == 0) {
+				this.props.history.push('/');
+			}
+		}
 		var numUpVote = (this.props.entity.numUpVote) ? this.props.entity.numUpVote : 0;
 		var numDownVote = this.props.entity.numDownVote ? this.props.entity.numDownVote : 0;
 		var entityId = this.props.match.params.id;
