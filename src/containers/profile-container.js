@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Switch, Route, Link } from 'react-router-dom'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import {registerUser, getUserData, logout, login, getCurrentUser, getEntities, updateProfilePic} from '../firebase'
+import {registerUser, getUserData, logout, login, getCurrentUser, getEntities, getUser, updateProfilePic} from '../firebase'
 import {dispatchAttemptLogin} from '../reducers/login-reducer'
 import { dispatchGetEntities } from '../reducers/entities-reducer'
 import EntityCard from '../components/entity-components/entity-card'
@@ -11,7 +11,7 @@ import ProfileComment from '../components/profile-components/profile-comment'
 class Profile extends Component {
   constructor(props) {
     super(props);  
-    this.state = {commentOrPost:"Post"}
+    this.state = {commentOrPost:"Post", userObject:null}
   }
 
   onComments() {
@@ -35,6 +35,14 @@ class Profile extends Component {
     updateProfilePic(file)
   }
 
+  componentDidMount() {
+    const uid = this.props.match.params.id
+    getUser(this,uid)
+  }
+
+  componentWillReceiveProps(newProps) {
+      getUser(this,newProps.match.params.id)
+  }
 
   render() {
     var commentArray = []
@@ -43,24 +51,25 @@ class Profile extends Component {
     var entities = this.props.entities
     var numReviews = 0
     var numPolls = 0
-    if(this.props.user && this.props.entities) {
-      var userID = this.props.user.uid
+  
+    if(this.state.userObject && this.props.entities) {
       for(var key in this.props.entities) {
         var entity = this.props.entities[key]
-        numReviews = (entity.owner === this.props.user.email && entity.entityType === "Review") ? numReviews + 1 : numReviews
-        numPolls = (entity.owner === this.props.user.email && entity.entityType === "Poll") ? numPolls + 1 : numPolls
+        numReviews = (entity.owner === this.state.userObject.email && entity.entityType === "Review") ? numReviews + 1 : numReviews
+        numPolls = (entity.owner === this.state.userObject.email && entity.entityType === "Poll") ? numPolls + 1 : numPolls
         if(entity.entityType === "Poll" && entity.pollResponses){
-          if(entity.pollResponses.hasOwnProperty(userID))
-            pollResponsesArray.push(entity.pollResponses[userID])
+          if(entity.pollResponses.hasOwnProperty(this.props.match.params.id))
+            pollResponsesArray.push(entity.pollResponses[this.props.match.params.id])
         } else if(entity.entityType === "Review" && entity.reviews) {
-          if(entity.reviews.hasOwnProperty(userID))
-            reviewsArray.push(entity.reviews[userID])
+          if(entity.reviews.hasOwnProperty(this.props.match.params.id))
+            reviewsArray.push(entity.reviews[this.props.match.params.id])
         }
         for(var key1 in entity.comments) {
           var comment = entity.comments[key1]
           comment.key = key1
-          var commentor = comment.commentor
-          if(commentor == userID) {
+          var commentor = comment.commentorEmail      
+
+          if(commentor == this.state.userObject.email) {
             commentArray.push(comment)
           }
         }
@@ -73,14 +82,14 @@ class Profile extends Component {
           <div className="image-upload col-sm-12 col-md-3" style={{textAlign: "center"}}>
             <label htmlFor="file-input">
               {
-                this.props.user != "" ? (this.props.user.photoURL == undefined ?
+                this.state.userObject !== null ? (!this.state.userObject.photoURL ?
                 (
                   <i className="fa fa-user fa-4x" ariaHidden="true" 
                     style={{paddingTop: "15px",cursor:"pointer", backgroundColor:"lightGray", borderRadius:"100px", height: "1.5em", width: "1.5em"}}
                   ></i>
                 ):
                   <img className="img-fluid rounded-circle"
-                  src={this.props.user.photoURL} />):<div></div>
+                  src={this.state.userObject.photoURL} />):<div></div>
               }
             </label>
             <input id="file-input" type="file" accept="image/*" style={{display:"none"}} onChange={(e)=> this.changeProfilePic(e)}/>
@@ -89,11 +98,7 @@ class Profile extends Component {
           <div className="col-sm-12 col-md-9">
             <ul className="list-group">
               <li className="list-group-item d-flex justify-content-between align-items-center">
-                <h4>{this.props.user ? this.props.user.email: ""}</h4>
-              </li>
-              <li className="list-group-item d-flex justify-content-betwee  n align-items-center">
-                <h5>Display Name:</h5>
-                <span className="">{this.props.user.displayName}</span>
+                <h4>{this.state.userObject ? this.state.userObject.email: ""}</h4>
               </li>
               <li className="list-group-item d-flex justify-content-between align-items-center">
                 <h7># of Reviews Created:</h7>
@@ -132,7 +137,7 @@ class Profile extends Component {
             {
                 Object.keys(this.props.entities).map((key) => {
                   const user = this.props.entities[key].owner
-                  return user == (this.props.user != null ? this.props.user.email : "") ? (
+                  return user == (this.state.userObject != null ? this.state.userObject.email : "") ? (
                     <EntityCard key={key} entity={this.props.entities[key]} entityId={key} />
                   ) : (
                     <div key={key}></div>

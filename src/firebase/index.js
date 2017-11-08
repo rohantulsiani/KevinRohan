@@ -61,6 +61,14 @@ export const getEntity = (dispatchGetEntity, entityId) => {
 	});
 };
 
+export const getUser = (otherThis, uid) => {
+	firebase.database().ref(`users/${uid}`).on('value', 
+		(snapshot)=>{
+			var val = snapshot.val()
+			otherThis.setState({userObject:val})
+	});
+};
+
 
 export const checkPollResponseExists = (entityId, poster) => {
 	return firebase.database().ref(`entities/${entityId}/pollResponses`).child(poster).once('value'); 
@@ -185,9 +193,9 @@ export const sendEmailVerification = () => {
 	subject: String
 	timeLimit:Int -> Days to Expire
 */
-export const addEntity = (entityType, options, owner, subject, timeLimit, anonymous=false, category, details, tags) => {
+export const addEntity = (uid, entityType, options, owner, subject, timeLimit, anonymous=false, category, details, tags) => {
 	const toPush = {
-		entityType, options, owner, subject, timeLimit, anonymous, category, details, tags
+		uid, entityType, options, owner, subject, timeLimit, anonymous, category, details, tags
 	}
 
 	return firebase.database().ref('entities/').push(toPush)
