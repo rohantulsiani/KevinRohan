@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import moment from 'moment';
 import { Switch, Route, Link } from 'react-router-dom'
 import { upVote, downVote, addWhoVoted } from '../../firebase'
 
@@ -7,7 +8,60 @@ export default class EntityCard extends Component {
 		super(props)
 
 		this.state = {
-			entity: null
+			entity: null,
+			showDurationBar: false,
+			expired: false,
+			duration: 100,
+			now: 0,
+			timeLeft: "0",
+			percentage: "100"
+		}
+	}
+
+	componentDidMount() {
+		if(this.state.now < this.state.duration) {
+			this.durationTicker = setInterval(
+				() => this.setDuration(),
+				1000
+			);
+		}
+	}
+
+	componentWillUnmount() {
+		clearInterval(this.durationTicker);
+	}
+
+	setDuration() {
+		var entity = this.props.entity;
+		var timeLimit = this.props.entity.timeLimit;
+		var timeLimitDate = new Date(timeLimit);
+		var createdAt = this.props.entity.timeCreatedAt;
+		var createdAtDate = new Date(createdAt);
+		if(timeLimitDate.toString() === 'Invalid Date' || createdAtDate.toString() === 'Invalid Date') {
+			this.setState({showDurationBar: false})
+		} else {
+			this.setState({showDurationBar: true})
+			// code following this will help with duration
+			var now = moment(new Date()); // date right now
+			var start = moment(createdAtDate);
+			var end = moment(timeLimitDate);
+
+			// moment objects
+			var duration = moment.duration(end.diff(start));
+			var timePast = moment.duration(now.diff(start));
+			var durationMinutes = duration.asMinutes();
+			var timePastMinutes = timePast.asMinutes();
+			if(timePastMinutes > durationMinutes) {
+				this.setState({expired: true})
+			} else {
+				this.setState({
+					now: Math.round(timePastMinutes),
+					duration: Math.round(durationMinutes),
+					timeLeft: now.to(end, true),
+					percentage: Math.round((timePastMinutes/durationMinutes)*100).toString()
+				})
+			}
+			//console.log("time past", timePastMinutes, "duration", durationMinutes, "percentage", Math.round(timePastMinutes/durationMinutes).toString());
 		}
 	}
 
@@ -34,6 +88,7 @@ export default class EntityCard extends Component {
 }
 
 	render() {
+		// console.log(this.state)
 		var subject = this.props.entity.subject;
 		var type = this.props.entity.entityType;
 		var numUpVote = (this.props.entity.numUpVote) ? this.props.entity.numUpVote : 0;
@@ -59,8 +114,22 @@ export default class EntityCard extends Component {
 	                <div className="panel-heading">
 						<h3><span className="badge badge-warning">{type}</span> by {user} {this.UpVote(this.props.isLoggedIn, numUpVote, entityId, this.props.user, this.props.entity)} {this.DownVote(this.props.isLoggedIn, numDownVote, entityId, this.props.user, this.props.entity)}</h3>
 	                </div>
-	                <div className="panel-body" style={{wordWrap:"break-all", overflow: "hidden", textOverflow: "ellipsis"}}>
+	                <div className="panel-body" style={{wordWrap:"break-all", overflow: "hidden", textOverflow: "ellipsis", marginBottom: "10px"}}>
 	                    <h2>{subject}</h2>
+						{
+							this.state.showDurationBar ? (
+								<div>
+									<h7> { this.state.expired ? 'Expired' : this.state.timeLeft + " left" } </h7>
+									<div className="progress">
+										<div className="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" style={{width: this.state.percentage+"%"}}
+											aria-valuenow={this.state.expired ? "0" : this.state.now.toString() } aria-valuemax={this.state.expired ? "100" : this.state.duration.toString()} > {this.state.percentage+"%"}
+										</div>
+									</div>
+								</div>
+							) : (
+								<div></div>
+							)
+						}
 	                </div>
 	                <div className="panel-footer">
 	                    <span style={{color: 'darkGrey'}}>{numComments} Comments</span>

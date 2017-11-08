@@ -62,7 +62,11 @@ export default class CreateEntityModal extends Component {
     const uid = getCurrentUser().uid
     const owner = getCurrentUser().email
     const subject = $("#subject").val()
-    const timeLimit = $("#datepicker").val()
+    var timeLimit = $("#datepicker").datetimepicker("getDate");
+    if(timeLimit) {
+      timeLimit = timeLimit.toString();
+    }
+    const timeCreatedAt = new Date().toString();
     let anonymous = this.state.anonymous
 
     
@@ -70,7 +74,7 @@ export default class CreateEntityModal extends Component {
     const details = $("#details").val()
     const tags = $('#tags').tagsinput('items');
 
-    addEntity(uid, entityType, options, owner, subject, timeLimit, anonymous, category, details, tags)
+    addEntity(uid, entityType, options, owner, subject, timeLimit, anonymous, category, details, tags, timeCreatedAt)
   }
 
   render() {

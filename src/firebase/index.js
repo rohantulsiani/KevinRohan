@@ -193,18 +193,18 @@ export const sendEmailVerification = () => {
 	subject: String
 	timeLimit:Int -> Days to Expire
 */
-export const addEntity = (uid, entityType, options, owner, subject, timeLimit, anonymous=false, category, details, tags) => {
+export const addEntity = (uid, entityType, options, owner, subject, timeLimit, anonymous=false, category, details, tags, timeCreatedAt) => {
 	const toPush = {
-		uid, entityType, options, owner, subject, timeLimit, anonymous, category, details, tags
+		uid, entityType, options, owner, subject, timeLimit, anonymous, category, details, tags, timeCreatedAt
 	}
 
 	return firebase.database().ref('entities/').push(toPush)
 
 }
 
-export const updateEntity = (entityType, options, owner, subject, timeLimit, anonymous=false, category, details, tags, entityId) => {
+export const updateEntity = (entityType, options, owner, subject, timeLimit, anonymous=false, category, details, tags, entityId, timeCreatedAt) => {
 	const toUpdate = {
-		entityType, options, owner, subject, timeLimit, anonymous, category, details, tags
+		entityType, options, owner, subject, timeLimit, anonymous, category, details, tags, timeCreatedAt
 	}
 	firebase.database().ref('entities/').child(entityId).update(toUpdate);
 }

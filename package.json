@@ -58,6 +58,7 @@
     "firebase": "^4.5.1",
     "jquery": "^2.2.4",
     "lodash": "^3.10.1",
+    "moment": "^2.19.1",
     "react-addons-test-utils": "^0.14.8",
     "react-dom": "^0.14.3",
     "react-redux": "4.3.0",

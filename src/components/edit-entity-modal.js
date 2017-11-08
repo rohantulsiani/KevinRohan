@@ -17,10 +17,14 @@ export default class EditEntityModal extends Component {
 
   componentDidMount() {
     var componentThis = this
+    $('#datepickerEdit').datetimepicker({
+      minDate: 0,
+      format: 'MM/DD/YYYY hh:mm A'
+    })
     $('#editModal').on('shown.bs.modal', function () {
       var entity = componentThis.props.entity;
       const subject = $("#subjectEdit").val(entity.subject)
-      const timeLimit = $("#datepickerEdit").val(entity.timeLimit)
+      const timeLimit = $("#datepickerEdit").datetimepicker('setDate', new Date( Date.parse(entity.timeLimit,"mm/dd/yyyy hh:MM tt")) )
       let anonymous = $("#anonEdit").val(entity.anonymous)
       const category = $("#categoryEdit").val(entity.category)
       const details = $("#detailsEdit").val(entity.details)
@@ -46,7 +50,6 @@ export default class EditEntityModal extends Component {
         $('#optionsEdit').tagsinput('removeAll');
         $(this).find("input,textarea").val('').end();
     });
-    $('#datepickerEdit').datepicker()
   }
   
   getOptions(array) {
@@ -67,7 +70,11 @@ export default class EditEntityModal extends Component {
     const entityType = $("#entityTypeEdit").val()  
     const owner = getCurrentUser().email
     const subject = $("#subjectEdit").val()
-    const timeLimit = $("#datepickerEdit").val()
+    var timeLimit = $("#datepickerEdit").datetimepicker("getDate");
+    const timeCreatedAt = new Date().toString();
+    if(timeLimit) {
+      timeLimit = timeLimit.toString();
+    }
     let anonymous = $("#anonEdit").val()
 
     if(anonymous == "on") {
@@ -82,14 +89,10 @@ export default class EditEntityModal extends Component {
     const optionsToSend = (options) ? options : []
     const entityId = this.props.entityId;
 
-    updateEntity(entityType, optionsToSend, owner, subject, timeLimit, anonymous, category, details, tags, entityId)
+    updateEntity(entityType, optionsToSend, owner, subject, timeLimit, anonymous, category, details, tags, entityId, timeCreatedAt)
   }
 
   render() {
-    // if(!this.props.isLoggedIn) {
-    //   return <div></div>
-    // }
-    console.log(this.props.entityId)
   	return (
       <div>
         <button data-toggle="modal" data-target="#editModal" className="btn btn-outline-secondary">Edit Post</button>
