@@ -45,7 +45,7 @@ export default class EntityPollForm extends Component {
 
     render() {
         const options = this.props.entity.options ? this.props.entity.options : []
-        const disable = (this.props.user !== null) ? false : true
+        const disable = (this.props.user !== null && !this.props.expired) ? false : true
         return (
             <div className="container-fluid">
                 <ul className="list-group" style={{padding: "10px 5px 10px 5px"}}>

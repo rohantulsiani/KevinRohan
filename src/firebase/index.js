@@ -202,9 +202,9 @@ export const addEntity = (uid, entityType, options, owner, subject, timeLimit, a
 
 }
 
-export const updateEntity = (entityType, options, owner, subject, timeLimit, anonymous=false, category, details, tags, entityId) => {
+export const updateEntity = (entityType, options, owner, subject, timeLimit, anonymous=false, category, details, tags, entityId, timeCreatedAt) => {
 	const toUpdate = {
-		entityType, options, owner, subject, timeLimit, anonymous, category, details, tags
+		entityType, options, owner, subject, timeLimit, anonymous, category, details, tags, timeCreatedAt
 	}
 	firebase.database().ref('entities/').child(entityId).update(toUpdate);
 }

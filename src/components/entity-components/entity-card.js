@@ -9,16 +9,29 @@ export default class EntityCard extends Component {
 
 		this.state = {
 			entity: null,
-			showDurationBar: true,
+			showDurationBar: false,
 			expired: false,
 			duration: 100,
 			now: 0,
-			timeLeft: moment(new Date()),
-			percentage: "0"
+			timeLeft: "0",
+			percentage: "100"
 		}
 	}
 
-	componentWillMount() {
+	componentDidMount() {
+		if(this.state.now < this.state.duration) {
+			this.durationTicker = setInterval(
+				() => this.setDuration(),
+				1000
+			);
+		}
+	}
+
+	componentWillUnmount() {
+		clearInterval(this.durationTicker);
+	}
+
+	setDuration() {
 		var entity = this.props.entity;
 		var timeLimit = this.props.entity.timeLimit;
 		var timeLimitDate = new Date(timeLimit);
@@ -27,6 +40,7 @@ export default class EntityCard extends Component {
 		if(timeLimitDate.toString() === 'Invalid Date' || createdAtDate.toString() === 'Invalid Date') {
 			this.setState({showDurationBar: false})
 		} else {
+			this.setState({showDurationBar: true})
 			// code following this will help with duration
 			var now = moment(new Date()); // date right now
 			var start = moment(createdAtDate);
@@ -108,7 +122,7 @@ export default class EntityCard extends Component {
 									<h7> { this.state.expired ? 'Expired' : this.state.timeLeft + " left" } </h7>
 									<div className="progress">
 										<div className="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" style={{width: this.state.percentage+"%"}}
-											aria-valuenow={this.state.expired ? "0" : this.state.now.toString() } aria-valuemax={this.state.expired ? "100" : this.state.duration.toString()} >
+											aria-valuenow={this.state.expired ? "0" : this.state.now.toString() } aria-valuemax={this.state.expired ? "100" : this.state.duration.toString()} > {this.state.percentage+"%"}
 										</div>
 									</div>
 								</div>
