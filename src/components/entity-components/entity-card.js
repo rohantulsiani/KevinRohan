@@ -51,7 +51,7 @@ export default class EntityCard extends Component {
 	                        <li>{this.props.entity.category}</li>
 							{
 								tags.map((tag, i) => {
-									return <li>{tag}</li>
+									return <li key={i}>{tag}</li>
 								})
 							}
 	                    </ul>
