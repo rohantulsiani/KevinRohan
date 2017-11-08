@@ -1,6 +1,10 @@
 const GET_ENTITY = "GetEntityFromFirebase"
 
 export const dispatchGetEntity = (snapshotVal) => {
+	if(snapshotVal === null) {
+		snapshotVal = [];
+	}
+	
 	return {
 		type: GET_ENTITY,
 		payload: snapshotVal
