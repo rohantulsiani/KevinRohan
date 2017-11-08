@@ -16,6 +16,7 @@ export default class CreateEntityModal extends Component {
   }
 
   componentDidMount() {
+    $('#tags').tagsinput()
     var componentThis = this
     $('#createModal').on('hidden.bs.modal', function () {
         componentThis.setState({options:[], category: 'Sports', type: 'Poll', anonymous: false})
