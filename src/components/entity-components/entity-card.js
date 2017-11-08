@@ -7,7 +7,17 @@ export default class EntityCard extends Component {
 		super(props)
 
 		this.state = {
-			entity: null
+			entity: null,
+			showDurationBar: true
+		}
+	}
+
+	componentWillMount() {
+		var entity = this.props.entity;
+		var timeLimit = this.props.entity.timeLimit;
+		var timeLimitDate = new Date(timeLimit);
+		if(timeLimitDate.toString() === 'Invalid Date') {
+			this.setState({showDurationBar: false})
 		}
 	}
 
@@ -59,8 +69,17 @@ export default class EntityCard extends Component {
 	                <div className="panel-heading">
 						<h3><span className="badge badge-warning">{type}</span> by {user} {this.UpVote(this.props.isLoggedIn, numUpVote, entityId, this.props.user, this.props.entity)} {this.DownVote(this.props.isLoggedIn, numDownVote, entityId, this.props.user, this.props.entity)}</h3>
 	                </div>
-	                <div className="panel-body" style={{wordWrap:"break-all", overflow: "hidden", textOverflow: "ellipsis"}}>
+	                <div className="panel-body" style={{wordWrap:"break-all", overflow: "hidden", textOverflow: "ellipsis", marginBottom: "10px"}}>
 	                    <h2>{subject}</h2>
+						{
+							this.state.showDurationBar ? (
+								<div className="progress">
+									<div className="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style={{width: "75%"}}></div>
+								</div>
+							) : (
+								<div></div>
+							)
+						}
 	                </div>
 	                <div className="panel-footer">
 	                    <span style={{color: 'darkGrey'}}>{numComments} Comments</span>

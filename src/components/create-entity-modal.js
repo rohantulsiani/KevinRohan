@@ -62,7 +62,7 @@ export default class CreateEntityModal extends Component {
     const uid = getCurrentUser().uid
     const owner = getCurrentUser().email
     const subject = $("#subject").val()
-    const timeLimit = $("#datepicker").val()
+    const timeLimit = $("#datepicker").datetimepicker("getDate").toString();
     let anonymous = this.state.anonymous
 
     

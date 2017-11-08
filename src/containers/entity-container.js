@@ -52,7 +52,7 @@ class Entity extends Component {
 		super(props)
 	}
 
-	componentDidMount() {
+	componentWillMount() {
 		getEntity(this.props.dispatchGetEntity, this.props.match.params.id)
 	} 
 	render() {
