@@ -21,7 +21,8 @@ class Search extends Component {
 
 			if(entity != null)
 			{
-				if(tags.length > 0 && tags.findIndex(tag => query.toLowerCase() === tag.toLowerCase()) ) {
+				var tagSearch = tags.findIndex(tag => query.toLowerCase() === tag.toLowerCase())
+				if(tags.length > 0 &&  tagSearch !== -1) {
 					matchedEntities[key] = entity
 				}
 				else if(subject.toLowerCase().includes(query.toLowerCase())) {
