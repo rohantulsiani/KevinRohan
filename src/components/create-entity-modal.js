@@ -20,7 +20,7 @@ export default class CreateEntityModal extends Component {
     var componentThis = this
     $('#createModal').on('hidden.bs.modal', function () {
         componentThis.setState({options:[], category: 'Sports', type: 'Poll', anonymous: false})
-        $('#tags').tagsinput('removeAll');
+    $('#tags').tagsinput('removeAll');
         $(this).find("input,textarea").val('').end();
     });
     $('#datepicker').datetimepicker({
@@ -35,12 +35,13 @@ export default class CreateEntityModal extends Component {
 
   onSelectChange(event) {
      if(event.target.value == 'Review') {
-      $('#createModal').off('hidden.bs.modal')
+      $('#createModal').off('hidden.bs.modal') 
 
       var componentThis = this
       
       $('#createModal').on('hidden.bs.modal', function () {
         componentThis.setState({category: 'Sports', type: 'Poll', anonymous: false})
+      $('#tags').tagsinput('removeAll');
         $(this).find("input,textarea").val('').end();
       });
     }
@@ -58,21 +59,18 @@ export default class CreateEntityModal extends Component {
       options = this.state.options
     }
     
+    const uid = getCurrentUser().uid
     const owner = getCurrentUser().email
     const subject = $("#subject").val()
     const timeLimit = $("#datepicker").val()
-    let anonymous = $("#anon").val()
+    let anonymous = this.state.anonymous
 
-    if(anonymous == "on") {
-      anonymous = false
-    } else {
-      anonymous = true
-    }
+    
     const category = $("#category").val()
     const details = $("#details").val()
     const tags = $('#tags').tagsinput('items');
 
-    addEntity(entityType, options, owner, subject, timeLimit, anonymous, category, details, tags)
+    addEntity(uid, entityType, options, owner, subject, timeLimit, anonymous, category, details, tags)
   }
 
   render() {

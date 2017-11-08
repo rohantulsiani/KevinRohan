@@ -27,9 +27,7 @@ export default class App extends Component {
           )}} />
     			<Route path='/login' component={Login} />	
           <Route path='/entities/:id' component={Entity} />
-          <Route path='/profile' render={()=>{return(
-            <Profile />
-          )}}/> 
+          <Route path='/profile/:id' component={Profile} /> 
           <Route path='/search/:query' component={Search} /> 
           <Route path='/admin' component={Admin} /> 
         	</div>

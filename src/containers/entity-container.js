@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { 
 	getEntity,
+	getCurrentUser,
 	upVote,
 	downVote,
 	entityResponse,
@@ -68,13 +69,17 @@ class Entity extends Component {
 		var details = (this.props.entity.details) ? this.props.entity.details : ""
 		const disable = (this.props.user !== null) ? false : true
 		var tags = this.props.entity.tags ? this.props.entity.tags : []
+		var profile = "/"
+		if(this.props.entity.uid) {
+			profile=`/profile/${this.props.entity.uid}`
+		}
 
 		return (
 			<div className="fluid-container">
 				<div className="card card-fill">
 					<div className="card-header">
 						<h4>
-							<span className="badge badge-warning">{this.props.entity.entityType}</span> by {user} {UpVote(disable, numUpVote, entityId, this.props.user, this.props.entity)} {DownVote(disable, numDownVote, entityId, this.props.user, this.props.entity)}
+							<span className="badge badge-warning">{this.props.entity.entityType}</span> by {user != "Anonymous" ? <Link to={profile}>{user}</Link> : user} {UpVote(disable, numUpVote, entityId, this.props.user, this.props.entity)} {DownVote(disable, numDownVote, entityId, this.props.user, this.props.entity)}
 							<span className="pull-right">{ this.props.user ? (this.props.entity.owner === this.props.user.email ? <EditEntityModal entityId={entityId} entity={this.props.entity} /> : <div></div> ) : <div></div>}</span>
 						</h4>
 					</div>

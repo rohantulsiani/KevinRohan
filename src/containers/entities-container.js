@@ -65,6 +65,8 @@ class Entities extends Component {
                     }
                     return 0
                   }
+
+                  return 0
                 })
               ) : (
                 <div></div>

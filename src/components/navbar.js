@@ -39,6 +39,10 @@ class Navbar extends Component {
 
 
 	render() {
+    var myProfile = "/"
+    if(this.props.user) {
+      myProfile = `/profile/${this.props.user.uid}`
+    }
 		return (
 			<nav style={{backgroundColor:"#DD4B3A"}} className="navbar navbar-expand-lg navbar-dark">
   				<Link id="knowItAllButton" to="/" className="navbar-brand"><img src="https://firebasestorage.googleapis.com/v0/b/knowitall-893d7.appspot.com/o/Logos%2Flogo.png?alt=media&token=44bfb8d4-9813-43b8-802c-3068c9356687"
@@ -60,7 +64,7 @@ class Navbar extends Component {
       					</li>
                 { this.props.user != null && this.props.user != "" ? (
                     <li className="nav-item active">
-                      <Link id = "profile" className="nav-link" to="/profile" name="profileButtonInNavbar">Profile</Link>
+                      <Link id = "profile" className="nav-link" to={myProfile} name="profileButtonInNavbar">Profile</Link>
                     </li>
                   ):(<div></div>)
                 }
