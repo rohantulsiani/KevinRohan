@@ -20,6 +20,7 @@ class Navbar extends Component {
 
     this.state = {searchInput:""};
   }
+
   onKeyPress(event) {
     const val = event.target.value;
 
@@ -29,6 +30,13 @@ class Navbar extends Component {
       return;
     }
   }
+
+  logoutPressed(event) {
+    logout();
+    this.props.history.push('/');
+  }
+
+
 
 	render() {
 		return (
@@ -46,7 +54,7 @@ class Navbar extends Component {
                         this.props.user == null ? (
                             <Link  id = "login" className="nav-link login" to="/login">Login</Link>
                         ):(
-                          <div onClick={logout} style={{cursor:"pointer"}} className="nav-link" id="logoutButton">Logout</div>
+                          <div onClick={this.logoutPressed.bind(this)} style={{cursor:"pointer"}} className="nav-link" id="logoutButton">Logout</div>
                         )):<div></div>
                     }
       					</li>
