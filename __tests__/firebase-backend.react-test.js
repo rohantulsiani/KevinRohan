@@ -10,6 +10,7 @@ describe('Firebase Backend', ()=>{
 		
 		expect.assertions(1);
 		const toPushTest = [
+			'hahatestboagantest',
 			'Poll',
 			['test1', 'test2'],
 			'ethantest@usc.edu', 
@@ -18,7 +19,8 @@ describe('Firebase Backend', ()=>{
 			false, 
 			'test', 
 			'nothing',
-			['tag1','tag2']
+			['tag1','tag2'],
+			'Wed Nov 08 2018 13:15:00 GMT-0800 (PST)'
 		];
 
 		try{

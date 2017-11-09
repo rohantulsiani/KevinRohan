@@ -66,7 +66,7 @@ export default class EntityPollForm extends Component {
                 </ul>
                 <label><input disabled={disable} onClick={(e) => {this.anonSwitch(e)}} type="checkbox" value={this.state.anon} /> Anonymous</label>
                 <br/>
-                <button disabled={disable} style={{marginTop:"10px"}} onClick={(e) => {this.submitPoll(e)}} type="button" className="btn btn-primary">Submit Poll Response</button>  
+                <button id = 'submitBtn' disabled={disable} style={{marginTop:"10px"}} onClick={(e) => {this.submitPoll(e)}} type="button" className="btn btn-primary">Submit Poll Response</button>  
             </div>
         )
     }
