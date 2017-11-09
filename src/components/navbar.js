@@ -74,7 +74,7 @@ class Navbar extends Component {
            
     				<div className="form-inline my-2 my-lg-0">
       					<input value={this.state.searchInput} onKeyPress={this.onKeyPress.bind(this)} onChange={(event)=>{this.setState({searchInput:event.target.value})}} className="form-control mr-sm-2" type="text" placeholder="Search" id="searchInput" aria-label="Search" />
-      					<Link onClick={()=>{this.setState({searchInput:""})}} to={`/search/${this.state.searchInput}`} style={{display:"block", color: "white", borderColor: "white"}} className="btn" id="searchButton">Search</Link>
+      					<Link onClick={()=>{this.setState({searchInput:""})}} to={`/search/${this.state.searchInput}`} style={{display:"block", color: "white", borderColor: "white"}} className="btn" id="searchLink">Search</Link>
     				</div>
   				</div>
 			</nav>

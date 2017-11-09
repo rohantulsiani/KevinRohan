@@ -12,7 +12,7 @@ const successfulLogin = () => {
 	browser.get('localhost:8080/login').then(() => {
 		browser.sleep(1500);
 
-		var emailForm = browser.findElement(By.className('col-sm-5 form-control'));
+		var emailForm = browser.findElement(By.name('emailInputBox'));
 		var passwordForm = browser.findElement(By.name('passwordInputBox'));
 		
 		emailForm.sendKeys('cristiano@usc.edu');

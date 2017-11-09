@@ -92,7 +92,7 @@ class Profile extends Component {
                 <h4>{this.props.user ? this.props.user.email: ""}</h4>
               </li>
               <li className="list-group-item d-flex justify-content-betwee  n align-items-center">
-                <h5>Display Name:</h5>
+                <h5 id="displayUserName">Display Name:</h5>
                 <span className="">{this.props.user.displayName}</span>
               </li>
               <li className="list-group-item d-flex justify-content-between align-items-center">
