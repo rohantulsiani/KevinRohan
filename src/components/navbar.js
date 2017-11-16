@@ -6,6 +6,7 @@ import {registerUser, getUserData, logout, login, getCurrentUser, getEntities} f
 import {dispatchAttemptLogin} from '../reducers/login-reducer';
 import { dispatchGetEntities } from '../reducers/entities-reducer';
 import { bindActionCreators } from 'redux';
+import Notification from './notifications.js'
 
 class Navbar extends Component {
   constructor(props) {
@@ -74,6 +75,7 @@ class Navbar extends Component {
                     </li>
                   ):(<div></div>)
                 }
+                {this.props.user ? <li className="nav-item active"><Notification user={this.props.user} /></li> : <div></div>}
     				</ul>
            
     				<div className="form-inline my-2 my-lg-0">

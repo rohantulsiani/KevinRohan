@@ -21,7 +21,7 @@ class Entities extends Component {
       		<h1 style={{marginTop:'15px', textAlign: "center"}} className="col-sm-12" id="mainPage">Posts</h1>
       		<div className="row">
   	    		  <div className="col-sm-4"></div>
-  	    			<CreateEntityModal isLoggedIn={this.props.user !== null} />
+  	    			<CreateEntityModal user={this.props.user} isLoggedIn={this.props.user !== null} />
   	    			<div className="col-sm-4"></div>
               <div className="col-sm-4"></div>
               <div className="col-sm-4">

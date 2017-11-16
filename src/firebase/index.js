@@ -117,7 +117,8 @@ export const registerUser = (email, password) => {
 			sendEmailVerification();
 			let newUser = {
 	        	"isAdmin": false,
-	        	"email" : user.email
+	        	"email" : user.email,
+	        	"notificationCount":0
 	    	};
 	    	resolve('success');
 			firebase.database().ref(`users/${user.uid}`).set(newUser).then(()=>{
@@ -131,6 +132,29 @@ export const registerUser = (email, password) => {
 	
 }
 
+export const follow = (uidYou, youUsername, uidOther, otherUsername) => {
+	let youRef = firebase.database().ref(`users/${uidYou}/following/${uidOther}`);
+	let otherRef = firebase.database().ref(`users/${uidOther}/followers/${uidYou}`);
+	
+	otherRef.set(youUsername);
+	youRef.set(otherUsername);
+}
+
+const pushToFollowers = (currUser, actionType, actionObject) => {
+	if(actionType == "CreatePost") {
+		var followers = currUser.followers;
+
+		for(var followerID in followers) {
+			console.log(followerID);
+		}
+	}
+}
+
+export const setNotificationCount = (uid, count) => {
+	let ref = firebase.database().ref(`users/${uid}/notificationCount`);
+	ref.set(count);
+}
+
 export const getUserData = dispatchAttemptLogin => {
     firebase.auth().onAuthStateChanged(function(user) {
     	if(user != null) {
@@ -142,7 +166,7 @@ export const getUserData = dispatchAttemptLogin => {
 					closure = null
 					return
 	    	 	}
-
+				
 	    		const isAdmin = snapshot.val().isAdmin
 	    		const newUser = {
 					uid: user.uid,
@@ -150,7 +174,10 @@ export const getUserData = dispatchAttemptLogin => {
 					photoURL: snapshot.val().photoURL,
 					email: user.email,
 					emailVerified: user.emailVerified,
-					isAdmin: isAdmin
+					isAdmin: isAdmin,
+					notificationCount: snapshot.val().notificationCount,
+					followers: snapshot.val().followers,
+					following: snapshot.val().following
 	    		}
 
 	    		dispatchAttemptLogin(newUser)
@@ -193,13 +220,13 @@ export const sendEmailVerification = () => {
 	subject: String
 	timeLimit:Int -> Days to Expire
 */
-export const addEntity = (uid, entityType, options, owner, subject, timeLimit, anonymous=false, category, details, tags, timeCreatedAt) => {
+export const addEntity = (user, uid, entityType, options, owner, subject, timeLimit, anonymous=false, category, details, tags, timeCreatedAt) => {
 	const toPush = {
 		uid, entityType, options, owner, subject, timeLimit, anonymous, category, details, tags, timeCreatedAt
 	}
-
+	
+	pushToFollowers(user, "CreatePost", {});
 	return firebase.database().ref('entities/').push(toPush)
-
 }
 
 export const updateEntity = (entityType, options, owner, subject, timeLimit, anonymous=false, category, details, tags, entityId, timeCreatedAt) => {

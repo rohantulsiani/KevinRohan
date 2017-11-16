@@ -74,7 +74,7 @@ export default class CreateEntityModal extends Component {
     const details = $("#details").val()
     const tags = $('#tags').tagsinput('items');
 
-    addEntity(uid, entityType, options, owner, subject, timeLimit, anonymous, category, details, tags, timeCreatedAt)
+    addEntity(this.props.user, uid, entityType, options, owner, subject, timeLimit, anonymous, category, details, tags, timeCreatedAt)
   }
 
   render() {
