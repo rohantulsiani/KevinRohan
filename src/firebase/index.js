@@ -143,9 +143,21 @@ export const follow = (uidYou, youUsername, uidOther, otherUsername) => {
 const pushToFollowers = (currUser, actionType, actionObject) => {
 	if(actionType == "CreatePost") {
 		var followers = currUser.followers;
-
+		var followString = `${actionObject.owner} Created a New ${actionObject.entityType} Titled: ${actionObject.subject}`
 		for(var followerID in followers) {
-			console.log(followerID);
+			firebase.database().ref(`users/${followerID}/notifications`).push(followString)
+			let notificationCountRef = firebase.database().ref(`users/${followerID}/notificationCount`);
+			notificationCountRef.once('value').then(function(snapshot) {
+				let oldCount = snapshot.val();
+				if(oldCount)
+				{
+					notificationCountRef.set(oldCount + 1);
+				}
+				else
+				{
+					notificationCountRef.set(1);
+				}
+			})
 		}
 	}
 }
@@ -176,6 +188,7 @@ export const getUserData = dispatchAttemptLogin => {
 					emailVerified: user.emailVerified,
 					isAdmin: isAdmin,
 					notificationCount: snapshot.val().notificationCount,
+					notifications: snapshot.val().notifications,
 					followers: snapshot.val().followers,
 					following: snapshot.val().following
 	    		}
@@ -225,7 +238,7 @@ export const addEntity = (user, uid, entityType, options, owner, subject, timeLi
 		uid, entityType, options, owner, subject, timeLimit, anonymous, category, details, tags, timeCreatedAt
 	}
 	
-	pushToFollowers(user, "CreatePost", {});
+	pushToFollowers(user, "CreatePost", {owner, subject, entityType});
 	return firebase.database().ref('entities/').push(toPush)
 }
 
