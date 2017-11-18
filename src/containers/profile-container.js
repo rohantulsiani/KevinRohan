@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Switch, Route, Link } from 'react-router-dom'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import {registerUser, getUserData, logout, login, getCurrentUser, getEntities, getUser, updateProfilePic} from '../firebase'
+import {unfollow, follow, registerUser, getUserData, logout, login, getCurrentUser, getEntities, getUser, updateProfilePic} from '../firebase'
 import {dispatchAttemptLogin} from '../reducers/login-reducer'
 import { dispatchGetEntities } from '../reducers/entities-reducer'
 import EntityCard from '../components/entity-components/entity-card'
@@ -51,6 +51,12 @@ class Profile extends Component {
     var entities = this.props.entities
     var numReviews = 0
     var numPolls = 0
+    var yourProfile = true;
+    
+    if(this.props.user.uid && this.props.match.params.id)
+    {
+      yourProfile = this.props.user.uid == this.props.match.params.id;
+    }
   
     if(this.state.userObject && this.props.entities) {
       for(var key in this.props.entities) {
@@ -76,6 +82,11 @@ class Profile extends Component {
       }
     }
     
+    var isFollowing = false;
+    if(this.props.user.following) {
+      isFollowing = Object.keys(this.props.user.following).includes(this.props.match.params.id)
+    }
+
   	return (
 		  <div className="container">
         <div className="row" style={{marginTop: "20px"}}>
@@ -99,6 +110,7 @@ class Profile extends Component {
             <ul className="list-group">
               <li className="list-group-item d-flex justify-content-between align-items-center">
                 <h4>{this.state.userObject ? this.state.userObject.email: ""}</h4>
+                {!yourProfile ? (!isFollowing ? <button onClick={()=>{follow(this.props.user.uid, this.props.user.email, this.props.match.params.id, this.state.userObject.email)}} className="btn btn-success">Follow</button> : <button onClick={()=>{unfollow(this.props.user.uid, this.props.match.params.id)}} className="btn btn-danger">Unfollow</button>) : <div></div>}
               </li>
               <li className="list-group-item d-flex justify-content-between align-items-center">
                 <h7># of Reviews Created:</h7>
