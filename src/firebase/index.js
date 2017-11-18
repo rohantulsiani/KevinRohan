@@ -140,6 +140,14 @@ export const follow = (uidYou, youUsername, uidOther, otherUsername) => {
 	youRef.set(otherUsername);
 }
 
+export const unfollow = (uidYou, uidOther) => {
+	let youRef = firebase.database().ref(`users/${uidYou}/following/${uidOther}`);
+	let otherRef = firebase.database().ref(`users/${uidOther}/followers/${uidYou}`);
+	
+	otherRef.remove();
+	youRef.remove();
+}
+
 const pushToFollowers = (currUser, actionType, actionObject) => {
 	if(actionType == "CreatePost") {
 		var followers = currUser.followers;
