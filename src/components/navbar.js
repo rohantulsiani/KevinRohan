@@ -2,9 +2,10 @@ import React, {Component} from 'react';
 import { Redirect } from 'react-router';
 import { Switch, Route, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import {registerUser, getUserData, logout, login, getCurrentUser, getEntities} from '../firebase';
+import {registerUser, getUserData, logout, login, getCurrentUser, getEntities, getUsers} from '../firebase';
 import {dispatchAttemptLogin} from '../reducers/login-reducer';
 import { dispatchGetEntities } from '../reducers/entities-reducer';
+import { dispatchGetUsers } from '../reducers/users-reducer';
 import { bindActionCreators } from 'redux';
 import Notification from './notifications.js'
 
@@ -13,6 +14,7 @@ class Navbar extends Component {
     super(props);
     
     getEntities(this.props.dispatchGetEntities);
+    getUsers(this.props.dispatchGetUsers);
 
     if(!this.props.authDone)
     {
@@ -89,7 +91,7 @@ class Navbar extends Component {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators( { dispatchAttemptLogin, dispatchGetEntities }, dispatch);
+  return bindActionCreators( { dispatchAttemptLogin, dispatchGetEntities, dispatchGetUsers }, dispatch);
 }
 
 function mapStateToProps(state) {

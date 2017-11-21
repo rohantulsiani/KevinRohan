@@ -298,3 +298,9 @@ export const updateProfilePic = (file) =>{
 			
 		})
 }
+
+export const getUsers = (dispatchGetUsers) => {
+	firebase.database().ref('users/').on('value', (snapshot) => {
+		dispatchGetUsers(snapshot.val());
+	});
+}
