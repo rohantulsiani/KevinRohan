@@ -7,7 +7,7 @@ import EntityCard from '../components/entity-components/entity-card'
 import CreateEntityModal from '../components/create-entity-modal'
 import { getEntities, addEntity } from '../firebase'
 import { dispatchGetEntities } from '../reducers/entities-reducer'
-
+import TagInput from '../components/tag-input'
 class Entities extends Component {
   constructor(props) {
     super(props);
@@ -57,10 +57,12 @@ class Entities extends Component {
                   }
                 }).sort((a, b) => {
                   if(this.state.category == 'Trending') {
-                    if (a.props.entity.numUpVote < b.props.entity.numUpVote) {
+                    var aNum = a.props.entity.numUpVote ? a.props.entity.numUpVote : 0;
+                    var bNum = b.props.entity.numUpVote ? b.props.entity.numUpVote : 0;
+                    if (aNum < bNum) {
                       return 1
                     }
-                    if (a.props.entity.numUpVote > b.props.entity.numUpVote) {
+                    if (aNum > bNum) {
                       return -1
                     }
                     return 0
@@ -81,7 +83,8 @@ class Entities extends Component {
 function mapStateToProps(state) {
   return {
     entities: state.entities,
-    user: state.loginInfo
+    user: state.loginInfo,
+    users: state.users
   }
 }
 

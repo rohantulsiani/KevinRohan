@@ -15,14 +15,11 @@ export default class EntityReviewForm extends Component {
 
     componentDidMount() {
         var thisEntityReview = this;
-
-        if(this.props.edit) {
-            console.log(this.props.reviewText)
-            this.setState({
-                review: this.props.reviewText,
-                stars: this.props.numStars
-            })
-        }
+        $(function(){
+            $('.starrr').on('starrr:change', function(e, value){
+                ratingsField.val(value);
+            });
+        });
     }
 
     reviewChange(e) {
@@ -59,73 +56,32 @@ export default class EntityReviewForm extends Component {
                         this.state.review,
                         this.state.anon
                     )
-                } else if(snapshot.exists() && this.props.edit) {
-                    this.props.createEntityReview(
-                        this.props.entity.entityType,
-                        this.props.entityId,
-                        this.state.stars,
-                        userId,
-                        this.props.user.email,
-                        this.state.review,
-                        this.state.anon
-                    )
                 }
             })
     }
 
     render() {
         const disable = (this.props.user !== null && !this.props.expired) ? false : true
-        console.log("hello")
         return (
             <form id="reviewForm" className="container-fluid">
               <div style={{margin: "0 auto"}}>
-                {
-                    (!this.props.edit) ? (
-                        <div className="stars">
-                            <input onClick={(e) => {this.changeStars(e)}} className="star star-5" id="star-5" type="radio" name="star" data-star="5" />
-                            <label className="star star-5" htmlFor="star-5"></label>
-                            <input onClick={(e) => {this.changeStars(e)}} className="star star-4" id="star-4" type="radio" name="star" data-star="4" />
-                            <label className="star star-4" htmlFor="star-4"></label>
-                            <input onClick={(e) => {this.changeStars(e)}} className="star star-3" id="star-3" type="radio" name="star" data-star="3"/>
-                            <label className="star star-3" htmlFor="star-3"></label>
-                            <input onClick={(e) => {this.changeStars(e)}} className="star star-2" id="star-2" type="radio" name="star" data-star="2"/>
-                            <label className="star star-2" htmlFor="star-2"></label>
-                            <input onClick={(e) => {this.changeStars(e)}} className="star star-1" id="star-1" type="radio" name="star" data-star="1"/>
-                            <label className="star star-1" htmlFor="star-1"></label>
-                        </div>
-                    ) : (
-                        <div className="stars">
-                            <input onClick={(e) => {this.changeStars(e)}} className="star starEdit-5" id="starEdit-5" type="radio" name="star" data-star="5"/>
-                            <label className="star starEdit-5" htmlFor="starEdit-5"></label>
-                            <input onClick={(e) => {this.changeStars(e)}} className="star starEdit-4" id="starEdit-4" type="radio" name="star" data-star="4" />
-                            <label className="star starEdit-4" htmlFor="starEdit-4"></label>
-                            <input onClick={(e) => {this.changeStars(e)}} className="star starEdit-3" id="starEdit-3" type="radio" name="star" data-star="3"/>
-                            <label className="star starEdit-3" htmlFor="starEdit-3"></label>
-                            <input onClick={(e) => {this.changeStars(e)}} className="star starEdit-2" id="starEdit-2" type="radio" name="star" data-star="2"/>
-                            <label className="star starEdit-2" htmlFor="starEdit-2"></label>
-                            <input onClick={(e) => {this.changeStars(e)}} className="star starEdit-1" id="starEdit-1" type="radio" name="star" data-star="1"/>
-                            <label className="star starEdit-1" htmlFor="starEdit-1"></label>
-                        </div>
-                    )
-                }
+              <div className="stars">
+                  <input onClick={(e) => {this.changeStars(e)}} className="star star-5" id="star-5" type="radio" name="star" data-star="5" />
+                  <label className="star star-5" htmlFor="star-5"></label>
+                  <input onClick={(e) => {this.changeStars(e)}} className="star star-4" id="star-4" type="radio" name="star" data-star="4" />
+                  <label className="star star-4" htmlFor="star-4"></label>
+                  <input onClick={(e) => {this.changeStars(e)}} className="star star-3" id="star-3" type="radio" name="star" data-star="3"/>
+                  <label className="star star-3" htmlFor="star-3"></label>
+                  <input onClick={(e) => {this.changeStars(e)}} className="star star-2" id="star-2" type="radio" name="star" data-star="2"/>
+                  <label className="star star-2" htmlFor="star-2"></label>
+                  <input onClick={(e) => {this.changeStars(e)}} className="star star-1" id="star-1" type="radio" name="star" data-star="1"/>
+                  <label className="star star-1" htmlFor="star-1"></label>
               </div>
-              <textarea disabled={disable} onChange={(e) => {this.reviewChange(e)}} name="review" className="form-control col-sm-12" rows="5" id="reviews" name="review" value={this.state.review}></textarea>
+              </div>
+              <textarea disabled={disable} onChange={(e) => {this.reviewChange(e)}} name="review" className="form-control col-sm-12" rows="5" id="reviews" name="review"></textarea>
               <label><input disabled={disable} onClick={(e) => {this.anonSwitch(e)}} type="checkbox" value={this.state.anon} /> Anonymous</label>
               <br/>
-              <div style={{marginTop:"10px"}}>
-                <button disabled={disable} style={{marginRight:"10px"}} onClick={(e) => {this.submitReview(e)}} type="button" className="btn btn-primary" id="submitReviewButton" data-dismiss="modal">
-                    {
-                        (!this.props.edit) ? "Update Review" : "Submit Review"
-                    }
-                </button>
-                {
-                    (!this.props.edit) ? (
-                        <div></div>
-                    ) : (
-                        <button type="button" className="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                    )
-                }
-              </div>  
+              <button disabled={disable} style={{marginTop:"10px"}} onClick={(e) => {this.submitReview(e)}} type="button" className="btn btn-primary" id="submitReviewButton">Submit Review</button>  
             </form>
         )
     }
