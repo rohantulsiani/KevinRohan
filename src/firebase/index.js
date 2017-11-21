@@ -36,6 +36,23 @@ export const addWhoVoted = (id, entity, userID) => {
 	return true
 }
 
+export const notifyUserOfTag = (yourUser, taggedUser, entity) => {
+	var string = `${yourUser.email} Tagged You in a ${entity.entityType} Titled: ${entity.subject}`
+	firebase.database().ref(`users/${taggedUser}/notifications`).push(string)
+	let notificationCountRef = firebase.database().ref(`users/${taggedUser}/notificationCount`);
+	notificationCountRef.once('value').then(function(snapshot) {
+		let oldCount = snapshot.val();
+		if(oldCount)
+		{
+			notificationCountRef.set(oldCount + 1);
+		}
+		else
+		{
+			notificationCountRef.set(1);
+		}
+	})
+}
+
 export const removeEntity = (entityID) => {
 	return firebase.database().ref(`entities/${entityID}`).remove();
 };
