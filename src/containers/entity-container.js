@@ -222,7 +222,7 @@ class Entity extends Component {
 							</div>
 							<div className="card-block">
 								<div className="card-text">
-									<EntityCommentForm expired={this.state.expired} user={this.props.user} entity={this.props.entity} entityId={this.props.match.params.id} createEntityComment={createEntityComment}/>
+									<EntityCommentForm users={this.props.users} expired={this.state.expired} user={this.props.user} entity={this.props.entity} entityId={this.props.match.params.id} createEntityComment={createEntityComment}/>
 								</div>
 							</div>
 						</div>
@@ -282,7 +282,8 @@ class Entity extends Component {
 function mapStateToProps(state) {
 	return {
 		entity: state.entity,
-		user: state.loginInfo
+		user: state.loginInfo,
+		users: state.users
 	}
 }
 
