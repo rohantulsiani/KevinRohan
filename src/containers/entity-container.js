@@ -210,7 +210,7 @@ class Entity extends Component {
 									{
 										(this.props.entity.entityType === 'Review') ? 
 										<EntityReviewForm expired={this.state.expired} user={this.props.user} entity={this.props.entity} createEntityReview={createEntityReview} checkReviewExists={checkReviewExists} entityId={this.props.match.params.id} /> 
-										: <EntityPollForm expired={this.state.expired} user={this.props.user} entity={this.props.entity} createPollResponse={createPollResponse} checkPollResponseExists={checkPollResponseExists} entityId={this.props.match.params.id} /> 
+										: <EntityPollForm edit={false} expired={this.state.expired} user={this.props.user} entity={this.props.entity} createPollResponse={createPollResponse} checkPollResponseExists={checkPollResponseExists} entityId={this.props.match.params.id} /> 
 									}
 								</div>
 							</div>
@@ -251,7 +251,7 @@ class Entity extends Component {
 										) : (
 											pollsKeys.map((pollKey, key) => {
 												return (
-													<EntityPoll poll={polls[pollKey]} key={key} />
+													<EntityPoll poll={polls[pollKey]} key={key} expired={this.state.expired} user={this.props.user} entity={this.props.entity} createPollResponse={createPollResponse} checkPollResponseExists={checkPollResponseExists} entityId={this.props.match.params.id}/>
 												)
 											})
 										)
