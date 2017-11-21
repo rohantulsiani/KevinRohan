@@ -147,7 +147,7 @@ class Profile extends Component {
         {this.state.commentOrPost == "Post" ? (
           <div style={{marginTop:"20px"}}className="row">
             {
-                Object.keys(this.props.entities).map((key) => {
+                this.props.entities ? Object.keys(this.props.entities).map((key) => {
                   const user = this.props.entities[key].owner
                   return user == (this.state.userObject != null ? this.state.userObject.email : "") ? (
                     <EntityCard user={this.props.user} isLoggedIn={this.props.user !== null} key={key} entity={this.props.entities[key]} entityId={key} />
@@ -155,7 +155,7 @@ class Profile extends Component {
                   ) : (
                     <div key={key}></div>
                   )
-                })
+                }) : <div></div>
             }
           </div>
         ): (
