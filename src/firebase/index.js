@@ -246,7 +246,7 @@ export const addEntity = (user, uid, entityType, options, owner, subject, timeLi
 		uid, entityType, options, owner, subject, timeLimit, anonymous, category, details, tags, timeCreatedAt
 	}
 	
-	pushToFollowers(user, "CreatePost", {owner, subject, entityType});
+	if(!anonymous) { pushToFollowers(user, "CreatePost", {owner, subject, entityType}); }
 	return firebase.database().ref('entities/').push(toPush)
 }
 
