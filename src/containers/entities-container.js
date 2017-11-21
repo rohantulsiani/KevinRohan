@@ -57,10 +57,12 @@ class Entities extends Component {
                   }
                 }).sort((a, b) => {
                   if(this.state.category == 'Trending') {
-                    if (a.props.entity.numUpVote < b.props.entity.numUpVote) {
+                    var aNum = a.props.entity.numUpVote ? a.props.entity.numUpVote : 0;
+                    var bNum = b.props.entity.numUpVote ? b.props.entity.numUpVote : 0;
+                    if (aNum < bNum) {
                       return 1
                     }
-                    if (a.props.entity.numUpVote > b.props.entity.numUpVote) {
+                    if (aNum > bNum) {
                       return -1
                     }
                     return 0
