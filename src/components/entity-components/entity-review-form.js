@@ -75,6 +75,7 @@ export default class EntityReviewForm extends Component {
 
     render() {
         const disable = (this.props.user !== null && !this.props.expired) ? false : true
+        console.log("hello")
         return (
             <form id="reviewForm" className="container-fluid">
               <div style={{margin: "0 auto"}}>
