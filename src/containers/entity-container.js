@@ -209,8 +209,8 @@ class Entity extends Component {
 								<div className="card-text">
 									{
 										(this.props.entity.entityType === 'Review') ? 
-										<EntityReviewForm expired={this.state.expired} user={this.props.user} entity={this.props.entity} createEntityReview={createEntityReview} checkReviewExists={checkReviewExists} entityId={this.props.match.params.id} /> 
-										: <EntityPollForm expired={this.state.expired} user={this.props.user} entity={this.props.entity} createPollResponse={createPollResponse} checkPollResponseExists={checkPollResponseExists} entityId={this.props.match.params.id} /> 
+										<EntityReviewForm edit={false} expired={this.state.expired} user={this.props.user} entity={this.props.entity} createEntityReview={createEntityReview} checkReviewExists={checkReviewExists} entityId={this.props.match.params.id} /> 
+										: <EntityPollForm edit={false} expired={this.state.expired} user={this.props.user} entity={this.props.entity} createPollResponse={createPollResponse} checkPollResponseExists={checkPollResponseExists} entityId={this.props.match.params.id} /> 
 									}
 								</div>
 							</div>
@@ -245,13 +245,13 @@ class Entity extends Component {
 										(this.props.entity.entityType === 'Review') ? (
 											reviewsKeys.map((reviewKey, key) => {
 												return (
-													<EntityReview review={reviews[reviewKey]} key={key} />
+													<EntityReview review={reviews[reviewKey]} key={key} user={this.props.user} entity={this.props.entity} createEntityReview={createEntityReview} checkReviewExists={checkReviewExists} entityId={this.props.match.params.id} />
 												)
 											})
 										) : (
 											pollsKeys.map((pollKey, key) => {
 												return (
-													<EntityPoll poll={polls[pollKey]} key={key} />
+													<EntityPoll poll={polls[pollKey]} key={key} expired={this.state.expired} user={this.props.user} entity={this.props.entity} createPollResponse={createPollResponse} checkPollResponseExists={checkPollResponseExists} entityId={this.props.match.params.id}/>
 												)
 											})
 										)

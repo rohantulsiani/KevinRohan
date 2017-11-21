@@ -41,7 +41,7 @@ export default class EditEntityModal extends Component {
         })
       }
       const options = (entity.options) ? entity.options : []
-      componentThis.setState({options: options, type: entity.entityType})
+      componentThis.setState({options: options, type: entity.entityType, anonymous: entity.anonymous})
     });
 
     $('#editModal').on('hidden.bs.modal', function () {
@@ -75,13 +75,8 @@ export default class EditEntityModal extends Component {
     if(timeLimit) {
       timeLimit = timeLimit.toString();
     }
-    let anonymous = $("#anonEdit").val()
+    let anonymous = this.state.anonymous;
 
-    if(anonymous == "on") {
-      anonymous = false
-    } else {
-      anonymous = true
-    }
     const category = $("#categoryEdit").val()
     const details = $("#detailsEdit").val()
     const tags = $('#tagsEdit').tagsinput('items');

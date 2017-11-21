@@ -18,12 +18,20 @@ export default class EntityPollForm extends Component {
         })
     }
 
+    componentDidMount() {
+        if(this.props.selectedOption) {
+            this.setState({
+                option: this.props.selectedOption
+            })
+        }
+    }
+
     submitPoll(e) {
         const userId = this.props.user.uid
         e.preventDefault();
         this.props.checkPollResponseExists(this.props.entityId, userId)
             .then( (snapshot) => {
-                if (!snapshot.exists()) [
+                if (!snapshot.exists()) {
                     this.props.createPollResponse(
                         this.props.entityId,
                         this.state.option,
@@ -31,7 +39,15 @@ export default class EntityPollForm extends Component {
                         this.props.user.email,
                         this.state.anon
                     )
-                ]
+                } else if(snapshot.exists() && this.props.edit) {
+                    this.props.createPollResponse(
+                        this.props.entityId,
+                        this.state.option,
+                        userId,
+                        this.props.user.email,
+                        this.state.anon
+                    )
+                }
             })
     }
 
@@ -55,7 +71,7 @@ export default class EntityPollForm extends Component {
                                 <li key={key} className="list-group-item" style={{backgroundColor: this.state.option === option ? '#ffb2b2' : 'white' }} onClick={ (e) => {this.optionClick(e, disable)}} data-option={option}>
                                     <div disabled={disable} className="radio" data-option={option}>
                                         <label data-option={option}>
-                                            <input disabled={disable} data-option={option} type="radio" name="optionsRadios" checked={ this.state.option === option ? true : false }/>
+                                            {/*<input disabled={disable} data-option={option} type="radio" name="optionsRadios" checked={ this.state.option === option ? true : false }/>*/}
                                             <span data-option={option} style={{display:"inline-block", marginLeft: "5px"}}> {option}</span>
                                         </label>
                                     </div>
@@ -66,7 +82,20 @@ export default class EntityPollForm extends Component {
                 </ul>
                 <label><input disabled={disable} onClick={(e) => {this.anonSwitch(e)}} type="checkbox" value={this.state.anon} /> Anonymous</label>
                 <br/>
-                <button id = 'submitBtn' disabled={disable} style={{marginTop:"10px"}} onClick={(e) => {this.submitPoll(e)}} type="button" className="btn btn-primary">Submit Poll Response</button>  
+                <div style={{marginTop:"10px"}}>
+                    <button id = 'submitBtn' disabled={disable} style={{marginRight:"10px"}} onClick={(e) => {this.submitPoll(e)}} type="button" className="btn btn-primary" data-dismiss="modal">
+                        {
+                            (!this.props.edit) ? "Submit Poll Response" : "Update"
+                        }
+                    </button>
+                    {
+                        (!this.props.edit) ? (
+                            <div></div>
+                        ) : (
+                            <button type="button" className="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                        )
+                    }
+                </div> 
             </div>
         )
     }
