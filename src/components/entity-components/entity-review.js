@@ -48,6 +48,7 @@ export default class EntityReview extends Component {
                                         entityId={this.props.entityId}
                                         numStars={numStars}
                                         reviewText={reviewText}
+                                        anon={this.props.review.anonymous}
                                     />
                                 ) : (
                                     <div></div>

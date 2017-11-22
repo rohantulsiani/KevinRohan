@@ -29,6 +29,7 @@ export default class EntityPoll extends Component {
                                         checkPollResponseExists={this.props.checkPollResponseExists}
                                         entityId={this.props.entityId}
                                         selectedOption={option}
+                                        anon={this.props.poll.anonymous}
                                     />
                                 ) : (
                                     <div></div>

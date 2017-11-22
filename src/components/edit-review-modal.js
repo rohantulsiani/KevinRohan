@@ -20,8 +20,8 @@ export default class EditReviewModal extends Component {
   render() {
   	return (
       <div>
-        <button data-toggle="modal" data-target="#editReviewModal" className="btn btn-outline-secondary">Edit Review Response</button>
-        <div className="modal fade" id="editReviewModal" tabIndex="-1" role="dialog" aria-labelledby="editPollModal" aria-hidden="true">
+        <button data-toggle="modal" data-target={`#editReviewModal${this.props.entity.uid}`} className="btn btn-outline-secondary">Edit Review Response</button>
+        <div className="modal fade" id={`editReviewModal${this.props.entity.uid}`} tabIndex="-1" role="dialog" aria-hidden="true">
           <div className="modal-dialog" role="document">
             <div className="modal-content">
               <div className="modal-header">
@@ -41,6 +41,7 @@ export default class EditReviewModal extends Component {
                   selectedOption={this.props.selectedOption}
                   numStars={this.props.numStars}
                   reviewText={this.props.reviewText}
+                  anon={this.props.anon}
                 />
               </div>
             </div>
