@@ -18,10 +18,11 @@ export default class EntityPollForm extends Component {
         })
     }
 
-    componentDidMount() {
-        if(this.props.selectedOption) {
+    componentWillReceiveProps(newProps) {
+        if(newProps.selectedOption && newProps.edit) {
             this.setState({
-                option: this.props.selectedOption
+                option: newProps.selectedOption,
+                anon: newProps.anon
             })
         }
     }
@@ -80,7 +81,7 @@ export default class EntityPollForm extends Component {
                         })
                     }
                 </ul>
-                <label><input disabled={disable} onClick={(e) => {this.anonSwitch(e)}} type="checkbox" value={this.state.anon} /> Anonymous</label>
+                <label><input disabled={disable} onClick={(e) => {this.anonSwitch(e)}} type="checkbox" checked={this.state.anon} /> Anonymous</label>
                 <br/>
                 <div style={{marginTop:"10px"}}>
                     <button id = 'submitBtn' disabled={disable} style={{marginRight:"10px"}} onClick={(e) => {this.submitPoll(e)}} type="button" className="btn btn-primary" data-dismiss="modal">
