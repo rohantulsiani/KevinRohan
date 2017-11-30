@@ -111,12 +111,48 @@ export const createEntityReview = (entityType, entityId, stars, reviewer, review
 	firebase.database().ref(`entities/${entityId}/reviews`).child(reviewer).set(reviewObj)
 }
 
-export const createEntityComment = (entityType, entityId, comment, commentor, commentorEmail, anonymous) => {
+export const createEntityComment = (entityType, entityId, comment, commentor, commentorEmail, anonymous, image, that) => {
 	const commentObj = {
 		entityId, comment, commentor, anonymous, commentorEmail
-	}
-	firebase.database().ref(`entities/${entityId}/comments`).push(commentObj)
-}
+	};
+	const commentRef = firebase.database().ref(`entities/${entityId}/comments`).push(commentObj);
+	var commentId = commentRef.key;
+	
+
+	//upload image to firebase
+	var storageRef = firebase.storage().ref('comment_image/').child(entityId).child(image.name);
+	var task = storageRef.put(image);
+
+	task.on('state_changed', 
+		function(snapshot){
+			var percentage = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+			console.log("there");
+    		console.log(percentage);
+			that.updateProgress(percentage);
+
+		},
+
+		function error(err){
+			console.log(err);
+		},
+
+		function(){
+			var path = `entities/${entityId}/comments/${commentId}/imageURL`;
+			storageRef.getDownloadURL().then(function(url){
+				var update = {};
+				update[path] = url;
+				firebase.database().ref().update(update);
+				
+			}).catch((error) =>{
+				console.log(error);
+			});
+
+			
+		});
+
+};
+
+
 
 
 export const registerUser = (email, password) => {
@@ -288,8 +324,11 @@ export const downVote = (entityId) => {
 	})
 }
 
-export const updateProfilePic = (file) =>{
-	const user = firebase.auth().currentUser
+
+
+
+export const updateCommentImage = (file) =>{
+	const user = firebase.auth().currentUser;
 
 	var storageRef = firebase.storage().ref('profile_pics/').child(user.email).child(file.name);
 	var task = storageRef.put(file);
@@ -298,23 +337,23 @@ export const updateProfilePic = (file) =>{
 		function progress(snapshot){},
 
 		function error(err){
-			console.log(err)
+			console.log(err);
 		},
 
 		function complete(){
 			var path = '/users/' + user.uid + '/photoURL';
 			storageRef.getDownloadURL().then(function(url){
-				var update = {}
-				update[path] = url
-				firebase.database().ref().update(update)
+				var update = {};
+				update[path] = url;
+				firebase.database().ref().update(update);
 				
 			}).catch((error) =>{
-				console.log(error)
-			})
+				console.log(error);
+			});
 
 			
-		})
-}
+		});
+};
 
 export const getUsers = (dispatchGetUsers) => {
 	firebase.database().ref('users/').on('value', (snapshot) => {

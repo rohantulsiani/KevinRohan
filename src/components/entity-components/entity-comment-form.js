@@ -10,7 +10,9 @@ export default class EntityCommentForm extends Component {
         this.state = {
             text: "",
             taggedUsers:[],
-            anon: false
+            anon: false,
+            image: null,
+            imageName: null
         }
     }
 
@@ -18,6 +20,13 @@ export default class EntityCommentForm extends Component {
         this.setState({
             anon: !this.state.anon
         })
+    }
+
+    updateProgress(percentage)
+    {  
+        console.log("here");
+        console.log(percentage);
+        this.setState({progress: percentage});
     }
 
     submitComment(e) {
@@ -28,8 +37,10 @@ export default class EntityCommentForm extends Component {
             this.state.text,
             this.props.user.uid,
             this.props.user.email,
-            this.state.anon
-        )
+            this.state.anon,
+            this.state.image,
+            this
+        );
         for(var i = 0; i < this.state.taggedUsers.length; i++) {
             var user = this.state.taggedUsers[i]
             for(var j = 0; j < Object.keys(this.props.users).length; j++) {
@@ -44,6 +55,7 @@ export default class EntityCommentForm extends Component {
                 }
             }
         }
+
     }
 
     textAreaOnChange(event) {
@@ -65,6 +77,11 @@ export default class EntityCommentForm extends Component {
         this.setState({taggedUsers:arr})
     }
 
+    uploadImage(e){
+        var file = e.target.files[0];
+        this.setState({image: file, imageName: file.name});
+    }
+
     render() {
         const disable = (this.props.user !== null && !this.props.expired) ? false : true
         return (
@@ -72,8 +89,15 @@ export default class EntityCommentForm extends Component {
               <div style={{margin: "0 auto"}}>
               </div>
              <textarea disabled={disable} name="review" className="form-control col-sm-12" rows="3" id="reviews" style={{marginTop: "20px"}} disabled={this.props.disabled} onChange={this.textAreaOnChange.bind(this)}></textarea>
-              <label><input disabled={disable} onClick={(e)=>{this.anonSwitch(e)}} type="checkbox" value={this.state.anon} /> Anonymous</label>
-              <br/>
+                <label><input disabled={disable} onClick={(e)=>{this.anonSwitch(e)}} type="checkbox" value={this.state.anon} /> Anonymous</label>
+                <br/>
+                <label className="custom-file-upload" htmlFor="file-upload" style={{cursor: 'pointer'}} >
+                     <i className="fa fa-picture-o" aria-hidden="true"></i> Upload Image
+               </label>
+                <input id="file-upload"  type="file" style = {{display: "none"}} accept="image/*" disabled={this.props.disabled}
+                    onChange = {(e)=> this.uploadImage(e)}/> 
+                
+                <p>{this.state.imageName}</p>
               <button disabled={disable} style={{marginTop:"10px"}} onClick={ (e) => {this.submitComment(e)}} type="button" className="btn btn-primary">Comment</button>  
             </div>
         )

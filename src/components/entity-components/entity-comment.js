@@ -10,14 +10,16 @@ export default class EntityComment extends Component {
 
     render() {
         var user = (this.props.comment.anonymous) ? 'Anonymous' : this.props.comment.commentorEmail;
-        var commentText = (this.props.comment.comment) ? this.props.comment.comment : ""
+        var commentText = (this.props.comment.comment) ? this.props.comment.comment : "";
+        var imageURL = (this.props.comment.imageURL) ? this.props.comment.imageURL : "";
         return (
             <div className="row">
                 <div className="card card-fill col-sm-12">
                     <div className="card-title"><strong>{user}:</strong></div>
                     <div className="card-text"><i className="fa fa-comment" aria-hidden="true" style={{color:"darkGrey"}}></i> {commentText}</div>
+                    <img src = {imageURL} style = {{maxWidth: "100%"}}/>
                 </div>
             </div>
-        )
+        );
     }
 }
