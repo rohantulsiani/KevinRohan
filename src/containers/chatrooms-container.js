@@ -10,6 +10,7 @@ class Chatrooms extends Component {
   	handleSubmit(event) {
   		event.preventDefault();
   		createChatroom(this.state.createChatroomText)
+      this.setState({currentChatroom:this.state.createChatroomText})
       this.setState({createChatroomText:""})
   	}
     handleMessageSubmit(event) {
@@ -37,14 +38,15 @@ class Chatrooms extends Component {
       }  
     }
   	render() {
-      
-      var currentChatroomObject = this.props.chatrooms[this.state.currentChatroom]
+      if(this.state.currentChatroom != "" && this.props.chatrooms) {
+        var currentChatroomObject = this.props.chatrooms[this.state.currentChatroom]
+      }
   		return (
   			<div>
   				<form onSubmit={this.handleSubmit.bind(this)}>
 	  				<input onChange={this.onCreateChatroomChange.bind(this)} style={{marginTop:"15px", width:"100%"}} value={this.state.createChatroomText}placeholder="Create Chatroom" type="text"/>
   				</form>
-	    		<select onChange={this.onSelectChange.bind(this)} style={{marginTop:"15px", width:"100%"}} name="" id="">
+	    		<select value={this.state.currentChatroom} onChange={this.onSelectChange.bind(this)} style={{marginTop:"15px", width:"100%"}} name="" id="">
             {
               (this.props.chatrooms) ? (Object.keys(this.props.chatrooms).map(function(chatroom, index) {
                 return <option key={index} value={chatroom}>{chatroom}</option>
@@ -53,7 +55,7 @@ class Chatrooms extends Component {
 	    		</select>
 	    		<div style={{background:"#eee9e9", overflowY:"auto", height:"74vh"}}>
 	    			{
-              (currentChatroomObject) ? (
+              (currentChatroomObject && this.props.chatrooms) ? (
                 Object.values(currentChatroomObject.messages).map(function(message, id) {
                   var tempAuthor = message.author;
                   var tempMessage = message.message;
@@ -64,7 +66,7 @@ class Chatrooms extends Component {
 	    		</div>
           <form onSubmit={this.handleMessageSubmit.bind(this)}>
 	    		 {
-              currentChatroomObject ? (
+              currentChatroomObject && this.props.chatrooms ? (
                   <input onChange={this.onMessageChange.bind(this)} value={this.state.messageText} placeholder="Type Message Here" style={{width:"100%"}} type="text"/> 
               ) : (
                 <input placeholder="Type Message Here" style={{width:"100%"}} type="text" disabled /> 
