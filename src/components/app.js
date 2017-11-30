@@ -8,6 +8,7 @@ import Entity from '../containers/entity-container'
 import Profile from '../containers/profile-container'
 import Search from '../containers/search-container'
 import Admin from '../containers/admin-container'
+import Chatrooms from '../containers/chatrooms-container'
 
 export default class App extends Component {
   constructor(props) {
@@ -30,6 +31,7 @@ export default class App extends Component {
           <Route path='/profile/:id' component={Profile} /> 
           <Route path='/search/:query' component={Search} /> 
           <Route path='/admin' component={Admin} /> 
+          <Route path='/chatrooms' component={Chatrooms} /> 
         	</div>
         </div>
     );

@@ -2,9 +2,10 @@ import React, {Component} from 'react';
 import { Redirect } from 'react-router';
 import { Switch, Route, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import {registerUser, getUserData, logout, login, getCurrentUser, getEntities, getUsers} from '../firebase';
+import {registerUser, getUserData, logout, login, getCurrentUser, getEntities, getChatrooms, getUsers} from '../firebase';
 import {dispatchAttemptLogin} from '../reducers/login-reducer';
 import { dispatchGetEntities } from '../reducers/entities-reducer';
+import { dispatchGetChatrooms } from '../reducers/chatrooms-reducer';
 import { dispatchGetUsers } from '../reducers/users-reducer';
 import { bindActionCreators } from 'redux';
 import Notification from './notifications.js'
@@ -14,6 +15,7 @@ class Navbar extends Component {
     super(props);
     
     getEntities(this.props.dispatchGetEntities);
+    getChatrooms(this.props.dispatchGetChatrooms);
     getUsers(this.props.dispatchGetUsers);
 
     if(!this.props.authDone)
@@ -71,6 +73,12 @@ class Navbar extends Component {
                     </li>
                   ):(<div></div>)
                 }
+                { this.props.user != null && this.props.user != "" ? (
+                    <li className="nav-item active">
+                      <Link id = "chatrooms" className="nav-link" to="/chatrooms" name="chatroomsButtonInNavbar">Chat</Link>
+                    </li>
+                  ):(<div></div>)
+                }
                 { this.props.user != null && this.props.user != "" && this.props.user.isAdmin ? (
                     <li className="nav-item active">
                       <Link className="nav-link" to="/admin">Admin</Link>
@@ -91,7 +99,7 @@ class Navbar extends Component {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators( { dispatchAttemptLogin, dispatchGetEntities, dispatchGetUsers }, dispatch);
+  return bindActionCreators( { dispatchAttemptLogin, dispatchGetChatrooms, dispatchGetEntities, dispatchGetUsers }, dispatch);
 }
 
 function mapStateToProps(state) {

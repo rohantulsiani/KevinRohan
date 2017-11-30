@@ -11,6 +11,12 @@ const firebaseConfig = {
     messagingSenderId: "904997770636"
 };
 
+export const createChatroom = (chatroomName) => {
+	firebase.database().ref(`chatrooms/${chatroomName}/messages`).push({author:"Admin", message:"This is the Start of The Conversation History"})
+}
+export const createChatroomMessage = (chatroomName, authorName, message) => {
+	firebase.database().ref(`chatrooms/${chatroomName}/messages`).push({author:authorName, message:message});
+}
 export const getCurrentUser = () => {
 	return firebase.auth().currentUser
 }
@@ -56,7 +62,6 @@ export const notifyUserOfTag = (yourUser, taggedUser, entity) => {
 export const removeEntity = (entityID) => {
 	return firebase.database().ref(`entities/${entityID}`).remove();
 };
-
 export const removeComment = (entityID, commentID) => {
 	firebase.database().ref(`entities/${entityID}/comments/${commentID}`).remove();
 };
@@ -68,6 +73,12 @@ export const firebaseInit = () => {
 export const getEntities = (dispatchGetEntities, entityId) => {
     firebase.database().ref('entities/').on('value', (snapshot)=>{
     	dispatchGetEntities(snapshot.val());
+    });
+};
+
+export const getChatrooms = (dispatchGetChatrooms) => {
+    firebase.database().ref('chatrooms/').on('value', (snapshot)=>{
+    	dispatchGetChatrooms(snapshot.val());
     });
 };
 
