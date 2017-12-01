@@ -21931,6 +21931,7 @@
 	    (0, _firebase.getEntities)(_this.props.dispatchGetEntities);
 	    (0, _firebase.getChatrooms)(_this.props.dispatchGetChatrooms);
 	    (0, _firebase.getUsers)(_this.props.dispatchGetUsers);
+	    (0, _firebase.getReports)(_this.props.dispatchGetReports);
 	    //getReports(this.props.dispatchGetReports);
 
 	    if (!_this.props.authDone) {
@@ -78990,7 +78991,6 @@
 
 	    var _this = _possibleConstructorReturn(this, (Admin.__proto__ || Object.getPrototypeOf(Admin)).call(this, props));
 
-	    (0, _firebase.getReports)(_this.props.dispatchGetReports);
 	    _this.state = {
 	      activeTab: "Entities"
 	    };
