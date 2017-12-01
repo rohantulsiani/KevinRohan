@@ -145,30 +145,25 @@ export const createEntityComment = (entityType, entityId, comment, commentor, co
 	
 
 	if(image) {
-	//upload image to firebase
-	var storageRef = firebase.storage().ref('comment_image/').child(entityId).child(image.name);
-	var task = storageRef.put(image);
+		var storageRef = firebase.storage().ref('comment_image/').child(entityId).child(image.name);
+		var task = storageRef.put(image);
 
-	task.on('state_changed', 
-		function(snapshot){
-			var percentage = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-			console.log("there");
-    		console.log(percentage);
-			that.updateProgress(percentage);
-
-		},
-
-		function error(err){
-			console.log(err);
-		},
-
-		function(){
-			var path = `entities/${entityId}/comments/${commentId}/imageURL`;
-			storageRef.getDownloadURL().then(function(url){
-				var update = {};
-				update[path] = url;
-				firebase.database().ref().update(update);
-				
+		task.on('state_changed', 
+			function(snapshot){
+				var percentage = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+				console.log("there");
+	    		console.log(percentage);
+				that.updateProgress(percentage);
+			},
+			function error(err){
+				console.log(err);
+			},
+			function(){
+				var path = `entities/${entityId}/comments/${commentId}/imageURL`;
+				storageRef.getDownloadURL().then(function(url){
+					var update = {};
+					update[path] = url;
+					firebase.database().ref().update(update);
 			}).catch((error) =>{
 				console.log(error);
 			});
