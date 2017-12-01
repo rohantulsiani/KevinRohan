@@ -18,6 +18,7 @@ class Navbar extends Component {
     getEntities(this.props.dispatchGetEntities);
     getChatrooms(this.props.dispatchGetChatrooms);
     getUsers(this.props.dispatchGetUsers);
+    getReports(this.props.dispatchGetReports);
     //getReports(this.props.dispatchGetReports);
 
     if(!this.props.authDone)

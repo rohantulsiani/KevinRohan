@@ -13,7 +13,6 @@ import AdminAccordion from '../components/admin-accordion'
 class Admin extends Component {
   constructor(props) {
     super(props);
-    getReports(this.props.dispatchGetReports);
     this.state = {
       activeTab: "Entities"
     }
