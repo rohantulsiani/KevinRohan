@@ -2,11 +2,12 @@ import React, {Component} from 'react';
 import { Redirect } from 'react-router';
 import { Switch, Route, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import {registerUser, getUserData, logout, login, getCurrentUser, getEntities, getChatrooms, getUsers} from '../firebase';
+import {registerUser, getUserData, logout, login, getCurrentUser, getEntities, getChatrooms, getUsers, getReports} from '../firebase';
 import {dispatchAttemptLogin} from '../reducers/login-reducer';
 import { dispatchGetEntities } from '../reducers/entities-reducer';
 import { dispatchGetChatrooms } from '../reducers/chatrooms-reducer';
 import { dispatchGetUsers } from '../reducers/users-reducer';
+import { dispatchGetReports } from '../reducers/reports-reducer';
 import { bindActionCreators } from 'redux';
 import Notification from './notifications.js'
 
@@ -17,6 +18,7 @@ class Navbar extends Component {
     getEntities(this.props.dispatchGetEntities);
     getChatrooms(this.props.dispatchGetChatrooms);
     getUsers(this.props.dispatchGetUsers);
+    //getReports(this.props.dispatchGetReports);
 
     if(!this.props.authDone)
     {
@@ -99,7 +101,7 @@ class Navbar extends Component {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators( { dispatchAttemptLogin, dispatchGetChatrooms, dispatchGetEntities, dispatchGetUsers }, dispatch);
+  return bindActionCreators( { dispatchAttemptLogin, dispatchGetChatrooms, dispatchGetEntities, dispatchGetUsers, dispatchGetReports }, dispatch);
 }
 
 function mapStateToProps(state) {

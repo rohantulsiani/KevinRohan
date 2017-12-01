@@ -11,6 +11,14 @@ const firebaseConfig = {
     messagingSenderId: "904997770636"
 };
 
+export const addReport = (uid, userEmail, entityId, reportText, subject) => {
+	const toPush = {
+		uid, userEmail, entityId, reportText, subject
+	}
+
+	return firebase.database().ref('reports/').push(toPush);
+}
+
 export const createChatroom = (chatroomName) => {
 	firebase.database().ref(`chatrooms/${chatroomName}/messages`).push({author:"Admin", message:"This is the Start of The Conversation History"})
 }
@@ -74,6 +82,12 @@ export const getEntities = (dispatchGetEntities, entityId) => {
     firebase.database().ref('entities/').on('value', (snapshot)=>{
     	dispatchGetEntities(snapshot.val());
     });
+};
+
+export const getReports = (dispatchGetReports) => {
+	firebase.database().ref('reports/').on('value', (snapshot) => {
+		dispatchGetReports(snapshot.val());
+	})
 };
 
 export const getChatrooms = (dispatchGetChatrooms) => {
