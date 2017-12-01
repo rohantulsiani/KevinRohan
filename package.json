@@ -39,8 +39,6 @@
     "wdio-jasmine-framework": "^0.3.2",
     "wdio-spec-reporter": "^0.1.2",
     "webdriverio": "^4.8.0",
-    "webpack": "^1.12.9",
-    "webpack-dev-server": "^1.14.0"
   },
   "dependencies": {
     "babel-core": "^6.26.0",
@@ -68,6 +66,8 @@
     "redux-thunk": "^2.2.0",
     "request": "^2.83.0",
     "selenium-webdriver": "^3.6.0",
-    "sinon": "^4.0.2"
+    "sinon": "^4.0.2",
+    "webpack": "^1.12.9",
+    "webpack-dev-server": "^1.14.0"
   }
 }
