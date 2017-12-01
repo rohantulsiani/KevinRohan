@@ -32220,31 +32220,32 @@
 			var commentRef = firebase.database().ref("entities/" + entityId + "/comments").push(commentObj);
 			var commentId = commentRef.key;
 
-			//upload image to firebase
-			var storageRef = firebase.storage().ref('comment_image/').child(entityId).child(image.name);
-			var task = storageRef.put(image);
+			if (image) {
+				var storageRef = firebase.storage().ref('comment_image/').child(entityId).child(image.name);
+				var task = storageRef.put(image);
 
-			task.on('state_changed', function (snapshot) {
-				var percentage = snapshot.bytesTransferred / snapshot.totalBytes * 100;
-				console.log("there");
-				console.log(percentage);
-				that.updateProgress(percentage);
-			}, function () {
-				function error(err) {
-					console.log(err);
-				}
+				task.on('state_changed', function (snapshot) {
+					var percentage = snapshot.bytesTransferred / snapshot.totalBytes * 100;
+					console.log("there");
+					console.log(percentage);
+					that.updateProgress(percentage);
+				}, function () {
+					function error(err) {
+						console.log(err);
+					}
 
-				return error;
-			}(), function () {
-				var path = "entities/" + entityId + "/comments/" + commentId + "/imageURL";
-				storageRef.getDownloadURL().then(function (url) {
-					var update = {};
-					update[path] = url;
-					firebase.database().ref().update(update);
-				})["catch"](function (error) {
-					console.log(error);
+					return error;
+				}(), function () {
+					var path = "entities/" + entityId + "/comments/" + commentId + "/imageURL";
+					storageRef.getDownloadURL().then(function (url) {
+						var update = {};
+						update[path] = url;
+						firebase.database().ref().update(update);
+					})["catch"](function (error) {
+						console.log(error);
+					});
 				});
-			});
+			}
 		}
 
 		return createEntityComment;
@@ -32439,7 +32440,9 @@
 				uid: uid, entityType: entityType, options: options, owner: owner, subject: subject, timeLimit: timeLimit, anonymous: anonymous, category: category, details: details, tags: tags, timeCreatedAt: timeCreatedAt
 			};
 
-			pushToFollowers(user, "CreatePost", { owner: owner, subject: subject, entityType: entityType });
+			if (!anonymous) {
+				pushToFollowers(user, "CreatePost", { owner: owner, subject: subject, entityType: entityType });
+			}
 			return firebase.database().ref('entities/').push(toPush);
 		}
 
@@ -58522,7 +58525,10 @@
 			key: 'render',
 			value: function () {
 				function render() {
-
+					var reversedNotifications = null;
+					if (this.props.user.notifications) {
+						reversedNotifications = Object.values(this.props.user.notifications).reverse();
+					}
 					return _react2['default'].createElement(
 						'div',
 						{ style: { margin: 0, padding: 0 } },
@@ -58556,7 +58562,7 @@
 										_react2['default'].createElement(
 											'ul',
 											null,
-											this.props.user.notifications ? Object.values(this.props.user.notifications).map(function (notification, index) {
+											reversedNotifications ? reversedNotifications.map(function (notification, index) {
 												return _react2['default'].createElement(
 													'li',
 													{ key: index },
