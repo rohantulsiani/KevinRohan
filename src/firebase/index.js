@@ -144,6 +144,7 @@ export const createEntityComment = (entityType, entityId, comment, commentor, co
 	var commentId = commentRef.key;
 	
 
+	if(image) {
 	//upload image to firebase
 	var storageRef = firebase.storage().ref('comment_image/').child(entityId).child(image.name);
 	var task = storageRef.put(image);
@@ -174,6 +175,7 @@ export const createEntityComment = (entityType, entityId, comment, commentor, co
 
 			
 		});
+}
 
 };
 
