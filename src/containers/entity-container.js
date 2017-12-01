@@ -14,7 +14,8 @@ import {
 	createPollResponse,
 	checkPollResponseExists,
 	createEntityComment, 
-	addWhoVoted
+	addWhoVoted,
+	addReport
 } from '../firebase'
 import { dispatchGetEntity } from '../reducers/entity-reducer'
 import EntityPollForm from '../components/entity-components/entity-poll-form'
@@ -24,6 +25,7 @@ import EntityComment from '../components/entity-components/entity-comment'
 import EntityReview from '../components/entity-components/entity-review'
 import EntityPoll from '../components/entity-components/entity-poll'
 import EditEntityModal from '../components/edit-entity-modal'
+import ReportModal from '../components/report-modal'
 
 const UpVote = (disabled, numUpVote, id, user, entity) => {
 	if(!disabled)
@@ -163,7 +165,7 @@ class Entity extends Component {
 					<div className="card-header">
 						<h4>
 							<span className="badge badge-warning">{this.props.entity.entityType}</span> by {user != "Anonymous" ? <Link id='linkToProfile' to={profile}>{user}</Link> : user} {UpVote(disable, numUpVote, entityId, this.props.user, this.props.entity)} {DownVote(disable, numDownVote, entityId, this.props.user, this.props.entity)}
-							<span className="pull-right">{ this.props.user ? (this.props.entity.owner === this.props.user.email ? <EditEntityModal entityId={entityId} entity={this.props.entity} /> : <div></div> ) : <div></div>}</span>
+							<span className="pull-right">{ this.props.user ? (this.props.entity.owner === this.props.user.email ? <EditEntityModal entityId={entityId} entity={this.props.entity} /> : <ReportModal user={this.props.user} entityId={entityId} entity={this.props.entity} addReport={addReport} /> ) : <div></div>}</span>
 						</h4>
 					</div>
 					<div className="card-text row" style={{marginTop: "20px"}}>
